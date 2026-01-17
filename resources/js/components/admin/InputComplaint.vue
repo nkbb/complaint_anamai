@@ -212,8 +212,8 @@
           </div>
         </div>
         <div class="flex md:flex-row flex-col gap-3">
-          <div class="flex flex-col w-full md:flex-row md:w-1/2 gap-2 items-center mt-4 md:mt-2">
-            <div class="w-full md:w-4/12 text-left md:text-right">ประเด็นการร้องเรียน <span class="text-[#ff0000]">*</span> :</div>
+          <div class="flex flex-col w-full md:flex-row md:w-full gap-2 items-center mt-4 md:mt-2">
+            <div class="w-full md:w-2/12 text-left md:text-right">ประเด็นการร้องเรียน <span class="text-[#ff0000]">*</span> :</div>
             <div class="w-full md:w-8/12">
               <Field as="select" name="type_id" class="input" @change="selectType()" v-model="form.type_id">
                 <option value="">-- กรุณาเลือก --</option>
@@ -222,7 +222,7 @@
               <ErrorMessage name="type_id" class="text-red-500 text-sm" />
             </div>
           </div>
-          <div v-if="form.type_id == 1 || form.type_id == 2" class="flex flex-col w-full md:flex-row md:w-1/2 gap-2 items-center mt-4 md:mt-2">
+          <!-- <div v-if="form.type_id == 1 || form.type_id == 2" class="flex flex-col w-full md:flex-row md:w-1/2 gap-2 items-center mt-4 md:mt-2">
             <div  class="w-full md:w-4/12 text-left md:text-right">ประเด็นย่อย : <span class="text-[#ff0000]">*</span></div>
             <div class="w-full md:w-8/12">
               <Field as="select" name="sub_id" class="input" v-model="form.sub_id">
@@ -239,7 +239,7 @@
               </Field>
               <ErrorMessage name="sub_id" class="text-red-500 text-sm" />
             </div>
-          </div>
+          </div> -->
         </div>
         <div class="flex md:flex-row flex-col gap-3">
           <div class="flex flex-col w-full md:flex-row md:w-1/2 gap-2 items-center mt-4 md:mt-2">

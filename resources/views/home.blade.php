@@ -5,13 +5,17 @@
 @section('content')
 <div>
     
-    <image-carouse-component></image-carouse-component>
+    <image-carouse-component isload="true"></image-carouse-component>
 
     <home-popup-component image="{{$banner}}"></home-popup-component>
 
-    <home-type-component></home-type-component>
+    <!-- <home-type-component></home-type-component> -->
 
     <home-follow-component></home-follow-component>
+
+
+    <!-- <image-carouse-component isload="true"></image-carouse-component> -->
+    <!-- <image-carouse-banner></image-carouse-banner> -->
 
     <div class="grid justify-items-center py-[68px] bg-[#1d684a]">
         <h1 class="flex justify-center"><div class="border-b-[2px] pb-3 border-[#ffffff] text-[#ffffff] text-[28px]">รับเรื่องร้องเรียน</div></h1>
@@ -23,6 +27,7 @@
             
         </div>
     </div>
+    
 
     <home-manual-component></home-manual-component>
     <home-agreement-component></home-agreement-component>

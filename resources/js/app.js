@@ -12,6 +12,7 @@ import VueApexCharts from "vue3-apexcharts";
 
 import ComplaintComponent from './components/complaint/Index.vue'
 import ImageCarouselComponent from './components/ImageCarousel.vue'
+import ImageCarouselBannerComponent from './components/ImageCarouselBanner.vue'
 
 
 import SettingUnitComponent from './components/setting/Unit.vue'
@@ -64,6 +65,7 @@ app.component('home-evaluation-component', HomeEvaluationComponent)
 app.component('home-comments-component', HomeCommentsComponent)
 app.component('home-popup-component', HomePopupComponent)
 app.component('home-cookie-component', HomeCookieComponent)
+app.component('image-carouse-banner', ImageCarouselBannerComponent)
 
 app.component('setting-unit', SettingUnitComponent)
 app.component('setting-type', SettingTypeComponent)
