@@ -91,7 +91,7 @@
                         <a href="/"><img src="/images/logo/ph_logo.png" class="size-[68px]" /></a>
                         <a href="/" class="flex flex-col">
                             <div class="text-lg text-white">ระบบบริหารจัดการข้อคิดเห็นข้อร้องเรียน</div>
-                            <div class="text-[24px] text-white -mt-1">กรมสุขภาพจิต</div>
+                            <div class="text-[24px] text-white -mt-1">ชื่อหน่วยงาน</div>
                         </a>
                     </div>
                     @auth
@@ -156,8 +156,8 @@
                     <!-- <img src="/images/logo/logo.png" class="" /> -->
                     <div>
                     <div class="mt-3">ระบบบริหารจัดการข้อคิดเห็นข้อร้องเรียน</div>
-                    <div class="mt-1"> สำนักงานเลขานุการกรม กรมสุขภาพจิต</div>
-                    <div class="mt-1">80/20 หมู่ 4 ถนนติวานนท์ อำเภอเมือง จังหวัดนนทบุรี 11000</div>
+                    <div class="mt-1">ชื่อหน่วยงาน</div>
+                    <div class="mt-1">ที่อยู่  88/22 ม.4 ต.ตลาดขวัญ ถ.ติวานนท์ อ.เมือง จ.นนทบุรี 11000</div>
                     <div class="mt-5">Copyright 2026 All Rights Reserved.</div>
                     </div>
                 </div>

@@ -41,6 +41,7 @@ class UserSeeder extends Seeder
             }
         }
 
+        /*
         $items2 = [
             [13,'070f5f85a9ffb005d05c21cd8f5f0dc0','secret01','f4e1498cbf20aa52897a19956332974d','เจ้าหน้าที่','สํานักงานเลขานุการกรม','','','','','user','1','','','','','2020-09-11 09:09:02','1'],
             [14,'5f74ef451b10b1459e03a5cf7a31e6cd','secret02','a73a5f0653af607dae81f9a7be6da5fd','เจ้าหน้าที่','กองบริหารการคลัง','','','','','user','2','','','','','2020-09-11 09:09:02','1'],
@@ -116,7 +117,7 @@ class UserSeeder extends Seeder
                 ]);
                 echo "User ".$item[1]." updated successfull."."\n";
             }
-        }
+        }*/
 
     }
 }

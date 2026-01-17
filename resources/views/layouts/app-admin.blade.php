@@ -68,7 +68,7 @@
                         <a href="/admin"><img src="/images/logo/ph_logo.png" class="size-[68px]" /></a>
                         <a href="/admin" class="flex flex-col">
                             <div class="text-lg text-white">ระบบบริหารจัดการข้อคิดเห็นข้อร้องเรียน</div>
-                            <div class="text-[24px] text-white -mt-1">กรมสุขภาพจิต</div>
+                            <div class="text-[24px] text-white -mt-1">ชื่อหน่วยงาน</div>
                         </a>
                     </div>
                     @auth

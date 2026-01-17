@@ -8,13 +8,16 @@
       <div v-html="conditions"></div>
 
       <div class="text-center mt-6">
-        <div>
-          <input type="checkbox" v-model="isChecked" class="custom-checkbox" />
-            <span class="hover:cursor-pointer pl-3 -mt-2">ยอมรับเงื่อนไข</span>
+        <div class="flex flex-row gap-4">
+          <div class="pl-11"><input type="checkbox" v-model="isChecked" class="custom-checkbox" /></div>
+          <div @click="selApprove" class="hover:cursor-pointer pl-3 -mt-2 text-[14px]"> 
+            <div> * ข้าพเจ้าขอรับรองว่าข้อเท็จจริงที่ได้ยื่นร้องเรียนต่อกรมอนามัยเป็นเรื่องที่เกิดขึ้นจริงทั้งหมดและขอรับผิดชอบต่อข้อเท็จจริงดังกล่าวข้างต้นทุกประการ</div>
+            <div> * การนำความเท็จมาร้องเรียนต่อเจ้าหน้าที่ ซึ่งทำให้ผู้อื่นได้รับความเสียหายอาจเป็นความผิดฐานแจ้งความเท็จต่อเจ้าพนักงานตามประมวลกฎหมายอาญา</div>
+          </div>
         </div>
       </div>
       <div class="text-center mt-3">
-        <div @click="goToStep2()" class="inline-block px-4 py-2 text-white bg-[#1d684a] border border-[#1d684a] rounded-sm hover:cursor-pointer">ต่อไป</div>
+        <div @click="goToStep2()" class="inline-block px-4 py-2 text-white bg-[#1d684a] border border-[#1d684a] rounded-sm hover:cursor-pointer">ดำเนินการต่อไป</div>
       </div>
     </div>
 
@@ -650,6 +653,13 @@ export default {
   mounted() {
   },
   methods: {
+    selApprove(){
+      if(this.isChecked == false){
+        this.isChecked = true;
+      }else{
+        this.isChecked = false;
+      }
+    },
     goToStep2(){
       if(!this.isChecked){
         Swal.fire({

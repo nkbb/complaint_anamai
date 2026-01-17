@@ -19,7 +19,7 @@
         <div class="text-center text-[#ffffff] text-base mt-8">ช่องทางการติดต่อ</div>
         <div class="flex flex-row gap-2 justify-center mt-6">
             <div class="bg-[#ffffff] rounded-[50%] py-[5px] px-[10px]"><i class="far fa-envelope text-[#1d684a] text-[24px]"></i></div>
-            <div class="text-[#ffffff] text-xl" >pr.sec@dmh.mail.go.th</div>
+            <div class="text-[#ffffff] text-xl" >4000@anamai.mail.go.th</div>
             
         </div>
     </div>
