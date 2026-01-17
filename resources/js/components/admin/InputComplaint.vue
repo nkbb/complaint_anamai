@@ -364,11 +364,11 @@ export default {
         name: yup.string().required('กรุณากรอกเรื่องที่ร้องเรียน'),
         improvement: yup.string().required('กรุณากรอกรายละเอีดยเพิ่มเติม'),
         description: yup.string().required('กรุณากรอกสิ่งที่ต้องการให้แก้ไข ปรับปรุง'),
-        sub_id: yup.string().when('type_id', (type_id, schema) => {
-          return type_id[0] == '1' || type_id[0] == '2'
-            ? schema.required('กรุณาเลือกประเด็นย่อย')
-            : schema.nullable();
-        }), 
+        // sub_id: yup.string().when('type_id', (type_id, schema) => {
+        //   return type_id[0] == '1' || type_id[0] == '2'
+        //     ? schema.required('กรุณาเลือกประเด็นย่อย')
+        //     : schema.nullable();
+        // }), 
       }),
       item_province: [],
       item_district: [],
