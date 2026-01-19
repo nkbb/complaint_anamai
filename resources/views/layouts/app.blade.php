@@ -70,16 +70,93 @@
                 border-radius: 4px;
                 margin-top: 4px;
             }
+            .__bg_color {
+                background-color: #13849c;
+            }
+            .__text_color {
+                color: #13849c;
+            }
         </style>
         @vite('resources/js/app.js')
     </head>
     <body data-inertia>
-        <nav class="fixed top-0 left-0 right-0 z-50" x-data="{ open: false }">
+
+    <!-- Header -->
+    <header class="bg-white shadow-sm sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4">
+            <div class="flex h-20 items-center justify-between">
+
+                <!-- Left: Logo -->
+                <a href="/" class="flex items-center gap-3">
+                    <img src="/images/logo/anamai.png" alt="logo" class="size-[72px] rounded" />
+                    <span class="text-lg font-semibold leading-tight text-gray-800">ระบบบริหารจัดการ<br/>ข้อคิดเห็นข้อร้องเรียน</span>
+                </a>
+
+                <!-- Center: Menu (desktop) -->
+                <nav class="hidden md:flex gap-6 text-base font-medium">
+                <a href="/" class="hover:text-[#13849c] {{ Request::is('/') ? 'text-[#13849c]' : 'text-gray-600 hover:text-[#13849c]' }}">หน้าหลัก</a>
+                <a href="/complaint" class="hover:text-[#13849c] {{ Request::is('complaint') ? 'text-[#13849c]' : 'text-gray-600 hover:text-[#13849c]' }}">ร้องเรียน</a>
+                <a href="/follow" class="hover:text-[#13849c] {{ Request::is('follow') ? 'text-[#13849c]' : 'text-gray-600 hover:text-[#13849c]' }}">ติดตามเรื่องร้องเรียน</a>
+                <a href="#" class="hover:text-[#13849c]">ติชม</a>
+                <a href="#" class="hover:text-[#13849c]">ดาวน์โหลด</a>
+                @guest
+                <a href="/login" class="hover:text-[#13849c]">สำหรับเจ้าหน้าที่</a>
+                @endguest
+                @auth
+                <a href="/admin" class="hover:text-[#13849c]">สำหรับเจ้าหน้าที่</a>
+                @endauth
+                </nav>
+
+
+                <!-- Right: Actions -->
+                <div class="flex items-center gap-4">
+
+                    <!-- Notification -->
+                    <!-- <button class="relative">
+                    <svg class="h-6 w-6 text-gray-500" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M14.857 17.082a23.848 23.848 0 005.454-1.31A8.967 8.967 0 0118 9.75v-.7V9a6 6 0 10-12 0v.75a8.967 8.967 0 01-2.31 5.822 23.848 23.848 0 005.454 1.31m5.714 0a3 3 0 11-5.714 0" />
+                    </svg>
+                    <span class="absolute -top-1 -right-1 h-4 w-4 rounded-full bg-red-500 text-[10px] text-white flex items-center justify-center">3</span>
+                    </button> -->
+
+                    <!-- Profile -->
+                    <!-- <div class="flex items-center gap-2 cursor-pointer">
+                    <img src="https://via.placeholder.com/32" class="h-8 w-8 rounded-full" />
+                    <span class="hidden sm:block text-sm text-gray-700">Sarawut</span>
+                    </div> -->
+
+                    <button id="mobileMenuBtn" class="md:hidden">
+                    <svg class="h-6 w-6 text-gray-600" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5M3.75 17.25h16.5" />
+                    </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+
+    <!-- Mobile Menu -->
+    <div id="mobileMenu" class="hidden md:hidden bg-white border-t shadow-sm">
+        <nav class="flex flex-col px-4 py-3 gap-3 text-sm text-gray-700">
+            <a href="/" class="hover:text-[#13849c] {{ Request::is('/') ? 'text-[#13849c]' : 'text-gray-600 hover:text-[#13849c]' }}">หน้าหลัก</a>
+            <a href="/complaint" class="hover:text-[#13849c] {{ Request::is('complaint') ? 'text-[#13849c]' : 'text-gray-600 hover:text-[#13849c]' }}">ร้องเรียน</a>
+            <a href="/follow" class="hover:text-[#13849c] {{ Request::is('follow') ? 'text-[#13849c]' : 'text-gray-600 hover:text-[#13849c]' }}">ติดตามเรื่องร้องเรียน</a>
+            <a href="#" class="hover:text-[#13849c]">ติชม</a>
+            <a href="#" class="hover:text-[#13849c]">ดาวน์โหลด</a>
+            @guest
+            <a href="/login" class="hover:text-[#13849c]">สำหรับเจ้าหน้าที่</a>
+            @endguest
+            @auth
+            <a href="/admin" class="hover:text-[#13849c]">สำหรับเจ้าหน้าที่</a>
+            @endauth
+        </nav>
+    </div>
+        <!-- <nav class="fixed top-0 left-0 right-0 z-50" x-data="{ open: false }">
             <div class="bg-[#1d684a] w-full pt-[15px] pb-[10px] gap-4 px-4 md:px-8 lg:px-16 2xl:px-[326px]">
                 <div class="flex justify-between">
                     <div class="flex flex-row gap-2 lg:gap-4">
 
-                    <!-- Hamburger (Mobile) -->
                     <button @click="open = !open" class="md:hidden text-white text-2xl focus:outline-none">
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none"
                             viewBox="0 0 24 24" stroke="currentColor">
@@ -88,7 +165,7 @@
                         </svg>
                     </button>
 
-                        <a href="/"><img src="/images/logo/ph_logo.png" class="size-[68px]" /></a>
+                        <a href="/"><img src="/images/logo/anamai.png" class="size-[68px]" /></a>
                         <a href="/" class="flex flex-col">
                             <div class="text-lg text-white">ระบบบริหารจัดการข้อคิดเห็นข้อร้องเรียน</div>
                             <div class="text-[24px] text-white -mt-1">ชื่อหน่วยงาน</div>
@@ -145,18 +222,17 @@
                 </form>
                 @endauth
             </div>
-        </nav>
-        <div id="app" class="lg:mt-[160px] mt-[112px]">
+        </nav> -->
+        <div id="app" class="mt-11">
             @yield('content')
         </div>
 
-        <div class="border-t-[10px] border-[#1d684a] text-base pt-8 pb-14 bg-[#f8f9fa] color-[#6c757d] px-3">
+        <div class="border-t-[10px] border-[#13849c] text-base pt-8 pb-14 bg-[#f8f9fa] color-[#6c757d] px-3">
             <div class="grid grid-cols-1 lg:grid-cols-2 mx-4 md:mx-8 lg:mx-16 2xl:mx-[326px] gap-6">
                 <div class="flex flex-row gap-4">
                     <!-- <img src="/images/logo/logo.png" class="" /> -->
                     <div>
-                    <div class="mt-3">ระบบบริหารจัดการข้อคิดเห็นข้อร้องเรียน</div>
-                    <div class="mt-1">ชื่อหน่วยงาน</div>
+                    <div class="mt-3">ระบบบริหารจัดการข้อคิดเห็นข้อร้องเรียน กรมอนามัย</div>
                     <div class="mt-1">ที่อยู่  88/22 ม.4 ต.ตลาดขวัญ ถ.ติวานนท์ อ.เมือง จ.นนทบุรี 11000</div>
                     <div class="mt-5">Copyright 2026 All Rights Reserved.</div>
                     </div>
@@ -164,17 +240,17 @@
                 <div class="grid grid-cols-1 lg:grid-cols-2">
                     <div>
                         <div class="text-sm">Useful Links</div>
-                        <div class="pl-4 mt-3"><a href="/" class="hover:text-[#1d684a]"><i class="fas fa-angle-right mr-2"></i> หน้าแรก</a></div>
-                        <div class="pl-4 mt-2"><a href="/complaint" class="hover:text-[#1d684a]"><i class="fas fa-angle-right mr-2"></i> ร้องเรียน-ร้องทุกข์</a></div>
-                        <div class="pl-4 mt-2"><a href="/follow" class="hover:text-[#1d684a]"><i class="fas fa-angle-right mr-2"></i> ติดตามเรื่องร้องเรียน</a></div>
-                        <div class="pl-4 mt-2"><a href="/manual/complaint" class="hover:text-[#1d684a]"><i class="fas fa-angle-right mr-2"></i> คู่มือการปฏิบัติงานการจัดการข้อร้องเรียน</a></div>
+                        <div class="pl-4 mt-3"><a href="/" class="hover:text-[#13849c]"><i class="fas fa-angle-right mr-2"></i> หน้าแรก</a></div>
+                        <div class="pl-4 mt-2"><a href="/complaint" class="hover:text-[#13849c]"><i class="fas fa-angle-right mr-2"></i> ร้องเรียน-ร้องทุกข์</a></div>
+                        <div class="pl-4 mt-2"><a href="/follow" class="hover:text-[#13849c]"><i class="fas fa-angle-right mr-2"></i> ติดตามเรื่องร้องเรียน</a></div>
+                        <div class="pl-4 mt-2"><a href="/manual/complaint" class="hover:text-[#13849c]"><i class="fas fa-angle-right mr-2"></i> คู่มือการปฏิบัติงานการจัดการข้อร้องเรียน</a></div>
                     </div>
                     <div>
                         <div class="text-sm">Our Services</div>
-                        <div class="pl-4 mt-3"><a href="/cookies-policy" class="hover:text-[#1d684a]"><i class="fas fa-angle-right mr-2"></i> Cookies Policy</a></div>
-                        <div class="pl-4 mt-2"><a href="/privacy-policy" class="hover:text-[#1d684a]"><i class="fas fa-angle-right mr-2"></i> Privacy Policy</a></div>
-                        <div class="pl-4 mt-2"><a href="/web-policy" class="hover:text-[#1d684a]"><i class="fas fa-angle-right mr-2"></i> Website Policy</a></div>
-                        <div class="pl-4 mt-2"><a href="/security-policy" class="hover:text-[#1d684a]"><i class="fas fa-angle-right mr-2"></i> Website Security Policy</a></div>
+                        <div class="pl-4 mt-3"><a href="/cookies-policy" class="hover:text-[#13849c]"><i class="fas fa-angle-right mr-2"></i> Cookies Policy</a></div>
+                        <div class="pl-4 mt-2"><a href="/privacy-policy" class="hover:text-[#13849c]"><i class="fas fa-angle-right mr-2"></i> Privacy Policy</a></div>
+                        <div class="pl-4 mt-2"><a href="/web-policy" class="hover:text-[#13849c]"><i class="fas fa-angle-right mr-2"></i> Website Policy</a></div>
+                        <div class="pl-4 mt-2"><a href="/security-policy" class="hover:text-[#13849c]"><i class="fas fa-angle-right mr-2"></i> Website Security Policy</a></div>
                         
                     </div>
                 </div>
@@ -240,6 +316,15 @@
             }
         });
     </script> -->
+    <script>
+const btn = document.getElementById('mobileMenuBtn');
+const menu = document.getElementById('mobileMenu');
+
+
+btn.addEventListener('click', () => {
+menu.classList.toggle('hidden');
+});
+</script>
     </body>
 </html>
 

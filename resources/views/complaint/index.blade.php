@@ -16,8 +16,8 @@
   >
   </complaint-component>
 
-  <home-manual-component></home-manual-component>
-  <home-agreement-component></home-agreement-component>
+  <!-- <home-manual-component></home-manual-component> -->
+  <!-- <home-agreement-component></home-agreement-component> -->
   <home-evaluation-component></home-evaluation-component>
 
 </div>

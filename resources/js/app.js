@@ -27,6 +27,7 @@ import SettingCommentComponent from './components/setting/Comment.vue'
 import SettingUsersComponent from './components/setting/Users.vue'
 import SettingBannerComponent from './components/setting/Banner.vue'
 import SettingPopupComponent from './components/setting/Popup.vue'
+import SettingDownloadComponent from './components/setting/Download.vue'
 import SettingTelegramComponent from './components/setting/Telegram.vue'
 import SettingChangePasswordComponent from './components/setting/ChangePassword.vue'
 
@@ -80,6 +81,7 @@ app.component('setting-users', SettingUsersComponent)
 app.component('setting-banner', SettingBannerComponent)
 app.component('setting-telegram', SettingTelegramComponent)
 app.component('setting-popup', SettingPopupComponent)
+app.component('setting-download', SettingDownloadComponent)
 app.component('setting-change-password', SettingChangePasswordComponent)
 
 app.component('report-models', ReportModelsComponent)

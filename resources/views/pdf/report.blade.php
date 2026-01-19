@@ -56,12 +56,12 @@
 	<table width="100%">
 		<tr>
 			<td width="15%" style="text-align:center;">
-      <img src="{{ public_path('images/logo/logo_dmh.jpg') }}" width="75px">
+      <img src="{{ public_path('images/logo/anamai.png') }}" width="75px">
 
 			</td>
 			<td width="40%" style="font-size:26px; font-weight: bold;vertical-align: top;">
 				<div style="maring-top:-20px;">ระบบบริหารจัดการข้อคิดเห็น</div>
-				<div style="line-height: 12pt;">ข้อร้องเรียน กรมสุขภาพจิต</div>
+				<div style="line-height: 12pt;">ข้อร้องเรียน กรมอนามัย</div>
 			</td>
 			<td width="5%"></div>
 			<td width="40%">

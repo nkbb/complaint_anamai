@@ -52,12 +52,11 @@
     </head>
     <body data-inertia>
         <nav class="fixed top-0 left-0 right-0 z-50" x-data="{ open: false }">
-            <div class="bg-[#1d684a] w-full pt-[15px] pb-[10px] gap-4 px-4 md:px-8 lg:px-16 2xl:px-[326px]">
+            <div class="bg-white w-full pt-[15px] pb-[10px] gap-4 px-4 md:px-8 lg:px-16 2xl:px-[326px]">
                 <div class="flex justify-between">
                     <div class="flex flex-row gap-2 lg:gap-4">
 
-                    <!-- Hamburger (Mobile) -->
-                    <button @click="open = !open" class="md:hidden text-white text-2xl focus:outline-none">
+                    <button @click="open = !open" class="md:hidden text-gray-800 text-2xl focus:outline-none">
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none"
                             viewBox="0 0 24 24" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -65,14 +64,14 @@
                         </svg>
                     </button>
 
-                        <a href="/admin"><img src="/images/logo/ph_logo.png" class="size-[68px]" /></a>
+                        <a href="/admin"><img src="/images/logo/anamai.png" class="size-[68px]" /></a>
                         <a href="/admin" class="flex flex-col">
-                            <div class="text-lg text-white">ระบบบริหารจัดการข้อคิดเห็นข้อร้องเรียน</div>
-                            <div class="text-[24px] text-white -mt-1">ชื่อหน่วยงาน</div>
+                            <div class="text-lg font-semibold leading-tight  text-gray-800 mt-3">ระบบบริหารจัดการ<br/>ข้อคิดเห็นข้อร้องเรียน</div>
+                            <!-- <div class="text-[24px] text-gray-800 -mt-1">ชื่อหน่วยงาน</div> -->
                         </a>
                     </div>
                     @auth
-                    <div class="hidden md:flex flex-col border border-white py-1 px-2">
+                    <div class="hidden md:flex flex-col border border-gray-800 py-1 px-2">
                         <div class="text-sm">ID : {{ Auth::user()->username }}</div>
                         @if(Auth::user()->level == 'root')
                         <div class="text-sm">ระดับ : ผู้ดูแลระบบ</div>
@@ -82,7 +81,7 @@
                         <form method="POST" action="{{ route('logout') }}" class="inline">
                         @csrf
                             <button type="submit"
-                                    class="text-white text-sm">
+                                    class="text-gray-800 text-sm">
                                 <i class="fas fa-sign-out-alt"></i> ออกจากระบบ
                             </button>
                         </form>
@@ -92,7 +91,7 @@
                 
             </div>
             <div
-                class="flex flex-col gap-3 md:gap-0 md:flex md:flex-row bg-white py-4 text-center transition-all duration-300 ease-in-out md:justify-center"
+                class="flex flex-col gap-3 md:gap-0 md:flex md:flex-row bg-[#13849c] py-4 text-center transition-all duration-300 ease-in-out md:justify-center"
                 style="box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.1), 0 6px 20px 0 rgba(0, 0, 0, 0.08)"
                 :class="{ 'hidden': !open, 'flex': open }"
                 x-bind:class="{'hidden': !open, 'flex': open }"
@@ -104,53 +103,49 @@
                 x-transition:leave-start="opacity-100 max-h-screen overflow-visible"
                 x-transition:leave-end="opacity-0 max-h-0 overflow-hidden"
             >
-                <a href="/admin" class="flex flex-row gap-1 md:flex-col mx-3 md:mx-0 text-base text-[#00000080] px-4 {{ Request::is('admin') ? 'text-[#1d684a]' : 'hover:text-[#1d684a]' }}">
+                <a href="/admin" class="flex flex-row gap-1 md:flex-col mx-3 md:mx-0 text-base text-white  px-4 border-b-4 {{ Request::is('admin') ? 'border-white' : 'hover:border-white border-[#13849c]' }}">
                     <i class="fas fa-home text-2xl"></i>
                     <div class="text-base">หน้าหลัก</div>
                 </a>
-                <a href="/complaint/create" class="flex flex-row gap-1 md:flex-col mx-3 md:mx-0 text-base text-[#00000080] px-4 {{ Request::is('complaint/create') ? 'text-[#1d684a]' : 'hover:text-[#1d684a]' }}">
+                <a href="/complaint/create" class="flex flex-row gap-1 md:flex-col mx-3 md:mx-0 text-base text-white px-4 border-b-4 {{ Request::is('complaint/create') ? 'border-white' : 'hover:border-white border-[#13849c]' }}">
                     <i class="far fa-plus-square text-2xl"></i>
                     <div class="text-base">เพิ่มเรื่องร้องเรียน</div>
                 </a>
                 @if(Auth::user()->level == 'root')
-                <a href="/complaint/accept" class="flex flex-row gap-1 md:flex-col mx-3 md:mx-0 text-base text-[#00000080] px-4 {{ Request::is('complaint/accept') ? 'text-[#1d684a]' : 'hover:text-[#1d684a]' }}">
+                <a href="/complaint/accept" class="flex flex-row gap-1 md:flex-col mx-3 md:mx-0 text-base text-white px-4 border-b-4 {{ Request::is('complaint/accept') ? 'border-white' : 'hover:border-white border-[#13849c]' }}">
                     <i class="far fa-paper-plane text-2xl"></i>
                     <div class="text-base">รับเรื่อง-ส่งให้หน่วยดำเนินการ</div>
                 </a>
-                <a href="/complaint/follow" class="flex flex-row gap-1 md:flex-col mx-3 md:mx-0 text-base text-[#00000080] px-4 {{ Request::is('complaint/follow') ? 'text-[#1d684a]' : 'hover:text-[#1d684a]' }}">
+                <a href="/complaint/follow" class="flex flex-row gap-1 md:flex-col mx-3 md:mx-0 text-base text-white px-4 border-b-4 {{ Request::is('complaint/follow') ? 'border-white' : 'hover:border-white border-[#13849c]' }}">
                     <i class="far fa-bell text-2xl"></i>
                     <div class="text-base">ติดตามเรื่องร้องเรียน</div>
                 </a>
-                <!-- <a href="/admin/comment" class="flex flex-row gap-1 md:flex-col mx-3 md:mx-0 text-base text-[#00000080] px-4 {{ Request::is('admin/comment') ? 'text-[#1d684a]' : 'hover:text-[#1d684a]' }}">
-                    <i class="far fa-comment text-2xl"></i>
-                    <div class="text-base">ข้อคิดเห็น</div>
-                </a> -->
                 
                 @endif
                 @if(Auth::user()->level == 'unit')
-                <a href="/complaint/receive" class="flex flex-row gap-1 md:flex-col mx-3 md:mx-0 text-base text-[#00000080] px-4 {{ Request::is('complaint/receive') ? 'text-[#1d684a]' : 'hover:text-[#1d684a]' }}">
+                <a href="/complaint/receive" class="flex flex-row gap-1 md:flex-col mx-3 md:mx-0 text-base text-white px-4 border-b-4 {{ Request::is('complaint/receive') ? 'border-white' : 'hover:border-white border-[#13849c]' }}">
                     <i class="fas fa-satellite-dish text-2xl"></i>
                     <div class="text-base">รับเรื่องร้องเรียน</div>
                 </a>
-                <a href="/complaint/alter" class="flex flex-row gap-1 md:flex-col mx-3 md:mx-0 text-base text-[#00000080] px-4 {{ Request::is('complaint/alter') ? 'text-[#1d684a]' : 'hover:text-[#1d684a]' }}">
+                <a href="/complaint/alter" class="flex flex-row gap-1 md:flex-col mx-3 md:mx-0 text-base text-white px-4 border-b-4 {{ Request::is('complaint/alter') ? 'border-white' : 'hover:border-white border-[#13849c]' }}">
                     <i class="far fa-calendar-check text-2xl"></i>
                     <div class="text-base">ดำเนินการ แก้ไขข้อร้องเรียน</div>
                 </a>
-                <a href="/complaint/userfollow" class="flex flex-row gap-1 md:flex-col mx-3 md:mx-0 text-base text-[#00000080] px-4 {{ Request::is('complaint/userfollow') ? 'text-[#1d684a]' : 'hover:text-[#1d684a]' }}">
+                <a href="/complaint/userfollow" class="flex flex-row gap-1 md:flex-col mx-3 md:mx-0 text-base text-white px-4 border-b-4 {{ Request::is('complaint/userfollow') ? 'border-white' : 'hover:border-white border-[#13849c]' }}">
                     <i class="far fa-bell text-2xl"></i>
                     <div class="text-base">ติดตามเรื่องร้องเรียน</div>
                 </a>
                 @endif
-                <a href="/admin/report" class="flex flex-row gap-1 md:flex-col mx-3 md:mx-0 text-base text-[#00000080] px-4 {{ Request::is('admin/report*') ? 'text-[#1d684a]' : 'hover:text-[#1d684a]' }}">
+                <a href="/admin/report" class="flex flex-row gap-1 md:flex-col mx-3 md:mx-0 text-base text-white px-4 border-b-4 {{ Request::is('admin/report*') ? 'border-white' : 'hover:border-white border-[#13849c]' }}">
                     <i class="fas fa-chart-bar text-2xl"></i>
                     <div class="text-base">รายงาน</div>
                 </a>
                 
-                <a href="/admin/setting" class="flex flex-row gap-1 md:flex-col mx-3 md:mx-0 text-base text-[#00000080] px-4 {{ Request::is('admin/setting*') ? 'text-[#1d684a]' : 'hover:text-[#1d684a]' }}">
+                <a href="/admin/setting" class="flex flex-row gap-1 md:flex-col mx-3 md:mx-0 text-base text-white px-4 border-b-4 {{ Request::is('admin/setting*') ? 'border-white' : 'hover:border-white border-[#13849c]' }}">
                     <i class="fas fa-cog text-2xl"></i>
                     <div class="text-base">ตั้งค่า</div>
                 </a>
-                <a href="/change/password" class="flex flex-row gap-1 md:flex-col mx-3 md:mx-0 text-base text-[#00000080] px-4 {{ Request::is('change/password') ? 'text-[#1d684a]' : 'hover:text-[#1d684a]' }}">
+                <a href="/change/password" class="flex flex-row gap-1 md:flex-col mx-3 md:mx-0 text-base text-white px-4 border-b-4 {{ Request::is('change/password') ? 'border-white' : 'hover:border-white border-[#13849c]' }}">
                     <i class="fas fa-key text-2xl"></i>
                     <div class="text-base">เปลี่ยนรหัสผ่าน</div>
                 </a>
@@ -158,7 +153,7 @@
                 <form method="POST" action="{{ route('logout') }}" class="flex justify-start ">
                 @csrf
                 <button type="submit"
-                        class="flex gap-1 md:hidden mx-3 text-base text-[#00000080] px-4  hover:text-[#1d684a]">
+                        class="flex gap-1 md:hidden mx-3 text-base text-white px-4 ">
                         <i class="fas fa-sign-out-alt text-2xl"></i>
                         <div class="text-base">ออกจากระบบ</div>
                 </button>
@@ -170,9 +165,9 @@
             @yield('content')
         </div>
 
-        <div class="border-t-[10px] border-[#1d684a] text-center text-base pt-8 pb-14 mt-8 bg-[#f8f9fa] color-[#6c757d] px-3">
-            <div>Copyright 2020 รับเรื่องร้องเรียน สำนักงานเลขานุการกรม กรมสุขภาพจิต</div>
-            <div>80/20 หมู่ 4 ถนนติวานนท์ อำเภอเมือง จังหวัดนนทบุรี 11000 | All Rights Reserved.</div>
+        <div class="border-t-[10px] border-[#13849c] text-center text-base pt-8 pb-14 mt-8 bg-[#f8f9fa] color-[#6c757d] px-3">
+            <div>Copyright 2026 รับเรื่องร้องเรียน สำนักงานเลขานุการกรม กรมอนามัย</div>
+            <div>ที่อยู่  88/22 ม.4 ต.ตลาดขวัญ ถ.ติวานนท์ อ.เมือง จ.นนทบุรี 11000 | All Rights Reserved.</div>
         </div>
 
         <script src="//unpkg.com/alpinejs" defer></script>

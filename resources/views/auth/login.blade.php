@@ -4,7 +4,7 @@
 
 @section('content')
 
-    <div class="py-6 px-7 bg-white mt-[189px] mb-[80px] mx-4 md:mx-8 lg:mx-16 2xl:mx-[326px] border shadow-md">
+    <div class="py-6 px-7 bg-white mb-[80px] mx-4 md:mx-8 lg:mx-16 2xl:mx-[326px] border shadow-md">
     <form method="POST" action="{{ route('login') }}">
         @csrf
         <div  class="px-4 md:px-[280px] xl:px-[420px]">
@@ -29,7 +29,7 @@
             </div>
 
             <div class="flex items-center justify-center mt-4">
-                <button class="w-full text-center px-4 py-2 text-white bg-[#1d684a] border border-[#1d684a] rounded-md hover:cursor-pointer">
+                <button class="w-full text-center px-4 py-2 text-white bg-[#13849c] border border-[#13849c] rounded-md hover:cursor-pointer">
                     {{ __('เข้าสู่ระบบ') }}
                 </button>
             </div>

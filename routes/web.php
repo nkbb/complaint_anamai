@@ -137,6 +137,10 @@ Route::middleware('auth')->group(function () {
     Route::get('/admin/setting/popup', [SettingController::class, 'popup']);
     Route::post('/admin/setting/popup', [SettingController::class, 'popupStore']);
 
+    Route::get('/admin/setting/download', [SettingController::class, 'download']);
+    Route::get('/admin/setting/download/load', [SettingController::class, 'downloadLoad']);
+    Route::post('/admin/setting/download', [SettingController::class, 'downloadStore']);
+
 
 
     Route::get('/admin/setting/users', [SettingController::class, 'users']);

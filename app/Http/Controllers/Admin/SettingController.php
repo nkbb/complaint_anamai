@@ -771,4 +771,9 @@ class SettingController extends Controller
         }
     }
 
+    public function download(): View
+    {
+    return view('admin.setting.download');
+    }
+
 }

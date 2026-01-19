@@ -1,5 +1,5 @@
 <template>
-  <div class="py-6 px-2 md:px-7 bg-white my-5 mx-4 md:mx-8 lg:mx-16 2xl:mx-[326px] border shadow-md mt-[189px] mb-[80px]">
+  <div class="py-6 px-2 md:px-7 bg-white my-5 mx-4 md:mx-8 lg:mx-16 2xl:mx-[326px] border shadow-md mb-[80px]">
     <loading :active="isLoading" :can-cancel="false" :is-full-page="true" :color="'#3fbbc0'" :loader="'spinner'" :width="64" :height="64" />
 
     <div v-if="step == 1" class="text-center text-2xl text-[#3fbbc0]">ข้อตกลงหลักเกณฑ์ เรื่องร้องเรียน</div>
