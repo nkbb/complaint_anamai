@@ -27,6 +27,9 @@ Route::middleware([LogVisitor::class])->group(function () {
 Route::get('/', [HomeController::class, 'index']);
 });
 
+Route::get('/template1', [HomeController::class, 'template1']);
+Route::get('/template2', [HomeController::class, 'template2']);
+
 Route::get('/manual/{file}', [HomeController::class, 'manual']);
 
 Route::get('/load/question', [HomeController::class, 'loadQuestion']);

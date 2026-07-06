@@ -27,6 +27,14 @@ class HomeController extends Controller
         return view('home',compact('banner'));
     }
 
+    public function template1(): View{
+      return view('template_1');
+    }
+
+    public function template2(): View{
+      return view('template_2');
+    }
+
     public function complaint(): View{
       return view('complaint');
     }
