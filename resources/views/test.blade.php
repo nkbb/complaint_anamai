@@ -1,39 +1,100 @@
-@extends('layouts.app')
-
-@section('pageTitle', 'ระบบบริหารจัดการข้อคิดเห็นข้อร้องเรียน กรมสุขภาพจิต')
-
-@section('content')
-<div>
-    
-    <!-- <image-carouse-component isload="true"></image-carouse-component>
-
-    <home-popup-component image="{{$banner}}"></home-popup-component> -->
-
-    <!-- <home-type-component></home-type-component> -->
-
-    <!-- <home-follow-component></home-follow-component> -->
-
-
-    <!-- <image-carouse-component isload="true"></image-carouse-component> -->
-    <!-- <image-carouse-banner></image-carouse-banner> -->
-
-    <!-- <div class="grid justify-items-center py-[68px] bg-[#13849c]">
-        <h1 class="flex justify-center"><div class="border-b-[2px] pb-3 border-[#ffffff] text-[#ffffff] text-[28px]">รับเรื่องร้องเรียน</div></h1>
-        
-        <div class="text-center text-[#ffffff] text-base mt-8">ช่องทางการติดต่อ</div>
-        <div class="flex flex-row gap-2 justify-center mt-6">
-            <div class="bg-[#ffffff] rounded-[50%] py-[5px] px-[10px]"><i class="far fa-envelope text-[#1d684a] text-[24px]"></i></div>
-            <div class="text-[#ffffff] text-xl" >4000@anamai.mail.go.th</div>
+<!doctype html>
+<html lang="th">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>ระบบอนามัย ข้อคิดเห็นข้อร้องเรียน</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: { thai: ['Noto Sans Thai', 'sans-serif'] },
+          colors: {
+            brand: {
+              50: '#eef8ff', 100: '#d8efff', 200: '#b8e3ff', 300: '#89d0ff',
+              400: '#4ab4ff', 500: '#1894ef', 600: '#0876d1', 700: '#0660aa',
+              800: '#0a528d', 900: '#0d4775'
+            },
+            health: '#008b58'
+          },
+          boxShadow: {
+            soft: '0 18px 45px rgba(15, 82, 141, .10)',
+            card: '0 10px 28px rgba(2, 48, 92, .09)'
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    html { scroll-behavior: smooth; }
+    body { font-family: 'Noto Sans Thai', sans-serif; }
+    .hero-bg {
+      background:
+        radial-gradient(circle at 85% 15%, rgba(100, 205, 255, .45), transparent 32%),
+        linear-gradient(105deg, rgba(255,255,255,.96) 0%, rgba(241,249,255,.94) 42%, rgba(217,242,255,.85) 100%);
+    }
+    .wave-bg {
+      background-image:
+        radial-gradient(circle at 12% 25%, rgba(24,148,239,.12), transparent 24%),
+        radial-gradient(circle at 90% 25%, rgba(24,148,239,.10), transparent 22%),
+        linear-gradient(135deg, transparent 0 48%, rgba(216,239,255,.55) 48% 52%, transparent 52% 100%);
+      background-size: 100% 100%, 100% 100%, 34px 34px;
+    }
+    .blue-panel {
+      background:
+        radial-gradient(circle at 0% 100%, rgba(129,212,255,.28), transparent 34%),
+        linear-gradient(135deg, #0b8be8 0%, #0263c7 55%, #084d9b 100%);
+    }
+  </style>
+</head>
+<body class="bg-white text-slate-700">
+  <!-- Header -->
+  <header class="sticky top-0 z-50 bg-white/90 backdrop-blur border-b border-slate-100">
+    <div class="mx-auto flex max-w-7xl items-center justify-between px-4 py-4 md:px-8">
+      <a href="#" class="flex items-center gap-3">
+        <div class="grid h-12 w-12 place-items-center rounded-full border-4 border-green-100 bg-health text-white shadow-sm">
+          <svg class="h-7 w-7" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <path d="M12 4v16M7 9h10M8.5 15.5c1.9-1.4 5.1-1.4 7 0" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+            <path d="M12 21c4.4-2.1 7-5.6 7-10.4V5.8L12 3 5 5.8v4.8C5 15.4 7.6 18.9 12 21Z" stroke="currentColor" stroke-width="1.5"/>
+          </svg>
         </div>
-    </div> -->
-    
+        <div class="leading-tight">
+          <p class="text-lg font-extrabold text-slate-900">ระบบอนามัย</p>
+          <p class="text-sm font-semibold text-brand-800">ข้อคิดเห็นข้อร้องเรียน</p>
+        </div>
+      </a>
 
-    <!-- <home-manual-component></home-manual-component> -->
-    <!-- <home-agreement-component></home-agreement-component> -->
-    <!-- <home-evaluation-component></home-evaluation-component> -->
-    <!-- <home-cookie-component></home-cookie-component> -->
-    <!-- <home-comments-component></home-comments-component> -->
-<section class="hero-bg relative overflow-hidden border-b border-brand-100">
+      <button id="menuBtn" class="rounded-xl border border-slate-200 p-2 text-slate-600 md:hidden" aria-label="open menu">
+        <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>
+      </button>
+
+      <nav id="navMenu" class="hidden items-center gap-8 text-sm font-semibold text-slate-700 md:flex">
+        <a class="border-b-4 border-brand-500 px-1 py-5 text-brand-700" href="#home">หน้าหลัก</a>
+        <a class="hover:text-brand-600" href="#complaint">ร้องเรียน</a>
+        <a class="hover:text-brand-600" href="#tracking">ติดตามเรื่องร้องเรียน</a>
+        <a class="hover:text-brand-600" href="#info">ชม</a>
+        <a class="hover:text-brand-600" href="#download">ดาวน์โหลด</a>
+        <a class="hover:text-brand-600" href="#staff">สำหรับเจ้าหน้าที่</a>
+      </nav>
+    </div>
+
+    <nav id="mobileMenu" class="hidden border-t border-slate-100 bg-white px-5 pb-4 text-sm font-semibold md:hidden">
+      <a class="block py-2 text-brand-700" href="#home">หน้าหลัก</a>
+      <a class="block py-2" href="#complaint">ร้องเรียน</a>
+      <a class="block py-2" href="#tracking">ติดตามเรื่องร้องเรียน</a>
+      <a class="block py-2" href="#info">ชม</a>
+      <a class="block py-2" href="#download">ดาวน์โหลด</a>
+      <a class="block py-2" href="#staff">สำหรับเจ้าหน้าที่</a>
+    </nav>
+  </header>
+
+  <!-- Hero -->
+  <main id="home">
+    <section class="hero-bg relative overflow-hidden border-b border-brand-100">
       <div class="absolute -left-24 bottom-0 h-64 w-64 rounded-full bg-brand-200/40 blur-3xl"></div>
       <div class="absolute -right-16 -top-20 h-72 w-72 rounded-full bg-cyan-200/60 blur-3xl"></div>
 
@@ -50,7 +111,7 @@
           </p>
 
           <div class="mt-8 flex flex-col gap-4 sm:flex-row">
-            <a href="/complaint" class="inline-flex items-center justify-center gap-2 rounded-xl bg-brand-600 px-7 py-3.5 font-bold text-white shadow-lg shadow-brand-600/25 transition hover:bg-brand-700">
+            <a href="#complaint" class="inline-flex items-center justify-center gap-2 rounded-xl bg-brand-600 px-7 py-3.5 font-bold text-white shadow-lg shadow-brand-600/25 transition hover:bg-brand-700">
               <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Zm0 0L19.5 7.125"/></svg>
               ยื่นเรื่องร้องเรียน
             </a>
@@ -239,6 +300,75 @@
         </div>
       </div>
     </section>
+  </main>
 
-</div>
-@endsection
+  <!-- Footer -->
+  <footer class="bg-white">
+    <div class="mx-auto grid max-w-7xl gap-8 px-4 py-10 md:grid-cols-[1.4fr_1fr_1fr_1fr] md:px-8">
+      <div>
+        <div class="flex items-center gap-3">
+          <div class="grid h-12 w-12 place-items-center rounded-full border-4 border-green-100 bg-health text-white">
+            <svg class="h-7 w-7" viewBox="0 0 24 24" fill="none"><path d="M12 4v16M7 9h10" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><path d="M12 21c4.4-2.1 7-5.6 7-10.4V5.8L12 3 5 5.8v4.8C5 15.4 7.6 18.9 12 21Z" stroke="currentColor" stroke-width="1.5"/></svg>
+          </div>
+          <div>
+            <p class="text-xl font-extrabold text-health">กรมอนามัย</p>
+            <p class="text-xs font-bold text-slate-500">DEPARTMENT OF HEALTH</p>
+          </div>
+        </div>
+        <p class="mt-5 max-w-sm text-sm leading-7 text-slate-600">
+          ระบบบริหารจัดการข้อคิดเห็นข้อร้องเรียน กรมอนามัย<br>
+          ที่อยู่ 88/22 ม.4 ต.ตลาดขวัญ อ.เมืองนนทบุรี จ.นนทบุรี 11000<br>
+          โทรศัพท์ 0 2590 4000
+        </p>
+        <div class="mt-5 flex gap-3">
+          <a class="grid h-9 w-9 place-items-center rounded-full bg-brand-600 text-white" href="#">f</a>
+          <a class="grid h-9 w-9 place-items-center rounded-full bg-slate-800 text-white" href="#">▶</a>
+          <a class="grid h-9 w-9 place-items-center rounded-full bg-green-500 text-white" href="#">◎</a>
+          <a class="grid h-9 w-9 place-items-center rounded-full bg-brand-500 text-white" href="#">🌐</a>
+        </div>
+      </div>
+
+      <div>
+        <h4 class="font-extrabold text-slate-900">ลิงก์ที่เกี่ยวข้อง</h4>
+        <ul class="mt-4 space-y-3 text-sm text-slate-600">
+          <li><a class="hover:text-brand-600" href="#">› หน้าหลัก</a></li>
+          <li><a class="hover:text-brand-600" href="#">› ร้องเรียน</a></li>
+          <li><a class="hover:text-brand-600" href="#">› ติดตามเรื่องร้องเรียน</a></li>
+          <li><a class="hover:text-brand-600" href="#">› ชม</a></li>
+          <li><a class="hover:text-brand-600" href="#">› ดาวน์โหลด</a></li>
+        </ul>
+      </div>
+
+      <div>
+        <h4 class="font-extrabold text-slate-900">นโยบายและความเป็นส่วนตัว</h4>
+        <ul class="mt-4 space-y-3 text-sm text-slate-600">
+          <li><a class="hover:text-brand-600" href="#">› นโยบายคุ้มครองข้อมูลส่วนบุคคล</a></li>
+          <li><a class="hover:text-brand-600" href="#">› นโยบายการใช้งานเว็บไซต์</a></li>
+          <li><a class="hover:text-brand-600" href="#">› Cookie Policy</a></li>
+          <li><a class="hover:text-brand-600" href="#">› Website Security Policy</a></li>
+        </ul>
+      </div>
+
+      <div id="staff">
+        <h4 class="font-extrabold text-slate-900">สำหรับเจ้าหน้าที่</h4>
+        <ul class="mt-4 space-y-3 text-sm text-slate-600">
+          <li><a class="hover:text-brand-600" href="#">› เข้าสู่ระบบเจ้าหน้าที่</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="bg-slate-900 py-4 text-white">
+      <div class="mx-auto flex max-w-7xl flex-col items-center justify-between gap-2 px-4 text-xs text-white/80 md:flex-row md:px-8">
+        <p>Copyright © 2026 กรมอนามัย กระทรวงสาธารณสุข สงวนลิขสิทธิ์</p>
+        <p>เวอร์ชัน 1.0.0</p>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    const menuBtn = document.getElementById('menuBtn');
+    const mobileMenu = document.getElementById('mobileMenu');
+    menuBtn?.addEventListener('click', () => mobileMenu.classList.toggle('hidden'));
+  </script>
+</body>
+</html>

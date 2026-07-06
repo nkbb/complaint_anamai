@@ -6,35 +6,6 @@
 
         <title>@yield('pageTitle')</title>
         <link rel="icon" type="image/png" href="{{ asset('images/logo/ph_logo.png') }}">
-
-
-        <meta name="description" content="รับเรื่องร้องเรียน สำนักเลขานุการกรม กรมสุขภาพจิต รับเรื่องร้องเรียนเกี่ยวกับการให้บริการของหน่วยงานในสังกัดกรมสุขภาพจิต รวมถึงการให้คำปรึกษาและช่วยเหลือทางด้านสุขภาพจิต">
-        <meta name="keywords" content="รับเรื่องร้องเรียน, กรมสุขภาพจิต, สุขภาพจิต, ปรึกษาสุขภาพจิต, ร้องเรียนสุขภาพจิต">
-
-        {{-- Twitter Card --}}
-
-        {{-- Open Graph สำหรับแชร์บน Facebook / Line --}}
-        <meta property="og:title" content="รับเรื่องร้องเรียน สำนักเลขานุการกรม กรมสุขภาพจิต">
-        <meta property="og:description" content="รับเรื่องร้องเรียน สำนักเลขานุการกรม กรมสุขภาพจิต">
-        <!-- <meta property="og:image" content="{{ $image ?? asset('default-og.jpg') }}"> -->
-        <meta property="og:url" content="{{ url()->current() }}">
-
-         <!-- Required -->
-         <!-- <meta property="og:title" content="ชื่อเรื่องเวลาคนแชร์" />
-          <meta property="og:description" content="คำอธิบายสั้น ๆ" />
-          <meta property="og:image" content="https://yourdomain.com/cover.jpg" />
-          <meta property="og:url" content="https://yourdomain.com/page" />
-          <meta property="og:type" content="website" /> -->
-        
-          <!-- Optional but good -->
-           <!--<meta property="og:image:width" content="1200" />
-          <meta property="og:image:height" content="630" /> -->
-        
-          <!-- Twitter -->
-           <!--<meta name="twitter:card" content="summary_large_image" />
-          <meta name="twitter:title" content="ชื่อเรื่อง" />
-          <meta name="twitter:description" content="คำอธิบาย" />
-          <meta name="twitter:image" content="https://yourdomain.com/cover.jpg" /> -->
         
 
         <!-- Styles / Scripts -->
@@ -47,21 +18,39 @@
         @endif
 
         <link href="{{ asset('fonts/fontawesome/css/all.css') }}" rel="stylesheet">
-        <link rel="stylesheet" href="{{ asset('pdpa/css/custom.css') }}">
         <style>
             @font-face {
-                font-family: 'prompt';
-                src: url('/fonts/prompt/Prompt-Regular.ttf') format('truetype');
+                font-family: 'sarabun';
+                src: url('/fonts/th-sarabun/Sarabun-Light.ttf') format('truetype');
             }
 
             @font-face {
-                font-family: 'prompt';
-                src: url('/fonts/prompt/Prompt-Bold.ttf') format('truetype');
+                font-family: 'sarabun';
+                src: url('/fonts/th-sarabun/Sarabun-Bold.ttf') format('truetype');
                 font-weight: bold;
             }
 
             body {
-                font-family: 'prompt', sans-serif;
+                font-family: 'sarabun', sans-serif;
+            }
+           
+            html { scroll-behavior: smooth; }
+            .hero-bg {
+            background:
+                radial-gradient(circle at 85% 15%, rgba(100, 205, 255, .45), transparent 32%),
+                linear-gradient(105deg, rgba(255,255,255,.96) 0%, rgba(241,249,255,.94) 42%, rgba(217,242,255,.85) 100%);
+            }
+            .wave-bg {
+            background-image:
+                radial-gradient(circle at 12% 25%, rgba(24,148,239,.12), transparent 24%),
+                radial-gradient(circle at 90% 25%, rgba(24,148,239,.10), transparent 22%),
+                linear-gradient(135deg, transparent 0 48%, rgba(216,239,255,.55) 48% 52%, transparent 52% 100%);
+            background-size: 100% 100%, 100% 100%, 34px 34px;
+            }
+            .blue-panel {
+            background:
+                radial-gradient(circle at 0% 100%, rgba(129,212,255,.28), transparent 34%),
+                linear-gradient(135deg, #0b8be8 0%, #0263c7 55%, #084d9b 100%);
             }
             .input {
                 width: 100%;
@@ -79,252 +68,117 @@
         </style>
         @vite('resources/js/app.js')
     </head>
-    <body data-inertia>
+    <body class="bg-white text-slate-700">
 
-    <!-- Header -->
-    <header class="bg-white shadow-sm sticky top-0 z-50">
-        <div class="max-w-7xl mx-auto px-4">
-            <div class="flex h-20 items-center justify-between">
-
-                <!-- Left: Logo -->
-                <a href="/" class="flex items-center gap-3">
-                    <img src="/images/logo/anamai.png" alt="logo" class="size-[72px] rounded" />
-                    <span class="text-lg font-semibold leading-tight text-gray-800">ระบบบริหารจัดการ<br/>ข้อคิดเห็นข้อร้องเรียน</span>
-                </a>
-
-                <!-- Center: Menu (desktop) -->
-                <nav class="hidden md:flex gap-6 text-base font-medium">
-                <a href="/" class="hover:text-[#13849c] {{ Request::is('/') ? 'text-[#13849c]' : 'text-gray-600 hover:text-[#13849c]' }}">หน้าหลัก</a>
-                <a href="/complaint" class="hover:text-[#13849c] {{ Request::is('complaint') ? 'text-[#13849c]' : 'text-gray-600 hover:text-[#13849c]' }}">ร้องเรียน</a>
-                <a href="/follow" class="hover:text-[#13849c] {{ Request::is('follow') ? 'text-[#13849c]' : 'text-gray-600 hover:text-[#13849c]' }}">ติดตามเรื่องร้องเรียน</a>
-                <a href="#" class="hover:text-[#13849c]">ติชม</a>
-                <a href="#" class="hover:text-[#13849c]">ดาวน์โหลด</a>
-                @guest
-                <a href="/login" class="hover:text-[#13849c]">สำหรับเจ้าหน้าที่</a>
-                @endguest
-                @auth
-                <a href="/admin" class="hover:text-[#13849c]">สำหรับเจ้าหน้าที่</a>
-                @endauth
-                </nav>
-
-
-                <!-- Right: Actions -->
-                <div class="flex items-center gap-4">
-
-                    <!-- Notification -->
-                    <!-- <button class="relative">
-                    <svg class="h-6 w-6 text-gray-500" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M14.857 17.082a23.848 23.848 0 005.454-1.31A8.967 8.967 0 0118 9.75v-.7V9a6 6 0 10-12 0v.75a8.967 8.967 0 01-2.31 5.822 23.848 23.848 0 005.454 1.31m5.714 0a3 3 0 11-5.714 0" />
-                    </svg>
-                    <span class="absolute -top-1 -right-1 h-4 w-4 rounded-full bg-red-500 text-[10px] text-white flex items-center justify-center">3</span>
-                    </button> -->
-
-                    <!-- Profile -->
-                    <!-- <div class="flex items-center gap-2 cursor-pointer">
-                    <img src="https://via.placeholder.com/32" class="h-8 w-8 rounded-full" />
-                    <span class="hidden sm:block text-sm text-gray-700">Sarawut</span>
-                    </div> -->
-
-                    <button id="mobileMenuBtn" class="md:hidden">
-                    <svg class="h-6 w-6 text-gray-600" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5M3.75 17.25h16.5" />
-                    </svg>
-                    </button>
+        <!-- Header -->
+        <header class="sticky top-0 z-50 bg-white/90 backdrop-blur border-b border-slate-100">
+            <div class="mx-auto flex max-w-7xl items-center justify-between px-4 py-4 md:px-8">
+            <a href="/" class="flex items-center gap-3">
+                <div class="grid place-items-center">
+                    <img src="/images/logo/anamai.png" class="size-[68px]" />
                 </div>
-            </div>
-        </div>
-    </header>
-
-
-    <!-- Mobile Menu -->
-    <div id="mobileMenu" class="hidden md:hidden bg-white border-t shadow-sm">
-        <nav class="flex flex-col px-4 py-3 gap-3 text-sm text-gray-700">
-            <a href="/" class="hover:text-[#13849c] {{ Request::is('/') ? 'text-[#13849c]' : 'text-gray-600 hover:text-[#13849c]' }}">หน้าหลัก</a>
-            <a href="/complaint" class="hover:text-[#13849c] {{ Request::is('complaint') ? 'text-[#13849c]' : 'text-gray-600 hover:text-[#13849c]' }}">ร้องเรียน</a>
-            <a href="/follow" class="hover:text-[#13849c] {{ Request::is('follow') ? 'text-[#13849c]' : 'text-gray-600 hover:text-[#13849c]' }}">ติดตามเรื่องร้องเรียน</a>
-            <a href="#" class="hover:text-[#13849c]">ติชม</a>
-            <a href="#" class="hover:text-[#13849c]">ดาวน์โหลด</a>
-            @guest
-            <a href="/login" class="hover:text-[#13849c]">สำหรับเจ้าหน้าที่</a>
-            @endguest
-            @auth
-            <a href="/admin" class="hover:text-[#13849c]">สำหรับเจ้าหน้าที่</a>
-            @endauth
-        </nav>
-    </div>
-        <!-- <nav class="fixed top-0 left-0 right-0 z-50" x-data="{ open: false }">
-            <div class="bg-[#1d684a] w-full pt-[15px] pb-[10px] gap-4 px-4 md:px-8 lg:px-16 2xl:px-[326px]">
-                <div class="flex justify-between">
-                    <div class="flex flex-row gap-2 lg:gap-4">
-
-                    <button @click="open = !open" class="md:hidden text-white text-2xl focus:outline-none">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none"
-                            viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="M4 6h16M4 12h16M4 18h16" />
-                        </svg>
-                    </button>
-
-                        <a href="/"><img src="/images/logo/anamai.png" class="size-[68px]" /></a>
-                        <a href="/" class="flex flex-col">
-                            <div class="text-lg text-white">ระบบบริหารจัดการข้อคิดเห็นข้อร้องเรียน</div>
-                            <div class="text-[24px] text-white -mt-1">ชื่อหน่วยงาน</div>
-                        </a>
-                    </div>
-                    @auth
-                    <div class="hidden md:flex flex-col border border-white py-1 px-2">
-                        <div class="text-sm">ID : {{ Auth::user()->username }}</div>
-                        @if(Auth::user()->level == 'root')
-                        <div class="text-sm">ระดับ : ผู้ดูแลระบบ</div>
-                        @else
-                        <div class="text-sm">ระดับ : หน่วยงาน</div>
-                        @endif
-                        <form method="POST" action="{{ route('logout') }}" class="inline">
-                        @csrf
-                            <button type="submit"
-                                    class="text-white text-sm">
-                                <i class="fas fa-sign-out-alt"></i> ออกจากระบบ
-                            </button>
-                        </form>
-                    </div>
-                    @endauth
+                <div class="leading-tight">
+                <p class="text-lg font-extrabold text-slate-900">ศูนย์รับข้อร้องเรียนและข้อชมเชย</p>
+                <p class="text-sm font-semibold text-brand-800">กรมอนามัย</p>
                 </div>
-                
+            </a>
+
+            <button id="menuBtn" class="rounded-xl border border-slate-200 p-2 text-slate-600 md:hidden" aria-label="open menu">
+                <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>
+            </button>
+
+            <nav id="navMenu" class="hidden items-center gap-8 text-sm font-semibold text-slate-700 md:flex">
+                <a class="border-b-4 border-brand-500 px-1 py-5 text-brand-700" href="#home">หน้าหลัก</a>
+                <a class="hover:text-brand-600" href="/complaint">ร้องเรียน-ร้องทุกข์</a>
+                <a class="hover:text-brand-600" href="/#tracking">ติดตามเรื่องร้องเรียน</a>
+                <a class="hover:text-brand-600" href="#info">ชมเชย</a>
+                <a class="hover:text-brand-600" href="#download">คู่มือ</a>
+                <a class="hover:text-brand-600" href="#staff">ติดต่อเรา</a>
+            </nav>
             </div>
-            <div
-                class="flex flex-col md:flex md:flex-row bg-white py-4 text-center transition-all duration-300 ease-in-out md:justify-center"
-                style="box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.1), 0 6px 20px 0 rgba(0, 0, 0, 0.08)"
-                :class="{ 'hidden': !open, 'flex': open }"
-                x-bind:class="{'hidden': !open, 'flex': open }"
-                x-show="open || window.innerWidth >= 768"
-                x-transition:enter="transition ease-out duration-300"
-                x-transition:enter-start="opacity-0 max-h-0 overflow-hidden"
-                x-transition:enter-end="opacity-100 max-h-screen overflow-visible"
-                x-transition:leave="transition ease-in duration-200"
-                x-transition:leave-start="opacity-100 max-h-screen overflow-visible"
-                x-transition:leave-end="opacity-0 max-h-0 overflow-hidden"
-            >
-                <a href="/" class="mx-3 md:mx-0 text-base text-[#00000080] border-b-[5px] px-4 {{ Request::is('/') ? 'border-[#1d684a]' : 'border-white hover:border-[#1d684a]' }}">หน้าหลัก</a>
-                <a href="/complaint" class="mx-3 md:mx-0 text-base text-[#00000080] border-b-[5px] px-4 {{ Request::is('complaint') ? 'border-[#1d684a]' : 'border-white hover:border-[#1d684a]' }}">ร้องเรียน-ร้องทุกข์</a>
-                <a href="/follow" class="mx-3 md:mx-0 text-base text-[#00000080] border-b-[5px] px-4 {{ Request::is('follow') ? 'border-[#1d684a]' : 'border-white hover:border-[#1d684a]' }}">ติดตามเรื่องร้องเรียน</a>
-                <a href="/manual/complaint" class="mx-3 md:mx-0 text-base text-[#00000080] border-b-[5px] px-4 {{ Request::is('manual/complaint') ? 'border-[#1d684a]' : 'border-white hover:border-[#1d684a]' }}">คู่มือการปฏิบัติงานการจัดการข้อร้องเรียน</a>
-                @guest
-                <a href="/login" class="mx-3 md:mx-0 text-base text-[#00000080] border-b-[5px] px-4 {{ Request::is('login') ? 'border-[#1d684a]' : 'border-white hover:border-[#1d684a]' }}">เข้าสู่ระบบ</a>
-                @endguest
-                @auth
-                <a href="/admin" class="mx-3 md:mx-0 text-base text-[#00000080] border-b-[5px] px-4 border-white hover:border-[#1d684a]">สำหรับเจ้าหน้าที่</a>
-                <form method="POST" action="{{ route('logout') }}" class="flex justify-center ">
-                @csrf
-                <button type="submit"
-                        class="flex md:hidden mx-3 text-base text-[#00000080] border-b-[5px] px-4 border-white hover:border-[#1d684a]">
-                    ออกจากระบบ
-                </button>
-                </form>
-                @endauth
-            </div>
-        </nav> -->
-        <div id="app" class="mt-11">
+
+            <nav id="mobileMenu" class="hidden border-t border-slate-100 bg-white px-5 pb-4 text-sm font-semibold md:hidden">
+                <a class="block py-2 text-brand-700" href="#home">หน้าหลัก</a>
+                <a class="block py-2" href="/complaint">ร้องเรียน-ร้องทุกข์</a>
+                <a class="block py-2" href="#tracking">ติดตามเรื่องร้องเรียน</a>
+                <a class="block py-2" href="#info">ชมเชย</a>
+                <a class="block py-2" href="#download">คู่มือ</a>
+                <a class="block py-2" href="#staff">ติดต่อเรา</a>
+            </nav>
+        </header>
+
+        <div id="app">
             @yield('content')
         </div>
 
-        <div class="border-t-[10px] border-[#13849c] text-base pt-8 pb-14 bg-[#f8f9fa] color-[#6c757d] px-3">
-            <div class="grid grid-cols-1 lg:grid-cols-2 mx-4 md:mx-8 lg:mx-16 2xl:mx-[326px] gap-6">
-                <div class="flex flex-row gap-4">
-                    <!-- <img src="/images/logo/logo.png" class="" /> -->
-                    <div>
-                    <div class="mt-3">ระบบบริหารจัดการข้อคิดเห็นข้อร้องเรียน กรมอนามัย</div>
-                    <div class="mt-1">ที่อยู่  88/22 ม.4 ต.ตลาดขวัญ ถ.ติวานนท์ อ.เมือง จ.นนทบุรี 11000</div>
-                    <div class="mt-5">Copyright 2026 All Rights Reserved.</div>
-                    </div>
+        <!-- Footer -->
+        <footer class="bg-white">
+            <div class="mx-auto grid max-w-7xl gap-8 px-4 py-10 md:grid-cols-[1.4fr_1fr_1fr_1fr] md:px-8">
+            <div>
+                <div class="flex items-center gap-3">
+                <div class="grid place-items-center">
+                    <img src="/images/logo/anamai.png" class="size-[68px]" />
                 </div>
-                <div class="grid grid-cols-1 lg:grid-cols-2">
-                    <div>
-                        <div class="text-sm">Useful Links</div>
-                        <div class="pl-4 mt-3"><a href="/" class="hover:text-[#13849c]"><i class="fas fa-angle-right mr-2"></i> หน้าแรก</a></div>
-                        <div class="pl-4 mt-2"><a href="/complaint" class="hover:text-[#13849c]"><i class="fas fa-angle-right mr-2"></i> ร้องเรียน-ร้องทุกข์</a></div>
-                        <div class="pl-4 mt-2"><a href="/follow" class="hover:text-[#13849c]"><i class="fas fa-angle-right mr-2"></i> ติดตามเรื่องร้องเรียน</a></div>
-                        <div class="pl-4 mt-2"><a href="/manual/complaint" class="hover:text-[#13849c]"><i class="fas fa-angle-right mr-2"></i> คู่มือการปฏิบัติงานการจัดการข้อร้องเรียน</a></div>
-                    </div>
-                    <div>
-                        <div class="text-sm">Our Services</div>
-                        <div class="pl-4 mt-3"><a href="/cookies-policy" class="hover:text-[#13849c]"><i class="fas fa-angle-right mr-2"></i> Cookies Policy</a></div>
-                        <div class="pl-4 mt-2"><a href="/privacy-policy" class="hover:text-[#13849c]"><i class="fas fa-angle-right mr-2"></i> Privacy Policy</a></div>
-                        <div class="pl-4 mt-2"><a href="/web-policy" class="hover:text-[#13849c]"><i class="fas fa-angle-right mr-2"></i> Website Policy</a></div>
-                        <div class="pl-4 mt-2"><a href="/security-policy" class="hover:text-[#13849c]"><i class="fas fa-angle-right mr-2"></i> Website Security Policy</a></div>
-                        
-                    </div>
+                <div>
+                    <p class="text-xl font-extrabold text-health">กรมอนามัย</p>
+                    <p class="text-xs font-bold text-slate-500">DEPARTMENT OF HEALTH</p>
+                </div>
+                </div>
+                <p class="mt-5 max-w-sm text-sm leading-7 text-slate-600">
+                ระบบบริหารจัดการข้อคิดเห็นข้อร้องเรียน กรมอนามัย<br>
+                อาคาร 1 ชั้น 1 88/22 ม.4 ต.ตลาดขวัญ อ.เมืองนนทบุรี จ.นนทบุรี 11000<br>
+                โทรศัพท์ 0 2590 4000 (สายด่วนกรมอนามัย 1478)
+                </p>
+                <div class="mt-5 flex gap-3">
+                <a class="grid h-9 w-9 place-items-center rounded-full bg-brand-600 text-white" href="#">f</a>
+                <a class="grid h-9 w-9 place-items-center rounded-full bg-slate-800 text-white" href="#">▶</a>
+                <a class="grid h-9 w-9 place-items-center rounded-full bg-green-500 text-white" href="#">◎</a>
+                <a class="grid h-9 w-9 place-items-center rounded-full bg-brand-500 text-white" href="#">🌐</a>
                 </div>
             </div>
-           
-        </div>
 
-        <script src="//unpkg.com/alpinejs" defer></script>
+            <div>
+                <h4 class="font-extrabold text-slate-900">ลิงก์ที่เกี่ยวข้อง</h4>
+                <ul class="mt-4 space-y-3 text-sm text-slate-600">
+                <li><a class="hover:text-brand-600" href="#">› หน้าหลัก</a></li>
+                <li><a class="hover:text-brand-600" href="#">› ร้องเรียน</a></li>
+                <li><a class="hover:text-brand-600" href="#">› ติดตามเรื่องร้องเรียน</a></li>
+                <li><a class="hover:text-brand-600" href="#">› ชม</a></li>
+                <li><a class="hover:text-brand-600" href="#">› ดาวน์โหลด</a></li>
+                </ul>
+            </div>
 
-            
-    <!-- <script type="text/javascript" src="{{ asset('pdpa/js/jquery.ihavecookies.js') }}"></script>
-    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-    <script src="{{ asset('pdpa/js/js.cookie.min.js') }}"></script>
-    <script type="text/javascript">
-        $(function() {
-            $(function() {
-                $('.carousel').carousel();
-            });
-            $(".top-nav-toggle-btn").click(function() {
-                $(".top-nav-toggle").toggleClass("top-nav-toggle-show");
-            });
+            <div>
+                <h4 class="font-extrabold text-slate-900">นโยบายและความเป็นส่วนตัว</h4>
+                <ul class="mt-4 space-y-3 text-sm text-slate-600">
+                <li><a class="hover:text-brand-600" href="#">› นโยบายคุ้มครองข้อมูลส่วนบุคคล</a></li>
+                <li><a class="hover:text-brand-600" href="#">› นโยบายการใช้งานเว็บไซต์</a></li>
+                <li><a class="hover:text-brand-600" href="#">› Cookie Policy</a></li>
+                <li><a class="hover:text-brand-600" href="#">› Website Security Policy</a></li>
+                </ul>
+            </div>
 
-            var Cookies2 = Cookies.noConflict();
-            var cookies = Cookies2.get();
+            <div id="staff">
+                <h4 class="font-extrabold text-slate-900">สำหรับเจ้าหน้าที่</h4>
+                <ul class="mt-4 space-y-3 text-sm text-slate-600">
+                <li><a class="hover:text-brand-600" href="/login">› เข้าสู่ระบบเจ้าหน้าที่</a></li>
+                </ul>
+            </div>
+            </div>
 
-            $('body').ihavecookies({
-                title: "🍪 ยอมรับคุกกี้และนโยบายความเป็นส่วนตัว ?",
-                message: 'กรมสุขภาพจิต กระทรวงสาธารณสุข จะนำข้อมูลที่ “คุกกี้” ได้บันทึกหรือเก็บรวบรวมไว้ ไปใช้ในการวิเคราะห์เชิงสถิติ หรือในกิจกรรมอื่นของ กรมสุขภาพจิต เพื่อ ปรับปรุงคุณภาพการให้บริการของ กรมสุขภาพจิต',
-                link: '/policy/cookies-policy.asp',
-                moreInfoLabel: 'อ่านเพิ่มเติม',
-                acceptBtnLabel: 'ยอมรับคุกกี้',
-                advancedBtnLabel: 'คุกกี้ที่เราใช้',
-                fixedCookieTypeLabel: 'คุกกี้ที่มีความจำเป็น (Strictly Necessary Cookies)',
-                fixedCookieTypeDesc: 'คุกกี้ประเภทนี้มีความจำเป็นต่อการให้บริการเว็บไซต์ของ เพื่อให้ท่านสามารถเข้าใช้งานในส่วนต่าง ๆ ของเว็บไซต์ได้ รวมถึงช่วยจดจำข้อมูลที่ท่านเคยให้ไว้ผ่านเว็บไซต์ การปิดการใช้งานคุกกี้ประเภทนี้จะส่งผลให้ท่านไม่สามารถใช้บริการในสาระสำคัญของ ซึ่งจำเป็นต้องเรียกใช้คุกกี้ได้',
-                cookieTypesTitle: 'คุกกี้ที่เราใช้',
-                cookieTypes: [{
-                    type: 'คุกกี้เพื่อการวิเคราะห์และประเมินผลการใช้งาน (Performance Cookies)',
-                    value: 'analytics',
-                    description: 'คุกกี้ประเภทนี้ช่วยให้ ทราบถึงการปฏิสัมพันธ์ของผู้ใช้งานในการใช้บริการเว็บไซต์ของ รวมถึงหน้าเพจหรือพื้นที่ใดของเว็บไซต์ที่ได้รับความนิยม ตลอดจนการวิเคราะห์ข้อมูลด้านอื่น ๆ ยังใช้ข้อมูลนี้เพื่อการปรับปรุงการทำงานของเว็บไซต์ และเพื่อเข้าใจพฤติกรรมของผู้ใช้งานมากขึ้น ถึงแม้ว่า ข้อมูลที่คุกกี้นี้เก็บรวบรวมจะเป็นข้อมูลที่ไม่สามารถระบุตัวตนได้ และนำมาใช้วิเคราะห์ทางสถิติเท่านั้น การปิดการใช้งานคุกกี้ประเภทนี้จะส่งผลให้ ไม่สามารถทราบปริมาณผู้เข้าเยี่ยมชมเว็บไซต์ และไม่สามารถประเมินคุณภาพการให้บริการได้'
-                }],
-                onAccept: function() {
-  
-                }
-            });
+            <div class="bg-slate-900 py-4 text-white">
+            <div class="mx-auto flex max-w-7xl flex-col items-center justify-between gap-2 px-4 text-xs text-white/80 md:flex-row md:px-8">
+                <p>Copyright © 2026 กรมอนามัย กระทรวงสาธารณสุข สงวนลิขสิทธิ์</p>
+                <p>เวอร์ชัน 1.0.0</p>
+            </div>
+            </div>
+        </footer>
 
-            if ($.fn.ihavecookies.preference('analytics') !== true) {
-                if ('' !== cookies) {
-                    setTimeout(function() {
-                        Cookies2.remove('_ga', {
-                            path: '/',
-                            domain: 'audit.dmh.go.th' //ใส่ sub domain
-                        });
-                        Cookies2.remove('_gid', {
-                            path: '/',
-                            domain: 'audit.dmh.go.th' //ใส่ sub domain
-                        });
-                        Cookies2.remove('_gat', { 
-                            path: '/',
-                            domain: 'audit.dmh.go.th' //ใส่ sub domain
-                        });
-                    }, 1500);
-                }
-            }
-        });
-    </script> -->
     <script>
-const btn = document.getElementById('mobileMenuBtn');
-const menu = document.getElementById('mobileMenu');
-
-
-btn.addEventListener('click', () => {
-menu.classList.toggle('hidden');
-});
-</script>
+        const menuBtn = document.getElementById('menuBtn');
+        const mobileMenu = document.getElementById('mobileMenu');
+        menuBtn?.addEventListener('click', () => mobileMenu.classList.toggle('hidden'));
+    </script>
     </body>
 </html>
 

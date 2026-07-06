@@ -1,11 +1,11 @@
 <template>
-  <div class="py-6 px-2 md:px-7 bg-white my-5 mx-4 md:mx-8 lg:mx-16 2xl:mx-[326px] border shadow-md mb-[80px]">
+  <div class="py-6 px-2 md:px-7  my-5 mx-4 md:mx-8 lg:mx-16 2xl:mx-[326px] mb-[80px] rounded-3xl border border-slate-100 bg-white shadow-soft">
     <loading :active="isLoading" :can-cancel="false" :is-full-page="true" :color="'#3fbbc0'" :loader="'spinner'" :width="64" :height="64" />
 
-    <div v-if="step == 1" class="text-center text-2xl text-[#3fbbc0]">ข้อตกลงหลักเกณฑ์ เรื่องร้องเรียน</div>
+    <div v-if="step == 1" class="text-center font-bold text-2xl text-brand-600">ข้อตกลงหลักเกณฑ์ เรื่องร้องเรียน</div>
     
     <div v-if="step == 1" class="py-5 px-6">
-      <div v-html="conditions"></div>
+      <div v-html="conditions" class="leading-7"></div>
 
       <div class="text-center mt-6">
         <div class="flex flex-row gap-4">
@@ -16,16 +16,16 @@
           </div>
         </div>
       </div>
-      <div class="text-center mt-3">
-        <div @click="goToStep2()" class="inline-block px-4 py-2 text-white bg-[#1d684a] border border-[#1d684a] rounded-sm hover:cursor-pointer">ดำเนินการต่อไป</div>
+      <div class="text-center mt-5">
+        <div @click="goToStep2()" class="inline-flex items-center justify-center gap-2 rounded-xl bg-brand-600 px-7 py-3.5 font-bold text-white shadow-lg shadow-brand-600/25 transition hover:bg-brand-700 hover:cursor-pointer">ดำเนินการต่อไป</div>
       </div>
     </div>
 
     
     <template v-if="step == 2">
-      <div class="text-center text-2xl text-[#3fbbc0]">ข้อมูลการร้องเรียน - ร้องทุกข์</div>
+      <div class="text-center font-bold text-2xl text-brand-600">ข้อมูลการร้องเรียน - ร้องทุกข์</div>
       <Form :initial-values="form" :validation-schema="schema" @submit="onSubmit">
-        <div class="mt-5 mb-2 text-center text-white text-base bg-[#1d684a] rounded-sm py-3">ข้อมูลผู้ร้องเรียน</div>
+        <div class="blue-panel overflow-hidden rounded-md mt-5 mb-2 py-3 text-white shadow-soft text-center">ข้อมูลผู้ร้องเรียน</div>
         <div class="flex gap-2 flex-col">
           <div class="mt-5 pl-0 md:pl-8 lg:pl-[10%]">
             <input type="checkbox" v-model="form.concealed" class="custom-checkbox" />
@@ -107,7 +107,7 @@
               </div>
             </div>
             <div class="flex flex-col w-full md:flex-row md:w-1/2 gap-2 items-center mt-4 md:mt-2">
-              <div class="w-full md:w-4/12 text-left md:text-right">อำเภอ <span class="text-[#ff0000]">*</span> :</div>
+              <div class="w-full md:w-4/12 text-left md:text-right">เขต / อำเภอ <span class="text-[#ff0000]">*</span> :</div>
               <div class="w-full md:w-8/12">
                 <Field as="select" name="district_id" class="input" v-model="form.district_id" @change="getSubDistrict()">
                   <option value="">-- กรุณาเลือก --</option>
@@ -119,7 +119,7 @@
           </div>
           <div class="flex md:flex-row flex-col gap-3">
             <div class="flex flex-col w-full md:flex-row md:w-1/2 gap-2 items-center mt-4 md:mt-2">
-              <div class="w-full md:w-4/12 text-left md:text-right">ตำบล <span class="text-[#ff0000]">*</span> :</div>
+              <div class="w-full md:w-4/12 text-left md:text-right">แขวง / ตำบล <span class="text-[#ff0000]">*</span> :</div>
               <div class="w-full md:w-8/12">
                 <Field as="select" name="subdistrict_id" class="input" v-model="form.subdistrict_id" @change="getZipcode()">
                   <option value="">-- กรุณาเลือก --</option>
@@ -175,20 +175,10 @@
             </div>
           </div>
         </div>
-        <div class="mt-[44px] mb-2 text-center text-white text-base bg-[#1d684a] rounded-sm py-3">ข้อมูลเกี่ยวกับเรื่องร้องเรียน</div>
+
+        <div class="blue-panel overflow-hidden rounded-md mt-[44px] mb-2 py-3 text-white shadow-soft text-center">ข้อมูลเกี่ยวกับเรื่องร้องเรียน</div>
+
         <div class="flex gap-2 flex-col">
-          <div class="flex md:flex-row flex-col gap-3">
-            <div class="flex flex-col w-full md:flex-row md:w-1/2 gap-2 items-center mt-4 md:mt-2">
-              <div class="w-full md:w-4/12 text-left md:text-right">ร้องเรียนถึง : <span class="text-[#ff0000]">*</span></div>
-              <div class="w-full md:w-8/12">
-                <Field as="select" name="unit_id" class="input" v-model="form.unit_id">
-                  <option value="">-- กรุณาเลือก --</option>
-                  <option v-for="(item) in item_unit" :value="item.id">{{ item.name }}</option>
-                </Field>
-                <ErrorMessage name="unit_id" class="text-red-500 text-sm" />
-              </div>
-            </div>
-          </div>
           <div class="flex md:flex-row flex-col gap-3">
             <div class="flex flex-col w-full md:flex-row md:w-full gap-2 items-center mt-4 md:mt-2">
               <div class="w-full md:w-2/12 text-left md:text-right">ประเด็นการร้องเรียน <span class="text-[#ff0000]">*</span> :</div>
@@ -198,36 +188,6 @@
                   <option v-for="(item) in item_type" :value="item.id">{{ item.num }}. {{ item.name }}</option>
                 </Field>
                 <ErrorMessage name="type_id" class="text-red-500 text-sm" />
-              </div>
-            </div>
-            <!-- <div v-if="form.type_id == 1 || form.type_id == 2" class="flex flex-col w-full md:flex-row md:w-1/2 gap-2 items-center mt-4 md:mt-2">
-              <div  class="w-full md:w-4/12 text-left md:text-right">ประเด็นย่อย : <span class="text-[#ff0000]">*</span></div>
-              <div class="w-full md:w-8/12">
-                <Field as="select" name="sub_id" class="input" v-model="form.sub_id">
-                  <option value="">-- กรุณาเลือก --</option>
-                  <option v-if="form.type_id == 1" value="1">1.1 ด้านความรวดเร็ว/ตรงต่อเวลา</option>
-                  <option v-if="form.type_id == 1" value="2">1.2 ด้านพฤติกรรมบริการ</option>
-                  <option v-if="form.type_id == 1" value="3">1.3 ด้านสิ่งอำนวยความสะดวก/ความเสมอภาค</option>
-                  <option v-if="form.type_id == 1" value="4">1.4 ด้านการบำบัด รักษา</option>
-                  <option v-if="form.type_id == 1" value="5">1.5 ด้านการให้ข้อมูล/คำแนะนำ</option>
-                  <option v-if="form.type_id == 2" value="6">2.1 การบริหารพัสดุ</option>
-                  <option v-if="form.type_id == 2" value="7">2.2 การบริหารงบประมาณ</option>
-                  <option v-if="form.type_id == 2" value="8">2.3 การบริหารงานบุคคล</option>
-                  <option v-if="form.type_id == 2" value="9">2.4 การบริหารงานทั่วไป</option>
-                </Field>
-                <ErrorMessage name="sub_id" class="text-red-500 text-sm" />
-              </div>
-            </div> -->
-          </div>
-          <div class="flex md:flex-row flex-col gap-3">
-            <div class="flex flex-col w-full md:flex-row md:w-1/2 gap-2 items-center mt-4 md:mt-2">
-              <div class="w-full md:w-4/12 text-left md:text-right">ร้องเรียนบุคคล : <span class="text-[#ff0000]">*</span></div>
-              <div class="w-full md:w-8/12">
-                <Field as="select" name="person_id" class="input" v-model="form.person_id">
-                  <option value="">-- กรุณาเลือก --</option>
-                  <option v-for="(item) in item_person" :value="item.id">{{ item.name }}</option>
-                </Field>
-                <ErrorMessage name="person_id" class="text-red-500 text-sm" />
               </div>
             </div>
           </div>
@@ -257,7 +217,7 @@
           </div>
           <div class="flex flex-col gap-3">
             <div class="flex flex-col md:flex-row w-full gap-2 items-center mt-4 md:mt-2">
-              <div class="w-full md:w-2/12 text-left md:text-right">สิ่งที่ต้องการให้แก้ไข ปรับปรุง <span class="text-[#ff0000]">*</span> :</div>
+              <div class="w-full md:w-2/12 text-left md:text-right">สิ่งที่ต้องการให้แก้ไข ปรับปรุง (ถ้ามี) :</div>
               <div class="w-full md:w-8/12">
                 <Field
                   as="textarea"
@@ -266,7 +226,6 @@
                   class="form-control w-full border rounded p-2 border-[#ccc]"
                   v-model="form.description"
                 />
-                <ErrorMessage name="description" class="text-red-500 text-sm" />
               </div>
             </div>
           </div>
@@ -287,7 +246,7 @@
         <div class="flex justify-center mt-8">
           <button
             type="submit"
-            class="inline-block mt-2 px-6 py-2 text-white bg-[#1d684a] border border-[#1d684a] rounded"
+            class="inline-flex items-center justify-center gap-2 rounded-xl bg-brand-600 px-7 py-3.5 font-bold text-white shadow-lg shadow-brand-600/25 transition hover:bg-brand-700 hover:cursor-pointer" 
           >
           บันทึก
           </button>
@@ -296,7 +255,7 @@
     </template>
     
     <template v-if="step == 3">
-      <div class="text-center text-2xl text-[#3fbbc0]">กรมสุขภาพจิต<br/>ได้รับเรื่องร้องเรียนของท่านแล้ว</div>
+      <div class="text-center font-bold text-2xl text-brand-600">ศูนย์รับข้อร้องเรียนและข้อชมเชย กรมอนามัย<br/>ได้รับเรื่องร้องเรียนของท่านแล้ว</div>
       <div class="flex justify-center text-center my-11 flex-col">
         <div class="">
           <input v-model="code" type="text" class="text-lg inline-block border p-2 border-[#28a745] text-center" />
@@ -567,10 +526,6 @@ export default {
       schema: yup.object({
         firstName: yup.string().required('กรุณากรอกชื่อ'),
         lastName: yup.string().required('กรุณากรอกนามสกุล'),
-        /*idcard: yup
-          .string()
-          .required('กรุณากรอกเลขบัตรประชาชน')
-          .matches(/^\d{1}-\d{4}-\d{5}-\d{2}-\d{1}$/, 'รูปแบบไม่ถูกต้อง (เช่น 1-2345-67890-12-3)'),*/
         sex: yup.string().required('กรุณาเลือกเพศ'),
         work: yup.string().required('กรุณาเลือกอาชีพ'),
         address: yup.string().required('กรุณากรอกที่อยู่'),
@@ -590,17 +545,9 @@ export default {
             'กรุณากรอกอีเมลให้ถูกต้อง'
           )
           .required('กรุณากรอกอีเมล'),
-        unit_id: yup.string().required('กรุณาเลือกหน่วยที่จะร้องเรียนถึง'),
         type_id: yup.string().required('กรุณาเลือกประเด็นการร้องเรียน'),
-        person_id: yup.string().required('กรุณาเลือกร้องเรียนบุคคล'),
         name: yup.string().required('กรุณากรอกเรื่องที่ร้องเรียน'),
         improvement: yup.string().required('กรุณากรอกรายละเอีดยเพิ่มเติม'),
-        description: yup.string().required('กรุณากรอกสิ่งที่ต้องการให้แก้ไข ปรับปรุง'),
-        // sub_id: yup.string().when('type_id', (type_id, schema) => {
-        //   return type_id[0] == '1' || type_id[0] == '2'
-        //     ? schema.required('กรุณาเลือกประเด็นย่อย')
-        //     : schema.nullable();
-        // }), 
       }),
       input:[],
       file:{
@@ -958,8 +905,8 @@ export default {
 }
 
 .custom-checkbox:checked {
-  background-color: #de864f;
-  border-color: #de864f;
+  background-color: rgb(8, 118, 209);
+  border-color: rgb(8, 118, 209);
 }
 
 .custom-checkbox:checked::after {

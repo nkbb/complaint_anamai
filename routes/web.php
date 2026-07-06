@@ -49,7 +49,7 @@ Route::get('/privacy-policy', [HomeController::class, 'privacyPolicy']);
 Route::get('/security-policy', [HomeController::class, 'securityPolicy']);
 Route::get('/web-policy', [HomeController::class, 'webPolicy']);
 
-// Route::get('/test', [ComplaintController::class, 'test']);
+ Route::get('/test', [ComplaintController::class, 'test']);
 
 
 Route::middleware('auth')->group(function () {

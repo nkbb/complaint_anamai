@@ -88,10 +88,10 @@ class ComplaintController extends Controller
           'district_id' => $request->district_id,
           'subdistrict_id' => $request->subdistrict_id,
           'zipcode' => $request->zipcode,
-          'unit_id' => $request->unit_id,
+          'unit_id' => null,
           'type_id' => $request->type_id,
           'sub_id' => ($request->sub_id)? $request->sub_id : null,
-          'person_id' => $request->person_id,
+          'person_id' => null,
           'gender' => $request->gender,
           'name' => Helper::encryptData($request->name),
           'description' => Helper::encryptData($request->description),
@@ -298,8 +298,8 @@ class ComplaintController extends Controller
     }
 
     public function test(){
-      // return view('complaint.test');
-      $token = "8260913888:AAHoRuNzvQCU-brJQ0w8uTzLxK-rCCiRCWg";
+      return view('test');
+      /*$token = "8260913888:AAHoRuNzvQCU-brJQ0w8uTzLxK-rCCiRCWg";
         $chatId = "-5047928395";
         $message = "ทดสอบส่งข้อความจาก Laravel!";
 
@@ -308,6 +308,6 @@ class ComplaintController extends Controller
             'text'    => $message,
         ]);
 
-        return "ส่งข้อความไป Telegram แล้ว!";
+        return "ส่งข้อความไป Telegram แล้ว!";*/
     }
 }

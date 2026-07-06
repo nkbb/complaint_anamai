@@ -18,19 +18,18 @@
 
         <link href="{{ asset('fonts/fontawesome/css/all.css') }}" rel="stylesheet">
         <style>
-            @font-face {
-                font-family: 'prompt';
-                src: url('/fonts/prompt/Prompt-Regular.ttf') format('truetype');
+             @font-face {
+                font-family: 'sarabun';
+                src: url('/fonts/th-sarabun/Sarabun-Light.ttf') format('truetype');
             }
 
             @font-face {
-                font-family: 'prompt';
-                src: url('/fonts/prompt/Prompt-Bold.ttf') format('truetype');
+                font-family: 'sarabun';
+                src: url('/fonts/th-sarabun/Sarabun-Bold.ttf') format('truetype');
                 font-weight: bold;
             }
-
             body {
-                font-family: 'prompt', sans-serif;
+                font-family: 'sarabun', sans-serif;
             }
             .input {
                 width: 100%;
@@ -66,7 +65,7 @@
 
                         <a href="/admin"><img src="/images/logo/anamai.png" class="size-[68px]" /></a>
                         <a href="/admin" class="flex flex-col">
-                            <div class="text-lg font-semibold leading-tight  text-gray-800 mt-3">ระบบบริหารจัดการ<br/>ข้อคิดเห็นข้อร้องเรียน</div>
+                            <div class="text-lg font-semibold leading-tight  text-brand-600 mt-3">ศูนย์รับข้อร้องเรียนและข้อชมเชย<br/>กรมอนามัย (สำหรับเจ้าหน้าที่)</div>
                             <!-- <div class="text-[24px] text-gray-800 -mt-1">ชื่อหน่วยงาน</div> -->
                         </a>
                     </div>
@@ -167,7 +166,7 @@
 
         <div class="border-t-[10px] border-[#13849c] text-center text-base pt-8 pb-14 mt-8 bg-[#f8f9fa] color-[#6c757d] px-3">
             <div>Copyright 2026 รับเรื่องร้องเรียน สำนักงานเลขานุการกรม กรมอนามัย</div>
-            <div>ที่อยู่  88/22 ม.4 ต.ตลาดขวัญ ถ.ติวานนท์ อ.เมือง จ.นนทบุรี 11000 | All Rights Reserved.</div>
+            <div>88/2 ม.4 อาคาร 1 ชั้น 1 ต.ตลาดขวัญ ถ.ติวานนท์ อ.เมือง จ.นนทบุรี 11000 | All Rights Reserved.</div>
         </div>
 
         <script src="//unpkg.com/alpinejs" defer></script>
