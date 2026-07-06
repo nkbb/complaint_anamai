@@ -14,18 +14,26 @@ export default {
             fontFamily: {
                 sans: ['Figtree', ...defaultTheme.fontFamily.sans],
             },
-             colors: {
-                    brand: {
-                    50: '#eef8ff', 100: '#d8efff', 200: '#b8e3ff', 300: '#89d0ff',
-                    400: '#4ab4ff', 500: '#1894ef', 600: '#0876d1', 700: '#0660aa',
-                    800: '#0a528d', 900: '#0d4775'
-                    },
-                    health: '#008b58'
-                },
-                boxShadow: {
-                    soft: '0 18px 45px rgba(15, 82, 141, .10)',
-                    card: '0 10px 28px rgba(2, 48, 92, .09)'
-                }
+            colors: {
+            brand: {
+              50: '#ecf7ff', 100: '#d8efff', 200: '#b9e4ff', 300: '#85d4ff',
+              400: '#45b8ff', 500: '#1495f0', 600: '#0a78d3', 700: '#0a61ab',
+              800: '#0f528d', 900: '#124575'
+            },
+            health: '#008b58',
+            mint: '#13c7a1',
+            skyplus: '#55c6ff',
+            violetplus: '#7b6dff',
+            peach: '#ffb86b'
+          },
+          boxShadow: {
+            soft: '0 20px 50px rgba(16, 72, 138, .12)',
+            card: '0 14px 34px rgba(16, 72, 138, .10)',
+            neon: '0 12px 30px rgba(20,149,240,.28)'
+          },
+          backgroundImage: {
+            gridline: 'linear-gradient(rgba(255,255,255,.26) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.26) 1px, transparent 1px)'
+          }
         },
     },
 

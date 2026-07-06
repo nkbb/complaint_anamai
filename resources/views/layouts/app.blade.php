@@ -34,24 +34,40 @@
                 font-family: 'sarabun', sans-serif;
             }
            
-            html { scroll-behavior: smooth; }
-            .hero-bg {
-            background:
-                radial-gradient(circle at 85% 15%, rgba(100, 205, 255, .45), transparent 32%),
-                linear-gradient(105deg, rgba(255,255,255,.96) 0%, rgba(241,249,255,.94) 42%, rgba(217,242,255,.85) 100%);
-            }
-            .wave-bg {
-            background-image:
-                radial-gradient(circle at 12% 25%, rgba(24,148,239,.12), transparent 24%),
-                radial-gradient(circle at 90% 25%, rgba(24,148,239,.10), transparent 22%),
-                linear-gradient(135deg, transparent 0 48%, rgba(216,239,255,.55) 48% 52%, transparent 52% 100%);
-            background-size: 100% 100%, 100% 100%, 34px 34px;
-            }
-            .blue-panel {
-            background:
-                radial-gradient(circle at 0% 100%, rgba(129,212,255,.28), transparent 34%),
-                linear-gradient(135deg, #0b8be8 0%, #0263c7 55%, #084d9b 100%);
-            }
+           html { scroll-behavior: smooth; }
+                .bg-main {
+                background:
+                    radial-gradient(circle at 10% 10%, rgba(83, 203, 255, .14), transparent 24%),
+                    radial-gradient(circle at 90% 15%, rgba(123, 109, 255, .12), transparent 22%),
+                    linear-gradient(180deg, #f5fbff 0%, #ffffff 18%, #f7fbff 48%, #ffffff 100%);
+                }
+                .hero-bg {
+                background:
+                    radial-gradient(circle at 14% 16%, rgba(111, 216, 255, .28), transparent 22%),
+                    radial-gradient(circle at 86% 10%, rgba(123, 109, 255, .18), transparent 24%),
+                    radial-gradient(circle at 82% 72%, rgba(30, 196, 230, .20), transparent 28%),
+                    linear-gradient(110deg, rgba(255,255,255,.96) 0%, rgba(239,249,255,.96) 38%, rgba(217,240,255,.92) 72%, rgba(210,234,255,.88) 100%);
+                }
+                .wave-bg {
+                background:
+                    radial-gradient(circle at 10% 10%, rgba(20,149,240,.10), transparent 22%),
+                    radial-gradient(circle at 92% 18%, rgba(123,109,255,.10), transparent 20%),
+                    linear-gradient(180deg, rgba(240,249,255,.92), rgba(255,255,255,1));
+                }
+                .pattern-dots {
+                background-image: radial-gradient(rgba(20,149,240,.18) 1px, transparent 1px);
+                background-size: 14px 14px;
+                }
+                .blue-panel {
+                background:
+                    radial-gradient(circle at 0% 100%, rgba(129, 227, 255, .22), transparent 28%),
+                    radial-gradient(circle at 100% 0%, rgba(167, 160, 255, .18), transparent 26%),
+                    linear-gradient(135deg, #18a4ff 0%, #0a78d3 38%, #0b63c9 68%, #124d96 100%);
+                }
+                .glass {
+                background: rgba(255,255,255,.72);
+                backdrop-filter: blur(16px);
+                }
             .input {
                 width: 100%;
                 border: 1px solid #ccc;
@@ -68,72 +84,72 @@
         </style>
         @vite('resources/js/app.js')
     </head>
-    <body class="bg-white text-slate-700">
+    <body class="bg-main text-slate-700">
 
         <!-- Header -->
-        <header class="sticky top-0 z-50 bg-white/90 backdrop-blur border-b border-slate-100">
+         <header class="sticky top-0 z-50 border-b border-white/70 bg-white/80 backdrop-blur-xl">
+            <div class="h-1 w-full bg-gradient-to-r from-health via-brand-500 to-violetplus"></div>
             <div class="mx-auto flex max-w-7xl items-center justify-between px-4 py-4 md:px-8">
             <a href="/" class="flex items-center gap-3">
-                <div class="grid place-items-center">
+                <div class="grid  place-items-center ">
                     <img src="/images/logo/anamai.png" class="size-[68px]" />
                 </div>
                 <div class="leading-tight">
                 <p class="text-lg font-extrabold text-slate-900">ศูนย์รับข้อร้องเรียนและข้อชมเชย</p>
-                <p class="text-sm font-semibold text-brand-800">กรมอนามัย</p>
+                <p class="text-sm font-semibold text-brand-700">กรมอนามัย</p>
                 </div>
             </a>
 
-            <button id="menuBtn" class="rounded-xl border border-slate-200 p-2 text-slate-600 md:hidden" aria-label="open menu">
+            <button id="menuBtn" class="rounded-xl border border-slate-200 bg-white p-2 text-slate-600 shadow-sm md:hidden" aria-label="open menu">
                 <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>
             </button>
 
-            <nav id="navMenu" class="hidden items-center gap-8 text-sm font-semibold text-slate-700 md:flex">
-                <a class="border-b-4 border-brand-500 px-1 py-5 text-brand-700" href="#home">หน้าหลัก</a>
-                <a class="hover:text-brand-600" href="/complaint">ร้องเรียน-ร้องทุกข์</a>
-                <a class="hover:text-brand-600" href="/#tracking">ติดตามเรื่องร้องเรียน</a>
-                <a class="hover:text-brand-600" href="#info">ชมเชย</a>
-                <a class="hover:text-brand-600" href="#download">คู่มือ</a>
-                <a class="hover:text-brand-600" href="#staff">ติดต่อเรา</a>
+            <nav id="navMenu" class="hidden items-center gap-7 text-sm font-semibold text-slate-700 md:flex">
+                <a class="rounded-full bg-brand-50 px-4 py-2 text-brand-700" href="/#home">หน้าหลัก</a>
+                <a class="transition hover:text-brand-600" href="/complaint">ร้องเรียน-ร้องทุกข์</a>
+                <a class="transition hover:text-brand-600" href="#tracking">ติดตามเรื่องร้องเรียน</a>
+                <a class="transition hover:text-brand-600" href="#info">ชมเชย</a>
+                <a class="transition hover:text-brand-600" href="#download">คุ่มือ</a>
+                <a class="transition hover:text-brand-600" href="#staff">ติดต่อเรา</a>
             </nav>
             </div>
 
             <nav id="mobileMenu" class="hidden border-t border-slate-100 bg-white px-5 pb-4 text-sm font-semibold md:hidden">
-                <a class="block py-2 text-brand-700" href="#home">หน้าหลัก</a>
-                <a class="block py-2" href="/complaint">ร้องเรียน-ร้องทุกข์</a>
-                <a class="block py-2" href="#tracking">ติดตามเรื่องร้องเรียน</a>
-                <a class="block py-2" href="#info">ชมเชย</a>
-                <a class="block py-2" href="#download">คู่มือ</a>
-                <a class="block py-2" href="#staff">ติดต่อเรา</a>
+            <a class="block py-2 text-brand-700" href="/#home">หน้าหลัก</a>
+            <a class="block py-2" href="/complaint">ร้องเรียน-ร้องทุกข์</a>
+            <a class="block py-2" href="#tracking">ติดตามเรื่องร้องเรียน</a>
+            <a class="block py-2" href="#info">ชมเชย</a>
+            <a class="block py-2" href="#download">คู่มือ</a>
+            <a class="block py-2" href="#staff">ติดต่อเรา</a>
             </nav>
         </header>
 
-        <div id="app">
+        <div id="app" class="mt-11">
             @yield('content')
         </div>
 
         <!-- Footer -->
-        <footer class="bg-white">
+        <footer class="bg-white/90">
             <div class="mx-auto grid max-w-7xl gap-8 px-4 py-10 md:grid-cols-[1.4fr_1fr_1fr_1fr] md:px-8">
             <div>
                 <div class="flex items-center gap-3">
-                <div class="grid place-items-center">
-                    <img src="/images/logo/anamai.png" class="size-[68px]" />
-                </div>
+                    <div class="grid place-items-center">
+                        <img src="/images/logo/anamai.png" class="size-[68px]" />
+                    </div>
                 <div>
                     <p class="text-xl font-extrabold text-health">กรมอนามัย</p>
                     <p class="text-xs font-bold text-slate-500">DEPARTMENT OF HEALTH</p>
                 </div>
                 </div>
                 <p class="mt-5 max-w-sm text-sm leading-7 text-slate-600">
-                ระบบบริหารจัดการข้อคิดเห็นข้อร้องเรียน กรมอนามัย<br>
-                อาคาร 1 ชั้น 1 88/22 ม.4 ต.ตลาดขวัญ อ.เมืองนนทบุรี จ.นนทบุรี 11000<br>
+                88/22 ม.4  อาคาร 1 ชั้น 1 ต.ตลาดขวัญ<br/> อ.เมืองนนทบุรี จ.นนทบุรี 11000<br/>
                 โทรศัพท์ 0 2590 4000 (สายด่วนกรมอนามัย 1478)
                 </p>
                 <div class="mt-5 flex gap-3">
-                <a class="grid h-9 w-9 place-items-center rounded-full bg-brand-600 text-white" href="#">f</a>
-                <a class="grid h-9 w-9 place-items-center rounded-full bg-slate-800 text-white" href="#">▶</a>
-                <a class="grid h-9 w-9 place-items-center rounded-full bg-green-500 text-white" href="#">◎</a>
-                <a class="grid h-9 w-9 place-items-center rounded-full bg-brand-500 text-white" href="#">🌐</a>
+                <a class="grid h-9 w-9 place-items-center rounded-full bg-brand-600 text-white shadow-sm" href="#">f</a>
+                <a class="grid h-9 w-9 place-items-center rounded-full bg-slate-800 text-white shadow-sm" href="#">▶</a>
+                <a class="grid h-9 w-9 place-items-center rounded-full bg-green-500 text-white shadow-sm" href="#">◎</a>
+                <a class="grid h-9 w-9 place-items-center rounded-full bg-violetplus text-white shadow-sm" href="#">🌐</a>
                 </div>
             </div>
 
@@ -166,7 +182,7 @@
             </div>
             </div>
 
-            <div class="bg-slate-900 py-4 text-white">
+            <div class="bg-gradient-to-r from-slate-900 via-brand-900 to-slate-900 py-4 text-white">
             <div class="mx-auto flex max-w-7xl flex-col items-center justify-between gap-2 px-4 text-xs text-white/80 md:flex-row md:px-8">
                 <p>Copyright © 2026 กรมอนามัย กระทรวงสาธารณสุข สงวนลิขสิทธิ์</p>
                 <p>เวอร์ชัน 1.0.0</p>
@@ -174,11 +190,11 @@
             </div>
         </footer>
 
-    <script>
-        const menuBtn = document.getElementById('menuBtn');
-        const mobileMenu = document.getElementById('mobileMenu');
-        menuBtn?.addEventListener('click', () => mobileMenu.classList.toggle('hidden'));
-    </script>
+        <script>
+            const menuBtn = document.getElementById('menuBtn');
+            const mobileMenu = document.getElementById('mobileMenu');
+            menuBtn?.addEventListener('click', () => mobileMenu.classList.toggle('hidden'));
+        </script>
     </body>
 </html>
 
