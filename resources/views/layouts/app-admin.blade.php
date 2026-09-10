@@ -46,6 +46,12 @@
                 color: #FFF;
 
             }
+            .blue-panel {
+                background:
+                    radial-gradient(circle at 0% 100%, rgba(129, 227, 255, .22), transparent 28%),
+                    radial-gradient(circle at 100% 0%, rgba(167, 160, 255, .18), transparent 26%),
+                    linear-gradient(135deg, #18a4ff 0%, #0a78d3 38%, #0b63c9 68%, #124d96 100%);
+                }
         </style>
         @vite('resources/js/app.js')
     </head>
@@ -80,7 +86,7 @@
                         <form method="POST" action="{{ route('logout') }}" class="inline">
                         @csrf
                             <button type="submit"
-                                    class="text-gray-800 text-sm">
+                                    class="text-blue-600 text-sm">
                                 <i class="fas fa-sign-out-alt"></i> ออกจากระบบ
                             </button>
                         </form>
@@ -90,8 +96,11 @@
                 
             </div>
             <div
-                class="flex flex-col gap-3 md:gap-0 md:flex md:flex-row bg-[#13849c] py-4 text-center transition-all duration-300 ease-in-out md:justify-center"
-                style="box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.1), 0 6px 20px 0 rgba(0, 0, 0, 0.08)"
+                class="flex flex-col gap-3 md:gap-0 md:flex md:flex-row py-4 text-center transition-all duration-300 ease-in-out md:justify-center"
+                style="box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.1), 0 6px 20px 0 rgba(0, 0, 0, 0.08);  background:
+                    radial-gradient(circle at 0% 100%, rgba(129, 227, 255, .22), transparent 28%),
+                    radial-gradient(circle at 100% 0%, rgba(167, 160, 255, .18), transparent 26%),
+                    linear-gradient(135deg, #18a4ff 0%, #0a78d3 38%, #0b63c9 68%, #124d96 100%);"
                 :class="{ 'hidden': !open, 'flex': open }"
                 x-bind:class="{'hidden': !open, 'flex': open }"
                 x-show="open || window.innerWidth >= 768"
@@ -102,49 +111,49 @@
                 x-transition:leave-start="opacity-100 max-h-screen overflow-visible"
                 x-transition:leave-end="opacity-0 max-h-0 overflow-hidden"
             >
-                <a href="/admin" class="flex flex-row gap-1 md:flex-col mx-3 md:mx-0 text-base text-white  px-4 border-b-4 {{ Request::is('admin') ? 'border-white' : 'hover:border-white border-[#13849c]' }}">
+                <a href="/admin" class="flex flex-row gap-1 md:flex-col mx-3 md:mx-0 text-base text-white  px-4 border-b-4 {{ Request::is('admin') ? 'border-white' : 'hover:border-white border-transparent' }}">
                     <i class="fas fa-home text-2xl"></i>
                     <div class="text-base">หน้าหลัก</div>
                 </a>
-                <a href="/complaint/create" class="flex flex-row gap-1 md:flex-col mx-3 md:mx-0 text-base text-white px-4 border-b-4 {{ Request::is('complaint/create') ? 'border-white' : 'hover:border-white border-[#13849c]' }}">
+                <a href="/complaint/create" class="flex flex-row gap-1 md:flex-col mx-3 md:mx-0 text-base text-white px-4 border-b-4 {{ Request::is('complaint/create') ? 'border-white' : 'hover:border-white border-transparent' }}">
                     <i class="far fa-plus-square text-2xl"></i>
                     <div class="text-base">เพิ่มเรื่องร้องเรียน</div>
                 </a>
                 @if(Auth::user()->level == 'root')
-                <a href="/complaint/accept" class="flex flex-row gap-1 md:flex-col mx-3 md:mx-0 text-base text-white px-4 border-b-4 {{ Request::is('complaint/accept') ? 'border-white' : 'hover:border-white border-[#13849c]' }}">
+                <a href="/complaint/accept" class="flex flex-row gap-1 md:flex-col mx-3 md:mx-0 text-base text-white px-4 border-b-4 {{ Request::is('complaint/accept') ? 'border-white' : 'hover:border-white border-transparent' }}">
                     <i class="far fa-paper-plane text-2xl"></i>
                     <div class="text-base">รับเรื่อง-ส่งให้หน่วยดำเนินการ</div>
                 </a>
-                <a href="/complaint/follow" class="flex flex-row gap-1 md:flex-col mx-3 md:mx-0 text-base text-white px-4 border-b-4 {{ Request::is('complaint/follow') ? 'border-white' : 'hover:border-white border-[#13849c]' }}">
+                <a href="/complaint/follow" class="flex flex-row gap-1 md:flex-col mx-3 md:mx-0 text-base text-white px-4 border-b-4 {{ Request::is('complaint/follow') ? 'border-white' : 'hover:border-white border-transparent' }}">
                     <i class="far fa-bell text-2xl"></i>
                     <div class="text-base">ติดตามเรื่องร้องเรียน</div>
                 </a>
                 
                 @endif
                 @if(Auth::user()->level == 'unit')
-                <a href="/complaint/receive" class="flex flex-row gap-1 md:flex-col mx-3 md:mx-0 text-base text-white px-4 border-b-4 {{ Request::is('complaint/receive') ? 'border-white' : 'hover:border-white border-[#13849c]' }}">
+                <a href="/complaint/receive" class="flex flex-row gap-1 md:flex-col mx-3 md:mx-0 text-base text-white px-4 border-b-4 {{ Request::is('complaint/receive') ? 'border-white' : 'hover:border-white border-transparent' }}">
                     <i class="fas fa-satellite-dish text-2xl"></i>
                     <div class="text-base">รับเรื่องร้องเรียน</div>
                 </a>
-                <a href="/complaint/alter" class="flex flex-row gap-1 md:flex-col mx-3 md:mx-0 text-base text-white px-4 border-b-4 {{ Request::is('complaint/alter') ? 'border-white' : 'hover:border-white border-[#13849c]' }}">
+                <a href="/complaint/alter" class="flex flex-row gap-1 md:flex-col mx-3 md:mx-0 text-base text-white px-4 border-b-4 {{ Request::is('complaint/alter') ? 'border-white' : 'hover:border-white border-transparent' }}">
                     <i class="far fa-calendar-check text-2xl"></i>
                     <div class="text-base">ดำเนินการ แก้ไขข้อร้องเรียน</div>
                 </a>
-                <a href="/complaint/userfollow" class="flex flex-row gap-1 md:flex-col mx-3 md:mx-0 text-base text-white px-4 border-b-4 {{ Request::is('complaint/userfollow') ? 'border-white' : 'hover:border-white border-[#13849c]' }}">
+                <a href="/complaint/userfollow" class="flex flex-row gap-1 md:flex-col mx-3 md:mx-0 text-base text-white px-4 border-b-4 {{ Request::is('complaint/userfollow') ? 'border-white' : 'hover:border-white border-transparent' }}">
                     <i class="far fa-bell text-2xl"></i>
                     <div class="text-base">ติดตามเรื่องร้องเรียน</div>
                 </a>
                 @endif
-                <a href="/admin/report" class="flex flex-row gap-1 md:flex-col mx-3 md:mx-0 text-base text-white px-4 border-b-4 {{ Request::is('admin/report*') ? 'border-white' : 'hover:border-white border-[#13849c]' }}">
+                <a href="/admin/report" class="flex flex-row gap-1 md:flex-col mx-3 md:mx-0 text-base text-white px-4 border-b-4 {{ Request::is('admin/report*') ? 'border-white' : 'hover:border-white border-transparent' }}">
                     <i class="fas fa-chart-bar text-2xl"></i>
                     <div class="text-base">รายงาน</div>
                 </a>
-                
-                <a href="/admin/setting" class="flex flex-row gap-1 md:flex-col mx-3 md:mx-0 text-base text-white px-4 border-b-4 {{ Request::is('admin/setting*') ? 'border-white' : 'hover:border-white border-[#13849c]' }}">
+
+                <a href="/admin/setting" class="flex flex-row gap-1 md:flex-col mx-3 md:mx-0 text-base text-white px-4 border-b-4 {{ Request::is('admin/setting*') ? 'border-white' : 'hover:border-white border-transparent' }}">
                     <i class="fas fa-cog text-2xl"></i>
                     <div class="text-base">ตั้งค่า</div>
                 </a>
-                <a href="/change/password" class="flex flex-row gap-1 md:flex-col mx-3 md:mx-0 text-base text-white px-4 border-b-4 {{ Request::is('change/password') ? 'border-white' : 'hover:border-white border-[#13849c]' }}">
+                <a href="/change/password" class="flex flex-row gap-1 md:flex-col mx-3 md:mx-0 text-base text-white px-4 border-b-4 {{ Request::is('change/password') ? 'border-white' : 'hover:border-white border-transparent' }}">
                     <i class="fas fa-key text-2xl"></i>
                     <div class="text-base">เปลี่ยนรหัสผ่าน</div>
                 </a>
@@ -164,7 +173,7 @@
             @yield('content')
         </div>
 
-        <div class="border-t-[10px] border-[#13849c] text-center text-base pt-8 pb-14 mt-8 bg-[#f8f9fa] color-[#6c757d] px-3">
+        <div class="border-t-[10px] border-brand-600 text-center text-base pt-8 pb-14 mt-8 bg-[#f8f9fa] color-[#6c757d] px-3">
             <div>Copyright 2026 รับเรื่องร้องเรียน สำนักงานเลขานุการกรม กรมอนามัย</div>
             <div>88/2 ม.4 อาคาร 1 ชั้น 1 ต.ตลาดขวัญ ถ.ติวานนท์ อ.เมือง จ.นนทบุรี 11000 | All Rights Reserved.</div>
         </div>

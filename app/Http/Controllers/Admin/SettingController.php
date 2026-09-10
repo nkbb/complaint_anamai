@@ -20,6 +20,8 @@ use App\Models\User;
 use App\Models\Telegram;
 use Illuminate\Support\Facades\Hash;
 use Auth;
+use Illuminate\Support\Facades\Cache;
+
 
 class SettingController extends Controller
 {
@@ -116,7 +118,6 @@ class SettingController extends Controller
         }
     }
 
-
     public function type(): View
     {
         return view('admin.setting.type');
@@ -207,6 +208,8 @@ class SettingController extends Controller
                     'key_title' => $request->data['keyTitle'],
                     'conditions' => $request->conditions,
                 ]);
+
+                Cache::forget('company' . $item);
             } 
             return response()->json([
                 'status' => 200,

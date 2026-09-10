@@ -29,7 +29,7 @@
     <div v-if="!isEdit && !isShow && items.length > 0" class="grid grid-cols-1 md:grid-cols-2 mt-6 gap-5">
       <div v-for="(item, i) in items" class="border rounded-md shadow-sm">
         <div class="border-b px-4 py-2 bg-[#00000008]">
-          <div @click="showComplaint(item.id)" class="text-orange-600 font-semibold hover:cursor-pointer">
+          <div @click="showComplaint(item.id)" class="text-brand-600 font-semibold hover:cursor-pointer">
             <span>{{ item.type_name }}</span> <span v-if="item.sub_name">({{ item.sub_name }})</span>
           </div>
           <div class="flex flex-col  md:flex-row text-sm text-gray-500 mt-1 gap-0 md:gap-3">
@@ -66,13 +66,13 @@
         </div>
         <div class="mt-4 px-4 flex flex-wrap justify-end gap-2">
           <button type="button" v-if="item.type == 0 && user_level == 'root'" @click="retrunComplaint(item.id)" class="text-green-600 border border-green-700 text-sm px-4 py-2 rounded ">นำกลับไปใช้</button>
-          <button type="button" v-if="item.type == 2 && user_level == 'root'" @click="editComplaint(item.id)" class="bg-cyan-600 text-white text-sm px-4 py-2 rounded hover:bg-cyan-700">แก้ไข</button>
-          <button type="button" v-if="item.type == 3 && user_level == 'unit' && item.is_add == 2" @click="editComplaint(item.id)" class="bg-gray-700 text-white text-sm px-4 py-2 rounded hover:bg-gray-800">แก้ไข</button>
-          <button type="button" v-if="item.type == 2 && user_level == 'root'" @click="sendComplaint(item.id)" class="bg-gray-700 text-white text-sm px-4 py-2 rounded hover:bg-gray-800">ส่งให้หน่วยดำเนินการ</button>
-          <button type="button" v-if="item.type == 2 && user_level == 'root'" @click="cancelComplaint(item.id)" class="bg-red-600 text-white text-sm px-4 py-2 rounded hover:bg-red-700">ไม่ใช่/ยุติเรื่อง</button>
+          <button type="button" v-if="item.type == 2 && user_level == 'root'" @click="editComplaint(item.id)" class="text-cyan-600 border border-cyan-700 text-sm px-4 py-2 rounded hover:bg-cyan-700 hover:text-white">แก้ไข</button>
+          <button type="button" v-if="item.type == 3 && user_level == 'unit' && item.is_add == 2" @click="editComplaint(item.id)" class="text-gray-700 border border-gray-300 text-sm px-4 py-2 rounded hover:bg-gray-800 hover:text-white">แก้ไข</button>
+          <button type="button" v-if="item.type == 2 && user_level == 'root'" @click="sendComplaint(item.id)" class="text-gray-700 border border-gray-300 text-sm px-4 py-2 rounded hover:bg-gray-800 hover:text-white">ส่งให้หน่วยดำเนินการ</button>
+          <button type="button" v-if="item.type == 2 && user_level == 'root'" @click="cancelComplaint(item.id)" class="text-red-600 border border-red-700 text-sm px-4 py-2 rounded hover:bg-red-700 hover:text-white">ไม่ใช่/ยุติเรื่อง</button>
 
-          <button type="button" v-if="item.type == 3 && user_level == 'unit'" @click="receiveComplaint(item.id)" class="bg-cyan-600 text-white text-sm px-4 py-2 rounded hover:bg-cyan-700">รับเรื่องร้องเรียน</button>
-          <button type="button" v-if="(item.type == 4 || item.type == 6) && user_level == 'unit'" @click="answerComplaint(item.id)" class="bg-green-600 text-white text-sm px-4 py-2 rounded hover:bg-green-700">ตอบ/แก้ไขข้อร้องเรียน</button>
+          <button type="button" v-if="item.type == 3 && user_level == 'unit'" @click="receiveComplaint(item.id)" class="text-cyan-600 border border-cyan-700 text-sm px-4 py-2 rounded hover:bg-cyan-700 hover:text-white">รับเรื่องร้องเรียน</button>
+          <button type="button" v-if="(item.type == 4 || item.type == 6) && user_level == 'unit'" @click="answerComplaint(item.id)" class="text-green-600 border border-green-700 text-sm px-4 py-2 rounded hover:bg-green-700 hover:text-white">ตอบ/แก้ไขข้อร้องเรียน</button>
 
         </div>
         <div class="text-sm mt-4 px-4 border-t py-3 font-medium text-gray-700">
@@ -90,7 +90,7 @@
     ></pagination>
 
     <div v-if="isEdit" class="flex gap-2">
-      <div class="text-2xl text-[#EE7530] ml-11 mb-6">
+      <div class="text-2xl text-brand-600 ml-11 mb-6">
         <i class="far fa-edit"></i> รายละเอียดเรื่องร้องเรียน
       </div>
       <div class="mt-2 text-[#007bff]">

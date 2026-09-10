@@ -28,8 +28,8 @@
                 <x-input-error :messages="$errors->get('password')" class="mt-2" />
             </div>
 
-            <div class="flex items-center justify-center mt-4 mb-6">
-                <button class="w-full text-center px-4 py-2 text-white bg-brand-600 border border-brand-600 rounded-md hover:cursor-pointer">
+            <div class="flex items-center justify-center mt-11 mb-6">
+                <button class="w-full text-center px-7 py-3.5 text-white bg-brand-600 border border-brand-600 rounded-md hover:cursor-pointer">
                     {{ __('เข้าสู่ระบบ') }}
                 </button>
             </div>

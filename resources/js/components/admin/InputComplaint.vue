@@ -45,11 +45,11 @@
 
 
     <div v-if="code" class="ml-11 ">
-      <span class="text-[#FF7043]">รหัสเรื่อง</span> : {{ code }} 
+      <span class="text-brand-600">รหัสเรื่อง</span> : {{ code }} 
     </div>
     <Form :initial-values="form" :validation-schema="schema" @submit="onSubmit" @invalid-submit="onInvalidSubmit">
       <div v-if="!code" class="text-[#FF7043] my-2 pl-11">*** กรณีไม่มีข้อมูล ผู้ร้องเรียนไม่ต้องกรอกข้อมูล</div>
-      <div class="mt-5 mb-2 text-center text-white text-base bg-[#1d684a] rounded-sm py-3">ข้อมูลผู้ร้องเรียน</div>
+      <div class="mt-5 mb-2 text-center text-white text-base blue-panel rounded-md py-3">ข้อมูลผู้ร้องเรียน</div>
       <div class="flex gap-2 flex-col">
           <div class="mt-5 pl-0 md:pl-8 lg:pl-[10%]">
             <input type="checkbox" v-model="form.concealed" class="custom-checkbox" />
@@ -122,7 +122,7 @@
               </div>
             </div>
             <div class="flex flex-col w-full md:flex-row md:w-1/2 gap-2 items-center mt-4 md:mt-2">
-              <div class="w-full md:w-4/12 text-left md:text-right">อำเภอ :</div>
+              <div class="w-full md:w-4/12 text-left md:text-right">เขต / อำเภอ :</div>
               <div class="w-full md:w-8/12">
                 <Field as="select" name="district_id" class="input" v-model="form.district_id" @change="getSubDistrict()">
                   <option value="">-- กรุณาเลือก --</option>
@@ -133,7 +133,7 @@
           </div>
           <div class="flex md:flex-row flex-col gap-3">
             <div class="flex flex-col w-full md:flex-row md:w-1/2 gap-2 items-center mt-4 md:mt-2">
-              <div class="w-full md:w-4/12 text-left md:text-right">ตำบล :</div>
+              <div class="w-full md:w-4/12 text-left md:text-right">แขวง / ตำบล :</div>
               <div class="w-full md:w-8/12">
                 <Field as="select" name="subdistrict_id" class="input" v-model="form.subdistrict_id" @change="getZipcode()">
                   <option value="">-- กรุณาเลือก --</option>
@@ -185,32 +185,8 @@
             </div>
           </div>
       </div>
-      <div class="mt-[44px] mb-2 text-center text-white text-base bg-[#1d684a] rounded-sm py-3">ข้อมูลเกี่ยวกับเรื่องร้องเรียน</div>
+      <div class="mt-[44px] mb-2 text-center text-white text-base blue-panel rounded-md py-3">ข้อมูลเกี่ยวกับเรื่องร้องเรียน</div>
       <div class="flex gap-2 flex-col">
-        <div class="flex md:flex-row flex-col gap-3">
-          <div class="flex flex-col w-full md:flex-row md:w-1/2 gap-2 items-center mt-4 md:mt-2">
-            <div class="w-full md:w-4/12 text-left md:text-right">ช่องทางร้องเรียน : <span class="text-[#ff0000]">*</span></div>
-            <div class="w-full md:w-8/12">
-              <Field as="select" name="method_id" class="input" v-model="form.method_id">
-                <option value="">-- กรุณาเลือก --</option>
-                <option v-for="(item) in item_methods" :value="item.id">{{ item.name }}</option>
-              </Field>
-              <ErrorMessage name="method_id" class="text-red-500 text-sm" />
-            </div>
-          </div>
-        </div>
-        <div class="flex md:flex-row flex-col gap-3">
-          <div class="flex flex-col w-full md:flex-row md:w-1/2 gap-2 items-center mt-4 md:mt-2">
-            <div class="w-full md:w-4/12 text-left md:text-right">ร้องเรียนถึง : <span class="text-[#ff0000]">*</span></div>
-            <div class="w-full md:w-8/12">
-              <Field as="select" name="unit_id" class="input" v-model="form.unit_id">
-                <option value="">-- กรุณาเลือก --</option>
-                <option v-for="(item) in item_unit" :value="item.id">{{ item.name }}</option>
-              </Field>
-              <ErrorMessage name="unit_id" class="text-red-500 text-sm" />
-            </div>
-          </div>
-        </div>
         <div class="flex md:flex-row flex-col gap-3">
           <div class="flex flex-col w-full md:flex-row md:w-full gap-2 items-center mt-4 md:mt-2">
             <div class="w-full md:w-2/12 text-left md:text-right">ประเด็นการร้องเรียน <span class="text-[#ff0000]">*</span> :</div>
@@ -240,18 +216,6 @@
               <ErrorMessage name="sub_id" class="text-red-500 text-sm" />
             </div>
           </div> -->
-        </div>
-        <div class="flex md:flex-row flex-col gap-3">
-          <div class="flex flex-col w-full md:flex-row md:w-1/2 gap-2 items-center mt-4 md:mt-2">
-            <div class="w-full md:w-4/12 text-left md:text-right">ร้องเรียนบุคคล : <span class="text-[#ff0000]">*</span></div>
-            <div class="w-full md:w-8/12">
-              <Field as="select" name="person_id" class="input" v-model="form.person_id">
-                <option value="">-- กรุณาเลือก --</option>
-                <option v-for="(item) in item_person" :value="item.id">{{ item.name }}</option>
-              </Field>
-              <ErrorMessage name="person_id" class="text-red-500 text-sm" />
-            </div>
-          </div>
         </div>
         <div class="flex flex-col gap-3">
           <div class="flex flex-col md:flex-row w-full gap-2 items-center mt-4 md:mt-2">
@@ -310,7 +274,7 @@
         <button
           type="submit"
           ref="btnSubmit"
-          class="inline-block mt-2 px-6 py-2 text-white bg-[#1d684a] border border-[#1d684a] rounded"
+          class="inline-block mt-2 px-6 py-2 text-white bg-brand-600 border border-brand-600 rounded"
         >
         บันทึก
         </button>

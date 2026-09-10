@@ -17,25 +17,31 @@ use App\Models\ComplaintPerson;
 use App\Models\Complaints;
 use App\Helpers\Helper;
 use App\Models\ComplaintMethod;
+use App\Models\QuestionVote;
+use App\Models\QuestionDetail;
 use DB;
 use Illuminate\Support\Facades\Http;
 use App\Models\Telegram;
+use Illuminate\Support\Facades\Cache;
 
 
 class ComplaintController extends Controller
 {
 
-    public function index(): View
+    public function index(Request $request): View
     {
 
-      $company = Company::find(1);
+      $company = Cache::remember('company', now()->addMinutes(10), function () {
+            return Company::find(1);
+        });
       $province = Province::select('id','name')->orderBy('name', 'ASC')->get();
       $unit = Unit::select('id','name')->where('type',1)->orderBy('name', 'ASC')->get();
       $type = ComplaintType::select('id','name','num')->where('type','>=',1)->orderBy('num', 'ASC')->get();
       $sub = ComplaintSub::select('id','name','complaint_type_id')->where('type',1)->orderBy('num', 'ASC')->get();
       $person = ComplaintPerson::select('id','name')->where('type',1)->orderBy('num', 'ASC')->get();
 
-      return view('complaint.index', compact('company','province','unit','type','sub','person'));
+      $sel_id = $request->input('type_id', '');
+      return view('complaint.index', compact('company','province','unit','type','sub','person','sel_id'));
     }
 
     public function store(Request $request){
@@ -62,20 +68,30 @@ class ComplaintController extends Controller
         }
 
         $code = '';
-        $nex_code = DB::table('complaints')
-          ->select(DB::raw('MAX(CAST(SUBSTR(code, -6) AS UNSIGNED)) + 1 AS next_code'))
-          ->value('next_code');
-        if(empty($nex_code)){
-          $code = $request->key_title.'000001';
-        }else{
-          $std_id="".sprintf("%06d",$nex_code);
-          $code = $request->key_title.''.$std_id;
-        }
+        // ปี ค.ศ. + 543 แล้วเลือก 2 หลักสุดท้าย
+        $buddhistYear = (int) now()->format('Y') + 543;
+        $yearTwoDigits = substr((string) $buddhistYear, -2);
+
+        // เช่น ABC69
+        $prefix = $request->key_title . $yearTwoDigits;
+
+        // หาเลขลำดับเฉพาะ key_title และปีปัจจุบัน
+        $lastNumber = DB::table('complaints')
+            ->where('code', 'like', $prefix . '%')
+            ->selectRaw('MAX(CAST(RIGHT(code, 5) AS UNSIGNED)) AS last_number')
+            ->value('last_number');
+
+        $nextNumber = ((int) $lastNumber) + 1;
+
+        // เช่น ABC6900001
+        $code = $prefix . sprintf('%05d', $nextNumber);
+
         $complaint = Complaints::create([
           'code' => $code,
           'concealed' => ($request->concealed)? 1 : 0,
-          'file' => $filename,
-          'idcard' => Helper::encryptData($idcard_clean),
+          // 'file' => $filename,
+          // 'idcard' => Helper::encryptData($idcard_clean),
+          'idcard' => null,
           'idcard_sub' => substr($request->phone, -4),
           'fname' => Helper::encryptData($request->fname),
           'lname' => Helper::encryptData($request->lname),
@@ -90,7 +106,7 @@ class ComplaintController extends Controller
           'zipcode' => $request->zipcode,
           'unit_id' => null,
           'type_id' => $request->type_id,
-          'sub_id' => ($request->sub_id)? $request->sub_id : null,
+          'sub_id' =>  null,
           'person_id' => null,
           'gender' => $request->gender,
           'name' => Helper::encryptData($request->name),
@@ -104,6 +120,29 @@ class ComplaintController extends Controller
         if($complaint->sub_id){
           $show_type .= '('.$complaint->hasSub->name.')';
         }
+
+
+        $vote = QuestionVote::create([
+          'gender' => $request->eva_gender,
+          'work' => $request->eva_work,
+          'work_dis' => ($request->eva_work ==6)? $request->eva_workDis : '' ,
+          'qualification' => $request->eva_qualification,
+          'age' => $request->eva_age,
+          'ip' => $request->getClientIp(),
+        ]);
+
+        $questions = json_decode(
+            $request->input('questions', '[]'),
+            true
+        );
+
+        foreach($questions as $v){
+          QuestionDetail::create([
+            'vote_id' => $vote->id,
+            'question_id' => $v['id'],
+            'score' => $v['sel'],
+          ]);
+        }
         
 
         $chk_user = Telegram::where("type",1)->get();
@@ -114,9 +153,9 @@ class ComplaintController extends Controller
                       "วันที่: ".Helper::getDateThaiFull(now())."\n".
                       "ชื่อผู้ร้อง: ".$request->fname." ".$request->lname."\n".
                       "รหัสเรื่องร้องเรียน: ".$code."\n".
-                      "ร้องเรียนถึง: ".$complaint->hasUnit->name."\n".
+                      //"ร้องเรียนถึง: ".$complaint->hasUnit->name."\n".
                       "ประเด็นการ้องเรียน: ".$show_type."\n".
-                      "ร้องเรียนบุคคล: ".$complaint->hasPerson->name."\n".
+                      //"ร้องเรียนบุคคล: ".$complaint->hasPerson->name."\n".
                       "เรื่องที่ร้องเรียน: ".$request->name;
 
           Helper::sendTelegramMessage($token, $chatId, $message);
