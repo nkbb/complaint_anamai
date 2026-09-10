@@ -12,13 +12,14 @@
   type="{{ $type }}"
   sub="{{ $sub }}"
   person="{{ $person }}"
+  sel_id="{{ $sel_id }}"
   
   >
   </complaint-component>
 
   <!-- <home-manual-component></home-manual-component> -->
   <!-- <home-agreement-component></home-agreement-component> -->
-  <home-evaluation-component></home-evaluation-component>
+  {{-- <home-evaluation-component></home-evaluation-component> --}}
 
 </div>
 @endsection

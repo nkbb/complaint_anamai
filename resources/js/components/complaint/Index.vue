@@ -10,7 +10,7 @@
       <div class="text-center mt-6">
         <div class="flex flex-row gap-4">
           <div class="pl-11"><input type="checkbox" v-model="isChecked" class="custom-checkbox" /></div>
-          <div @click="selApprove" class="hover:cursor-pointer pl-3 -mt-2 text-[14px]"> 
+          <div @click="selApprove" class="hover:cursor-pointer pl-3 -mt-2 text-[14px] text-blue-400 font-bold"> 
             <div> * ข้าพเจ้าขอรับรองว่าข้อเท็จจริงที่ได้ยื่นร้องเรียนต่อกรมอนามัยเป็นเรื่องที่เกิดขึ้นจริงทั้งหมดและขอรับผิดชอบต่อข้อเท็จจริงดังกล่าวข้างต้นทุกประการ</div>
             <div> * การนำความเท็จมาร้องเรียนต่อเจ้าหน้าที่ ซึ่งทำให้ผู้อื่นได้รับความเสียหายอาจเป็นความผิดฐานแจ้งความเท็จต่อเจ้าพนักงานตามประมวลกฎหมายอาญา</div>
           </div>
@@ -24,7 +24,13 @@
     
     <template v-if="step == 2">
       <div class="text-center font-bold text-2xl text-brand-600">ข้อมูลการร้องเรียน - ร้องทุกข์</div>
-      <Form :initial-values="form" :validation-schema="schema" @submit="onSubmit">
+      <Form
+        v-slot="{ errors }"
+        :initial-values="form"
+        :validation-schema="schema"
+        @submit="onSubmit"
+        @invalid-submit="onInvalidSubmit"
+      >
         <div class="blue-panel overflow-hidden rounded-md mt-5 mb-2 py-3 text-white shadow-soft text-center">ข้อมูลผู้ร้องเรียน</div>
         <div class="flex gap-2 flex-col">
           <div class="mt-5 pl-0 md:pl-8 lg:pl-[10%]">
@@ -35,14 +41,14 @@
             <div class="flex flex-col w-full md:flex-row md:w-1/2 gap-2 items-center mt-4 md:mt-2">
               <div class="w-full md:w-4/12 text-left md:text-right">ชื่อ ผู้ร้องเรียน <span class="text-[#ff0000]">*</span> :</div>
               <div class="w-full md:w-8/12">
-                <Field name="firstName" type="text" class="input" v-model="form.firstName" />
+                <Field name="firstName" type="text" :class="['input', { 'error-border': errors.firstName }]" v-model="form.firstName" />
                 <ErrorMessage name="firstName" class="text-red-500 text-sm" />
               </div>
             </div>
             <div class="flex flex-col w-full md:flex-row md:w-1/2 gap-2 items-center mt-4 md:mt-2">
               <div class="w-full md:w-4/12 text-left md:text-right">นามสกุล ผู้ร้องเรียน <span class="text-[#ff0000]">*</span> :</div>
               <div class="w-full md:w-8/12">
-                <Field name="lastName" type="text" class="input" v-model="form.lastName" />
+                <Field name="lastName" type="text" :class="['input', { 'error-border': errors.lastName }]" v-model="form.lastName" />
                 <ErrorMessage name="lastName" class="text-red-500 text-sm" />
               </div>
             </div>
@@ -60,14 +66,14 @@
                 />
                 <Field name="idcard" v-model="form.idcard" type="hidden" />
                 <ErrorMessage name="idcard" class="text-red-500 text-sm" /> -->
-                <Field name="work" type="text" class="input" v-model="form.work" />
+                <Field name="work" type="text" :class="['input', { 'error-border': errors.work }]" v-model="form.work" />
                 <ErrorMessage name="work" class="text-red-500 text-sm" />
               </div>
             </div>
             <div class="flex flex-col w-full md:flex-row md:w-1/2 gap-2 items-center mt-4 md:mt-2">
               <div class="w-full md:w-4/12 text-left md:text-right">เพศ <span class="text-[#ff0000]">*</span> :</div>
               <div class="w-full md:w-6/12 lg:w-4/12">
-                <Field as="select" name="sex" class="input" v-model="form.sex">
+                <Field as="select" name="sex" :class="['input', { 'error-border': errors.sex }]" v-model="form.sex">
                   <option value="">-- กรุณาเลือก --</option>
                   <option value="1">ชาย</option>
                   <option value="2">หญิง</option>
@@ -90,7 +96,7 @@
             <div class="flex flex-col md:flex-row w-full gap-2 items-center mt-4 md:mt-2">
               <div class="w-full md:w-2/12 text-left md:text-right">ที่อยู่ <span class="text-[#ff0000]">*</span> :</div>
               <div class="w-full md:w-10/12">
-                <Field name="address" type="text" class="input" v-model="form.address" />
+                <Field name="address" type="text" :class="['input', { 'error-border': errors.address }]" v-model="form.address" />
                 <ErrorMessage name="address" class="text-red-500 text-sm" />
               </div>
             </div>
@@ -99,7 +105,7 @@
             <div class="flex flex-col w-full md:flex-row md:w-1/2 gap-2 items-center mt-4 md:mt-2">
               <div class="w-full md:w-4/12 text-left md:text-right">จังหวัด <span class="text-[#ff0000]">*</span> :</div>
               <div class="w-full md:w-8/12">
-                <Field as="select" name="province_id" class="input" v-model="form.province_id" @change="getDistrict()">
+                <Field as="select" name="province_id" :class="['input', { 'error-border': errors.province_id }]" v-model="form.province_id" @change="getDistrict()">
                   <option value="">-- กรุณาเลือก --</option>
                   <option v-for="(item) in item_province" :value="item.id">{{ item.name }}</option>
                 </Field>
@@ -109,7 +115,7 @@
             <div class="flex flex-col w-full md:flex-row md:w-1/2 gap-2 items-center mt-4 md:mt-2">
               <div class="w-full md:w-4/12 text-left md:text-right">เขต / อำเภอ <span class="text-[#ff0000]">*</span> :</div>
               <div class="w-full md:w-8/12">
-                <Field as="select" name="district_id" class="input" v-model="form.district_id" @change="getSubDistrict()">
+                <Field as="select" name="district_id" :class="['input', { 'error-border': errors.district_id }]" v-model="form.district_id" @change="getSubDistrict()">
                   <option value="">-- กรุณาเลือก --</option>
                   <option v-for="(item) in item_district" :value="item.id">{{ item.name }}</option>
                 </Field>
@@ -121,7 +127,7 @@
             <div class="flex flex-col w-full md:flex-row md:w-1/2 gap-2 items-center mt-4 md:mt-2">
               <div class="w-full md:w-4/12 text-left md:text-right">แขวง / ตำบล <span class="text-[#ff0000]">*</span> :</div>
               <div class="w-full md:w-8/12">
-                <Field as="select" name="subdistrict_id" class="input" v-model="form.subdistrict_id" @change="getZipcode()">
+                <Field as="select" name="subdistrict_id" :class="['input', { 'error-border': errors.subdistrict_id }]" v-model="form.subdistrict_id" @change="getZipcode()">
                   <option value="">-- กรุณาเลือก --</option>
                   <option v-for="(item) in item_subdistrict" :value="item.id">{{ item.name }}</option>
                 </Field>
@@ -131,7 +137,7 @@
             <div class="flex flex-col w-full md:flex-row md:w-1/2 gap-2 items-center mt-4 md:mt-2">
               <div class="w-full md:w-4/12 text-left md:text-right">รหัสไปรษณี <span class="text-[#ff0000]">*</span> :</div>
               <div class="w-full md:w-8/12">
-                <Field name="zipcode" type="text" class="input" v-model="form.zipcode" />
+                <Field name="zipcode" type="text" :class="['input', { 'error-border': errors.zipcode }]" v-model="form.zipcode" />
                 <ErrorMessage name="zipcode" class="text-red-500 text-sm" />
               </div>
             </div>
@@ -144,7 +150,7 @@
                   type="text"
                   v-model="form.phone"
                   @input="formatPhone"
-                  class="input"
+                  :class="['input', { 'error-border': errors.phone }]"
                   placeholder="___-___-____"
                 />
                 <Field name="phone" type="hidden" v-model="form.phone" />
@@ -169,7 +175,7 @@
             <div class="flex flex-col w-full md:flex-row md:w-1/2 gap-2 items-center mt-4 md:mt-2">
               <div class="w-full md:w-4/12 text-left md:text-right">อีเมล <span class="text-[#ff0000]">*</span> :</div>
               <div class="w-full md:w-8/12">
-                <Field name="email" type="text" class="input" v-model="form.email" />
+                <Field name="email" type="text" :class="['input', { 'error-border': errors.email }]" v-model="form.email" />
                 <ErrorMessage name="email" class="text-red-500 text-sm" />
               </div>
             </div>
@@ -183,7 +189,7 @@
             <div class="flex flex-col w-full md:flex-row md:w-full gap-2 items-center mt-4 md:mt-2">
               <div class="w-full md:w-2/12 text-left md:text-right">ประเด็นการร้องเรียน <span class="text-[#ff0000]">*</span> :</div>
               <div class="w-full md:w-8/12">
-                <Field as="select" name="type_id" class="input" @change="selectType()" v-model="form.type_id">
+                <Field as="select" name="type_id" :class="['input', { 'error-border': errors.type_id }]" @change="selectType()" v-model="form.type_id">
                   <option value="">-- กรุณาเลือก --</option>
                   <option v-for="(item) in item_type" :value="item.id">{{ item.num }}. {{ item.name }}</option>
                 </Field>
@@ -195,7 +201,7 @@
             <div class="flex flex-col md:flex-row w-full gap-2 items-center mt-4 md:mt-2">
               <div class="w-full md:w-2/12 text-left md:text-right">เรื่องที่ร้องเรียน <span class="text-[#ff0000]">*</span> :</div>
               <div class="w-full md:w-8/12">
-                <Field name="name" type="text" class="input" v-model="form.name" />
+                <Field name="name" type="text" :class="['input', { 'error-border': errors.name }]" v-model="form.name" />
                 <ErrorMessage name="name" class="text-red-500 text-sm" />
               </div>
             </div>
@@ -208,10 +214,16 @@
                   as="textarea"
                   name="improvement"
                   rows="3"
-                  class="form-control w-full border rounded p-2 border-[#ccc]"
+                  class="form-control w-full rounded border p-2 outline-none transition-colors"
+                  :class="errors.improvement
+                    ? 'border-red-500 focus:border-red-500 focus:ring-1 focus:ring-red-500'
+                    : 'border-[#ccc] focus:border-brand-600 focus:ring-1 focus:ring-brand-600'"
                   v-model="form.improvement"
                 />
-                <ErrorMessage name="improvement" class="text-red-500 text-sm" />
+                <ErrorMessage
+                  name="improvement"
+                  class="mt-1 block text-sm text-red-500"
+                />
               </div>
             </div>
           </div>
@@ -229,16 +241,96 @@
               </div>
             </div>
           </div>
-          <div class="flex flex-col gap-3">
-            <div class="flex flex-col md:flex-row w-full gap-2 items-center mt-4 md:mt-2">
-              <div class="w-full md:w-2/12 text-left md:text-right">เอกสารประกอบ (ถ้ามี) : </div>
-              <div class="w-full md:w-8/12">
-                <div class="flex items-center gap-2">
-                  <div @click="changeFile()" class="border-[#ccc] border rounded px-4 py-1 inline-block hover:cursor-pointer bg-[#e9ecef]">เลือกไฟล์</div>
-                  <div v-if="file.name" class="text-[#007bff] underline">{{ file.name }}</div>
+          <div class="flex flex-col md:flex-row w-full gap-2 mt-4 md:mt-2">
+            <div class="w-full md:w-2/12 text-left md:text-right">
+              เอกสารประกอบ (ถ้ามี) :
+            </div>
+
+            <div class="w-full md:w-8/12">
+              <button
+                type="button"
+                class="rounded border border-[#ccc] bg-[#e9ecef] px-4 py-2 hover:bg-gray-200"
+                @click="$refs.attachmentInput.click()"
+              >
+                เลือกไฟล์
+              </button>
+
+              <input
+                ref="attachmentInput"
+                type="file"
+                multiple
+                class="hidden"
+                accept=".pdf,.mp4,.mov,.avi,.webm,.jpg,.jpeg,.png,.webp"
+                @change="selectAttachments"
+              />
+
+              <div class="mt-2 text-xs text-[#6c757d]">
+                วิดีโอไม่เกิน 1 ไฟล์, PDF ไม่เกิน 1 ไฟล์ และรูปภาพไม่เกิน
+                10 รูป โดยแต่ละไฟล์ต้องมีขนาดไม่เกิน 10 MB
+              </div>
+
+              <!-- Video -->
+              <div v-if="videoFile" class="mt-4">
+                <div class="font-medium">วิดีโอ</div>
+
+                <div class="mt-1 flex items-center justify-between rounded border p-2">
+                  <span class="break-all text-blue-600">
+                    {{ videoFile.name }} ({{ formatFileSize(videoFile.size) }})
+                  </span>
+
+                  <button
+                    type="button"
+                    class="ml-3 text-red-500"
+                    @click="removeVideo"
+                  >
+                    ลบ
+                  </button>
                 </div>
-                <div class="text-xs text-[#6c757d]">กรุณาเลือกไฟล์ pdf, หรือรูปภาพ</div>
-                <input id="fileSelect" @change="slectFile()" ref="file" type="file" accept=".pdf,image/png,image/jpeg" style="display:none;" />  
+              </div>
+
+              <!-- PDF -->
+              <div v-if="pdfFile" class="mt-4">
+                <div class="font-medium">เอกสาร PDF</div>
+
+                <div class="mt-1 flex items-center justify-between rounded border p-2">
+                  <span class="break-all text-blue-600">
+                    {{ pdfFile.name }} ({{ formatFileSize(pdfFile.size) }})
+                  </span>
+
+                  <button
+                    type="button"
+                    class="ml-3 text-red-500"
+                    @click="removePdf"
+                  >
+                    ลบ
+                  </button>
+                </div>
+              </div>
+
+              <!-- Images -->
+              <div v-if="imageFiles.length" class="mt-4">
+                <div class="font-medium">
+                  รูปภาพ ({{ imageFiles.length }}/10)
+                </div>
+
+                <div
+                  v-for="(image, index) in imageFiles"
+                  :key="fileKey(image)"
+                  class="mt-1 flex items-center justify-between rounded border p-2"
+                >
+                  <span class="break-all text-blue-600">
+                    {{ index + 1 }}. {{ image.name }}
+                    ({{ formatFileSize(image.size) }})
+                  </span>
+
+                  <button
+                    type="button"
+                    class="ml-3 text-red-500"
+                    @click="removeImage(index)"
+                  >
+                    ลบ
+                  </button>
+                </div>
               </div>
             </div>
           </div>
@@ -283,108 +375,188 @@
       <!-- กล่องเนื้อหา -->
       <div class="bg-white rounded-lg shadow-lg w-full max-w-4xl relative animate-fade-in-down ">
         <div class="flex flex-row px-6 md:px-8 pt-6 pb-4 border-b justify-between">
-          <h2 class="text-lg text-[#3fbbc0]">ยืนยัน การร้องเรียน-ร้องทุกข์</h2>
+          <h2 class="text-lg text-brand-600">
+            {{ confirmationStep === 1 ? 'ยืนยันการร้องเรียน-ร้องทุกข์' : 'แบบประเมินความพึงพอใจ' }}
+          </h2>
           <i @click="showModal = false" class="fas fa-times hover:cursor-pointer -mt-2 -mr-2"></i>
         </div>
         <div class="overflow-y-auto max-h-[60vh]">
-          <div class="flex justify-center bg-[#1d684a] text-white py-2">ข้อมูลเกี่ยวกับผู้ร้องเรียน</div>
-          <div v-if="form.concealed" class="pl-11 my-3"><i class="far fa-window-close text-2xl"></i> ปกปิด เรื่องร้องเรียน <span class="text-red-500 text-sm">(หน่วยงานที่รับผิดชอบและผู้ถูกร้องเรียนจะไม่มีการรับทราบข้อมูลเกี่ยวกับตัวตนของผู้ร้องเรียนแต่อย่างใด)</span></div>
-          <div v-else class="pl-11 my-3"><i class="fas fa-check text-xl"></i> ไม่ปกปิด เรื่องร้องเรียน <span class="text-red-500 text-sm">(ข้อมูลเกี่ยวกับตัวตนของผู้ร้องเรียนจะถูกเปิดเผยแก่หน่วยงานที่รับผิดชอบและผู้ถูกร้องเรียน)</span></div>
+          <template v-if="confirmationStep === 1">
+            <div class="flex justify-center blue-panel overflow-hidden text-white py-2">ข้อมูลเกี่ยวกับผู้ร้องเรียน</div>
+            <div v-if="form.concealed" class="pl-11 my-3"><i class="far fa-window-close text-2xl"></i> ปกปิด เรื่องร้องเรียน <span class="text-red-500 text-sm">(หน่วยงานที่รับผิดชอบและผู้ถูกร้องเรียนจะไม่มีการรับทราบข้อมูลเกี่ยวกับตัวตนของผู้ร้องเรียนแต่อย่างใด)</span></div>
+            <div v-else class="pl-11 my-3"><i class="fas fa-check text-xl"></i> ไม่ปกปิด เรื่องร้องเรียน <span class="text-red-500 text-sm">(ข้อมูลเกี่ยวกับตัวตนของผู้ร้องเรียนจะถูกเปิดเผยแก่หน่วยงานที่รับผิดชอบและผู้ถูกร้องเรียน)</span></div>
 
-          <div class="flex flex-col md:flex-row px-6 md:px-8">
-            <div class="flex w-ufll md:w-1/2 mt-2">ชื่อ ผู้ร้องเรียน : <span class="text-[#6c757d] pl-2">{{ form.firstName }}</span></div>
-            <div class="flex w-ufll md:w-1/2 mt-2">นามสกุล ผู้ร้องเรียน : <span class="text-[#6c757d] pl-2">{{ form.lastName }}</span></div>
-          </div>
-          <div class="flex flex-col md:flex-row px-6 md:px-8">
-            <div class="flex w-ufll md:w-1/2 mt-2">อาชีพ: <span class="text-[#6c757d] pl-2">{{ form.work }}</span></div>
-            <div class="flex w-ufll md:w-1/2 mt-2">เพศ : 
-              <span v-if="form.sex == 1" class="text-[#6c757d] pl-2">ชาย</span>
-              <span v-if="form.sex == 2" class="text-[#6c757d] pl-2">หญิง</span>
-              <span v-if="form.sex == 3" class="text-[#6c757d] pl-2">LGBTQ+</span>
+            <div class="flex flex-col md:flex-row px-6 md:px-8">
+              <div class="flex w-ufll md:w-1/2 mt-2">ชื่อ ผู้ร้องเรียน : <span class="text-[#6c757d] pl-2">{{ form.firstName }}</span></div>
+              <div class="flex w-ufll md:w-1/2 mt-2">นามสกุล ผู้ร้องเรียน : <span class="text-[#6c757d] pl-2">{{ form.lastName }}</span></div>
             </div>
-          </div>
-          <div class="flex flex-col md:flex-row px-6 md:px-8">
-            <div class="flex w-ufll mt-2">ที่อยู่: <span class="text-[#6c757d] pl-2">{{ form.address }}</span></div>
-          </div>
-          <div class="flex flex-col md:flex-row px-6 md:px-8">
-            <div class="flex w-ufll md:w-1/2 mt-2">ตำบล : <span class="text-[#6c757d] pl-2">{{ showTitle('subdistrict', form.subdistrict_id) }}</span></div>
-            <div class="flex w-ufll md:w-1/2 mt-2">อำเภอ : <span class="text-[#6c757d] pl-2">{{ showTitle('district',form.district_id) }}</span></div>
-          </div>
-          <div class="flex flex-col md:flex-row px-6 md:px-8">
-            <div class="flex w-ufll md:w-1/2 mt-2">จังหวัด : <span class="text-[#6c757d] pl-2">{{ showTitle('province',form.province_id) }}</span></div>
-            <div class="flex w-ufll md:w-1/2 mt-2">รหัสไปรษณี : <span class="text-[#6c757d] pl-2">{{ form.zipcode }}</span></div>
-          </div>
-          <div class="flex flex-col md:flex-row px-6 md:px-8">
-            <div class="flex w-ufll md:w-1/2 mt-2">เบอร์โทรศัพท์ : <span class="text-[#6c757d] pl-2">{{ form.tel }}</span></div>
-            <div class="flex w-ufll md:w-1/2 mt-2">เบอร์มือถือ : <span class="text-[#6c757d] pl-2">{{ form.phone }}</span></div>
-          </div>
-          <div class="flex flex-col md:flex-row px-6 md:px-8">
-            <div class="flex w-ufll md:w-1/2 mt-2">email : <span class="text-[#6c757d] pl-2">{{ form.email }}</span></div>
-          </div>
-
-          <div class="flex justify-center bg-[#1d684a] text-white py-2 mt-5">ข้อมูลเกี่ยวกับเรื่องร้องเรียน</div>
-          <div class="flex flex-col md:flex-row px-6 md:px-8">
-            <div class="flex w-ufll md:w-1/2 mt-2">ร้องเรียนถึง : <span class="text-[#6c757d] pl-2">{{ showTitle('unit',form.unit_id) }}</span></div>
-          </div>
-          <div class="flex flex-col md:flex-row px-6 md:px-8">
-            <div class="flex w-ufll md:w-1/2 mt-2">ประเด็นการร้องเรียน : <span class="text-[#6c757d] pl-2">{{ showTitle('type',form.type_id) }}</span></div>
-          </div>
-          <div class="flex flex-col md:flex-row px-6 md:px-8">
-            <div class="flex w-ufll md:w-1/2 mt-2">ร้องเรียนบุคคล : <span class="text-[#6c757d] pl-2">{{ showTitle('person',form.person_id) }}</span></div>
-          </div>
-          <div class="flex flex-col md:flex-row px-6 md:px-8">
-            <div class="flex w-ufll md:w-1/2 mt-2">เรื่องที่ร้องเรียน : <span class="text-[#6c757d] pl-2">{{ form.name }}</span></div>
-          </div>
-          <div class="flex flex-col md:flex-row px-6 md:px-8">
-            <div class="flex w-ufll md:w-1/2 mt-2">สิ่งที่ต้องการให้แก้ไข ปรับปรุง : <span class="text-[#6c757d] pl-2">{{ form.description }}</span></div>
-          </div>
-          <div class="flex flex-col md:flex-row px-6 md:px-8">
-            <div class="flex w-ufll md:w-1/2 mt-2">เอกสารประกอบ (ถ้ามี) : 
-              <span v-if="file.name" class="text-[#6c757d] pl-2">{{ file.name }}</span>
-              <span v-else class="text-[#6c757d] pl-2">ไม่มี</span>
+            <div class="flex flex-col md:flex-row px-6 md:px-8">
+              <div class="flex w-ufll md:w-1/2 mt-2">อาชีพ: <span class="text-[#6c757d] pl-2">{{ form.work }}</span></div>
+              <div class="flex w-ufll md:w-1/2 mt-2">เพศ : 
+                <span v-if="form.sex == 1" class="text-[#6c757d] pl-2">ชาย</span>
+                <span v-if="form.sex == 2" class="text-[#6c757d] pl-2">หญิง</span>
+                <span v-if="form.sex == 3" class="text-[#6c757d] pl-2">LGBTQ+</span>
+              </div>
             </div>
-          </div>
-          
+            <div class="flex flex-col md:flex-row px-6 md:px-8">
+              <div class="flex w-ufll mt-2">ที่อยู่: <span class="text-[#6c757d] pl-2">{{ form.address }}</span></div>
+            </div>
+            <div class="flex flex-col md:flex-row px-6 md:px-8">
+              <div class="flex w-ufll md:w-1/2 mt-2">ตำบล : <span class="text-[#6c757d] pl-2">{{ showTitle('subdistrict', form.subdistrict_id) }}</span></div>
+              <div class="flex w-ufll md:w-1/2 mt-2">อำเภอ : <span class="text-[#6c757d] pl-2">{{ showTitle('district',form.district_id) }}</span></div>
+            </div>
+            <div class="flex flex-col md:flex-row px-6 md:px-8">
+              <div class="flex w-ufll md:w-1/2 mt-2">จังหวัด : <span class="text-[#6c757d] pl-2">{{ showTitle('province',form.province_id) }}</span></div>
+              <div class="flex w-ufll md:w-1/2 mt-2">รหัสไปรษณี : <span class="text-[#6c757d] pl-2">{{ form.zipcode }}</span></div>
+            </div>
+            <div class="flex flex-col md:flex-row px-6 md:px-8">
+              <div class="flex w-ufll md:w-1/2 mt-2">เบอร์โทรศัพท์ : <span class="text-[#6c757d] pl-2">{{ form.tel }}</span></div>
+              <div class="flex w-ufll md:w-1/2 mt-2">เบอร์มือถือ : <span class="text-[#6c757d] pl-2">{{ form.phone }}</span></div>
+            </div>
+            <div class="flex flex-col md:flex-row px-6 md:px-8">
+              <div class="flex w-ufll md:w-1/2 mt-2">email : <span class="text-[#6c757d] pl-2">{{ form.email }}</span></div>
+            </div>
 
-        </div>
-        <div class="flex px-6 md:px-8 pt-6 pb-4 border-t justify-end mt-8 gap-2">
-          <button type="button" @click="showModal = false" class="px-4 py-2 bg-[#6c757d] text-white rounded border">
-              แก้ไข
-          </button>
-          <button type="button" @click="sendData()" class="px-4 py-2 bg-[#28a745] text-white rounded ">
-              ยืนยัน ส่งเรื่องร้องเรียน
-          </button>
-        </div>
-      </div>
-    </div>
+            <div class="flex justify-center blue-panel overflow-hidden text-white py-2 mt-5">ข้อมูลเกี่ยวกับเรื่องร้องเรียน</div>
+            <div class="flex flex-col md:flex-row px-6 md:px-8">
+              <div class="flex w-ufll md:w-1/2 mt-2">ประเด็นการร้องเรียน : <span class="text-[#6c757d] pl-2">{{ showTitle('type',form.type_id) }}</span></div>
+            </div>
+            <div class="flex flex-col md:flex-row px-6 md:px-8">
+              <div class="flex w-ufll md:w-1/2 mt-2">เรื่องที่ร้องเรียน : <span class="text-[#6c757d] pl-2">{{ form.name }}</span></div>
+            </div>
+            <div class="flex flex-col md:flex-row px-6 md:px-8">
+              <div class="flex w-ufll md:w-1/2 mt-2">สิ่งที่ต้องการให้แก้ไข ปรับปรุง : <span class="text-[#6c757d] pl-2">{{ form.description }}</span></div>
+            </div>
+            <div class="px-6 md:px-8">
+              <div class="mt-4 font-medium">
+                เอกสารประกอบ (ถ้ามี)
+              </div>
 
-    <div
-      v-if="showEvaluation"
-      class="fixed inset-0 z-[999] flex items-start justify-center bg-black bg-opacity-50 pt-[5%]"
-    >
-      <!-- กล่องเนื้อหา -->
-      <div class="bg-white rounded-lg shadow-lg w-full max-w-xl relative animate-fade-in-down ">
-        <Form :initial-values="formEvaluation" :validation-schema="schemaEvaluation" @submit="sendEvaluation">
-          <div class="flex flex-row px-6 md:px-8 pt-6 pb-4 border-b justify-between">
-            <h2 class="text-lg text-[#3fbbc0]">แบบประเมินความพึงพอใจ สำหรับผู้ใช้บริการ</h2>
-            <i @click="showEvaluation = false" class="fas fa-times hover:cursor-pointer -mt-2 -mr-2"></i>
-          </div>
-          <div class="overflow-y-auto max-h-[60vh]">
-            <div class="px-6 md:px-8 mt-2 flex flex-col text-xs text-[#dc3545]">*กรุณากรอกแบบประเมินความพึงพอใจ เพื่อนำผลไปใช้ในการปรับปรุงการให้บริการ จึงขอความร่วมมือจากทุกท่านที่ใช้งานระบบรับเรื่องร้องเรียน กรมสุขภาพจิต</div>
-            <div class="mx-6 px-3 py-2 mt-4 flex flex-col bg-[#1d684a] text-white">ส่วนที่ 1 ข้อมูลของผู้ใช้บริการ</div>
+              <div
+                v-if="!videoFile && !pdfFile && imageFiles.length === 0"
+                class="mt-2 text-[#6c757d]"
+              >
+                ไม่มีไฟล์แนบ
+              </div>
+
+              <!-- Preview วิดีโอ -->
+              <div v-if="videoFile" class="mt-4">
+                <div class="mb-2 font-medium text-[#1d684a]">
+                  วิดีโอ
+                </div>
+
+                <div class="max-w-2xl rounded-lg border p-3">
+                  <video
+                    v-if="videoPreviewUrl"
+                    :src="videoPreviewUrl"
+                    controls
+                    preload="metadata"
+                    class="max-h-[400px] w-full rounded bg-black"
+                  >
+                    เบราว์เซอร์ของคุณไม่รองรับการแสดงวิดีโอ
+                  </video>
+
+                  <div class="mt-2 break-all text-sm text-[#6c757d]">
+                    {{ videoFile.name }}
+                    ({{ formatFileSize(videoFile.size) }})
+                  </div>
+                </div>
+              </div>
+
+              <!-- Preview PDF -->
+              <div v-if="pdfFile" class="mt-4">
+                <div class="mb-2 font-medium text-[#1d684a]">
+                  เอกสาร PDF
+                </div>
+
+                <div class="max-w-4xl rounded-lg border p-3">
+                  <iframe
+                    v-if="pdfPreviewUrl"
+                    :src="pdfPreviewUrl"
+                    title="ตัวอย่างเอกสาร PDF"
+                    class="h-[500px] w-full rounded border"
+                  ></iframe>
+
+                  <div class="mt-2 flex flex-wrap items-center justify-between gap-2">
+                    <span class="break-all text-sm text-[#6c757d]">
+                      {{ pdfFile.name }}
+                      ({{ formatFileSize(pdfFile.size) }})
+                    </span>
+
+                    <a
+                      v-if="pdfPreviewUrl"
+                      :href="pdfPreviewUrl"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      class="text-sm text-blue-600 underline"
+                    >
+                      เปิด PDF ในหน้าต่างใหม่
+                    </a>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Preview รูปภาพ -->
+              <div v-if="imagePreviews.length" class="mt-4">
+                <div class="mb-2 font-medium text-[#1d684a]">
+                  รูปภาพ ({{ imagePreviews.length }} รูป)
+                </div>
+
+                <div class="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-4">
+                  <div
+                    v-for="(preview, index) in imagePreviews"
+                    :key="preview.key"
+                    class="overflow-hidden rounded-lg border bg-white p-2"
+                  >
+                    <a
+                      :href="preview.url"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      <img
+                        :src="preview.url"
+                        :alt="preview.file.name"
+                        class="h-40 w-full rounded object-cover"
+                      />
+                    </a>
+
+                    <div class="mt-2 truncate text-sm text-[#6c757d]">
+                      {{ index + 1 }}. {{ preview.file.name }}
+                    </div>
+
+                    <div class="text-xs text-[#6c757d]">
+                      {{ formatFileSize(preview.file.size) }}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </template>
+          <Form
+            v-if="confirmationStep === 2"
+            id="evaluationForm"
+            v-slot="{ errors: evaluationErrors }"
+            :initial-values="formEvaluation"
+            :validation-schema="schemaEvaluation"
+            @submit="submitComplaintWithEvaluation"
+          >
+            <p class="px-6 py-4 text-xs text-red-500">
+              * กรุณากรอกแบบประเมินความพึงพอใจ เพื่อนำผลไปใช้ปรับปรุงการให้บริการ
+            </p>
+            <div class="flex justify-center blue-panel overflow-hidden text-white py-2">ส่วนที่ 1 ข้อมูลของผู้ใช้บริการ</div>
             <div class="px-6 md:px-8 mt-5 flex flex-col gap-1">
               <div class="flex flex-col md:flex-row">
                 <div class="w-full md:w-3/12">1. เพศ</div>
                 <div class="w-full md:w-9/12">
                   <div class="flex flex-row justify-between">
                     <label class="flex items-center gap-2">
-                      <Field type="radio" name="gender" v-model="formEvaluation.gender" value="1" /> ชาย
+                      <Field type="radio" name="gender" :class="{ 'error-radio': evaluationErrors.gender }" v-model="formEvaluation.gender" value="1" /> ชาย
                     </label>
                     <label class="flex items-center gap-2">
-                      <Field type="radio" name="gender" v-model="formEvaluation.gender" value="2" /> หญิง
+                      <Field type="radio" name="gender" :class="{ 'error-radio': evaluationErrors.gender }" v-model="formEvaluation.gender" value="2" /> หญิง
                     </label>
                     <label class="flex items-center gap-2">
-                      <Field type="radio" name="gender" v-model="formEvaluation.gender" value="3" /> LGBTQ+
+                      <Field type="radio" name="gender" :class="{ 'error-radio': evaluationErrors.gender }" v-model="formEvaluation.gender" value="3" /> LGBTQ+
                     </label>
                   </div>
                   <ErrorMessage name="gender" class="text-red-500 text-sm mt-1" />
@@ -395,7 +567,7 @@
               <div class="flex flex-row items-center">
                 <div class="w-3/12">2. อายุ</div>
                 <div class="w-4/12">
-                  <Field name="age" type="text" class="input" v-model="formEvaluation.age" />
+                  <Field name="age" type="text" :class="['input', { 'error-border': evaluationErrors.age }]" v-model="formEvaluation.age" />
                   <ErrorMessage name="age" class="text-red-500 text-sm" />
                 </div>
               </div>
@@ -403,8 +575,8 @@
             <div class="px-6 md:px-8 mt-5 flex flex-col gap-1">
               <div class="flex flex-col md:flex-row items-center">
                 <div class="w-full md:w-3/12">3. ระดับการศึกษา</div>
-                <div class="w-full md:w-9/12">
-                  <Field as="select" name="qualification" class="input" v-model="formEvaluation.qualification">
+                <div class="w-full md:w-4/12">
+                  <Field as="select" name="qualification" :class="['input', { 'error-border': evaluationErrors.qualification }]" v-model="formEvaluation.qualification">
                     <option value="">-- กรุณาเลือก --</option>
                     <option value="1">ต่ำกว่าปริญญาตรี</option>
                     <option value="2">ปริญญาตรี</option>
@@ -418,8 +590,8 @@
             <div class="px-6 md:px-8 mt-5 flex flex-col gap-1">
               <div class="flex flex-col md:flex-row items-center">
                 <div class="w-full md:w-3/12">4. อาชีพ</div>
-                <div class="w-full md:w-9/12">
-                  <Field as="select" name="work" class="input" v-model="formEvaluation.work">
+                <div class="w-full md:w-4/12">
+                  <Field as="select" name="work" :class="['input', { 'error-border': evaluationErrors.work }]" v-model="formEvaluation.work">
                     <option value="">-- กรุณาเลือก --</option>
                     <option value="1">รับราชการ</option>
                     <option value="2">พนักงานบริษัท/รัฐวิสาหกิจ</option>
@@ -436,7 +608,146 @@
               <div class="flex flex-col md:flex-row items-center">
                 <div class="w-full md:w-3/12 pl-4">โปรดระบุ</div>
                 <div class="w-full md:w-9/12">
-                  <Field name="workDis" type="text" class="input" v-model="formEvaluation.workDis" />
+                  <Field name="workDis" type="text" :class="['input', { 'error-border': evaluationErrors.workDis }]" v-model="formEvaluation.workDis" />
+                  <ErrorMessage name="workDis" class="text-red-500 text-sm" />
+                </div>
+              </div>
+            </div>
+            <div class="flex justify-center blue-panel overflow-hidden text-white py-2 mt-4">ส่วนที่ 2 ความพึงพอใจของผู้ใช้บริการ</div>
+            <div class="px-6 md:px-8 mt-5 flex flex-col gap-1" v-for="(item, i) in item_question">
+              <div class="flex flex-col">
+                <div class="w-full">{{ i+1 }}. {{ item.name }}</div>
+                <div class="w-full mt-1">
+                  <div class="grid grid-cols-2 sm:grid-cols-3 justify-items-stretch">
+                    <div class="form-check">
+                      <input class="hover:cursor-pointer" type="radio" :name="'sel'+item.id" :id="'sel'+item.id+'_1'" v-model="item.sel" value="1" :checked="item.checked_1">
+                      <label class="hover:cursor-pointer" :for="'sel'+item.id+'_1'">
+                        ไม่พึงพอใจ
+                      </label>
+                    </div>
+                    <!-- <div class="form-check">
+                      <input class="hover:cursor-pointer" type="radio" :name="'sel'+item.id" :id="'sel'+item.id+'_2'" v-model="item.sel" value="2" :checked="item.checked_2">
+                      <label class="hover:cursor-pointer" :for="'sel'+item.id+'_2'">
+                        พึงพอใจ
+                      </label>
+                    </div> -->
+                    <div class="form-check">
+                      <input class="hover:cursor-pointer" type="radio" :name="'sel'+item.id" :id="'sel'+item.id+'_3'" v-model="item.sel" value="3" :checked="item.checked_3">
+                      <label class="hover:cursor-pointer" :for="'sel'+item.id+'_3'">
+                        พึงพอใจมาก
+                      </label>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </Form>
+        </div>
+        <div class="flex px-6 md:px-8 pt-6 pb-4 border-t justify-end mt-8 gap-2">
+          <template v-if="confirmationStep === 1">
+            <button type="button" @click="showModal = false" class="px-4 py-2 bg-[#6c757d] text-white rounded border">
+                กลับไปแก้ไข
+            </button>
+            <button type="button" :disabled="isLoading" @click="goToEvaluationStep" class="px-4 py-2 bg-brand-600 text-white rounded ">
+                ถัดไป: ทำแบบประเมิน
+            </button>
+          </template>
+          <template v-else>
+            <button type="button" :disabled="isLoading" @click="confirmationStep = 1" class="px-4 py-2 bg-[#6c757d] text-white rounded border">
+                ย้อนกลับ
+            </button>
+            <button type="submit" form="evaluationForm" class="px-4 py-2 bg-[#28a745] text-white rounded ">
+               {{ isLoading ? 'กำลังส่งข้อมูล...' : 'ส่งเรื่องร้องเรียน' }}
+            </button>
+          </template>
+        </div>
+      </div>
+    </div>
+
+    <div
+      v-if="showEvaluation"
+      class="fixed inset-0 z-[999] flex items-start justify-center bg-black bg-opacity-50 pt-[5%]"
+    >
+      <!-- กล่องเนื้อหา -->
+      <div class="bg-white rounded-lg shadow-lg w-full max-w-xl relative animate-fade-in-down ">
+        <Form
+          v-slot="{ errors: evaluationErrors }"
+          :initial-values="formEvaluation"
+          :validation-schema="schemaEvaluation"
+          @submit="sendEvaluation"
+        >
+          <div class="flex flex-row px-6 md:px-8 pt-6 pb-4 border-b justify-between">
+            <h2 class="text-lg text-[#3fbbc0]">แบบประเมินความพึงพอใจ สำหรับผู้ใช้บริการ</h2>
+            <i @click="showEvaluation = false" class="fas fa-times hover:cursor-pointer -mt-2 -mr-2"></i>
+          </div>
+          <div class="overflow-y-auto max-h-[60vh]">
+            <div class="px-6 md:px-8 mt-2 flex flex-col text-xs text-[#dc3545]">*กรุณากรอกแบบประเมินความพึงพอใจ เพื่อนำผลไปใช้ในการปรับปรุงการให้บริการ จึงขอความร่วมมือจากทุกท่านที่ใช้งานระบบรับเรื่องร้องเรียน กรมสุขภาพจิต</div>
+            <div class="mx-6 px-3 py-2 mt-4 flex flex-col bg-[#1d684a] text-white">ส่วนที่ 1 ข้อมูลของผู้ใช้บริการ</div>
+            <div class="px-6 md:px-8 mt-5 flex flex-col gap-1">
+              <div class="flex flex-col md:flex-row">
+                <div class="w-full md:w-3/12">1. เพศ</div>
+                <div class="w-full md:w-9/12">
+                  <div class="flex flex-row justify-between">
+                    <label class="flex items-center gap-2">
+                      <Field type="radio" name="gender" :class="{ 'error-radio': evaluationErrors.gender }" v-model="formEvaluation.gender" value="1" /> ชาย
+                    </label>
+                    <label class="flex items-center gap-2">
+                      <Field type="radio" name="gender" :class="{ 'error-radio': evaluationErrors.gender }" v-model="formEvaluation.gender" value="2" /> หญิง
+                    </label>
+                    <label class="flex items-center gap-2">
+                      <Field type="radio" name="gender" :class="{ 'error-radio': evaluationErrors.gender }" v-model="formEvaluation.gender" value="3" /> LGBTQ+
+                    </label>
+                  </div>
+                  <ErrorMessage name="gender" class="text-red-500 text-sm mt-1" />
+                </div>
+              </div>
+            </div>
+            <div class="px-6 md:px-8 mt-5 flex flex-col gap-1">
+              <div class="flex flex-row items-center">
+                <div class="w-3/12">2. อายุ</div>
+                <div class="w-4/12">
+                  <Field name="age" type="text" :class="['input', { 'error-border': evaluationErrors.age }]" v-model="formEvaluation.age" />
+                  <ErrorMessage name="age" class="text-red-500 text-sm" />
+                </div>
+              </div>
+            </div>
+            <div class="px-6 md:px-8 mt-5 flex flex-col gap-1">
+              <div class="flex flex-col md:flex-row items-center">
+                <div class="w-full md:w-3/12">3. ระดับการศึกษา</div>
+                <div class="w-full md:w-9/12">
+                  <Field as="select" name="qualification" :class="['input', { 'error-border': evaluationErrors.qualification }]" v-model="formEvaluation.qualification">
+                    <option value="">-- กรุณาเลือก --</option>
+                    <option value="1">ต่ำกว่าปริญญาตรี</option>
+                    <option value="2">ปริญญาตรี</option>
+                    <option value="3">ปริญญาโท</option>
+                    <option value="4">ปริญญาเอก</option>
+                  </Field>
+                  <ErrorMessage name="qualification" class="text-red-500 text-sm" />
+                </div>
+              </div>
+            </div>
+            <div class="px-6 md:px-8 mt-5 flex flex-col gap-1">
+              <div class="flex flex-col md:flex-row items-center">
+                <div class="w-full md:w-3/12">4. อาชีพ</div>
+                <div class="w-full md:w-9/12">
+                  <Field as="select" name="work" :class="['input', { 'error-border': evaluationErrors.work }]" v-model="formEvaluation.work">
+                    <option value="">-- กรุณาเลือก --</option>
+                    <option value="1">รับราชการ</option>
+                    <option value="2">พนักงานบริษัท/รัฐวิสาหกิจ</option>
+                    <option value="3">ธุรกิจส่วนตัว</option>
+                    <option value="4">รับจ้าง</option>
+                    <option value="5">นักเรียน/นักศึกษา</option>
+                    <option value="6">อื่น ๆ</option>
+                  </Field>
+                  <ErrorMessage name="work" class="text-red-500 text-sm" />
+                </div>
+              </div>
+            </div>
+            <div v-if="formEvaluation.work == 6" class="px-6 md:px-8 mt-2 flex flex-col gap-1">
+              <div class="flex flex-col md:flex-row items-center">
+                <div class="w-full md:w-3/12 pl-4">โปรดระบุ</div>
+                <div class="w-full md:w-9/12">
+                  <Field name="workDis" type="text" :class="['input', { 'error-border': evaluationErrors.workDis }]" v-model="formEvaluation.workDis" />
                   <ErrorMessage name="workDis" class="text-red-500 text-sm" />
                 </div>
               </div>
@@ -497,6 +808,7 @@ export default {
     return {
       isLoading: false,
       step:1,
+      confirmationStep:1,
       isChecked: false,
       showModal: false,
       code: '',
@@ -580,10 +892,17 @@ export default {
             ? schema.required('กรุณาระบุอาชีพ')
             : schema.nullable();
         }),
-      })
+      }),
+      videoFile: null,
+      pdfFile: null,
+      imageFiles: [],
+      videoPreviewUrl: '',
+      pdfPreviewUrl: '',
+      imagePreviews: [],
+      maxFileSize: 10 * 1024 * 1024,
     }
   },
-  props:['key_title','conditions','province','unit','sub','type','person'],
+  props:['key_title','conditions','province','unit','sub','type','person','sel_id'],
   components: {
     Form,
     Field,
@@ -596,8 +915,12 @@ export default {
     this.item_unit = JSON.parse(this.unit)
     this.item_type = JSON.parse(this.type)
     this.item_person = JSON.parse(this.person)
+
   },
   mounted() {
+    if(this.sel_id) {
+      this.form.type_id = this.sel_id;
+    }
   },
   methods: {
     selApprove(){
@@ -760,14 +1083,194 @@ export default {
       }
       return title;
     },
+    onInvalidSubmit() {
+      Swal.fire({
+        title: 'แจ้งเตือน!',
+        text: 'กรุณากรอกข้อมูลให้ครบทุกช่อง',
+        icon: 'warning',
+        confirmButtonText: 'ตกลง',
+        confirmButtonColor: 'rgb(10, 120, 211)',
+      })
+    },
     onSubmit(values) {
       this.showModal = true
+    },
+    showUploadError(message) {
+      Swal.fire({
+        title: 'ไฟล์ไม่ถูกต้อง',
+        text: message,
+        icon: 'warning',
+        confirmButtonText: 'ตกลง',
+      })
+    },
+
+    formatFileSize(bytes) {
+      return `${(bytes / (1024 * 1024)).toFixed(2)} MB`
+    },
+
+    fileKey(file) {
+      return `${file.name}-${file.size}-${file.lastModified}`
+    },
+
+    getFileExtension(file) {
+      return file.name.split('.').pop()?.toLowerCase() || ''
+    },
+
+    selectAttachments(event) {
+      const selectedFiles = Array.from(event.target.files || [])
+
+      // ล้าง input เพื่อให้สามารถเลือกไฟล์เดิมซ้ำได้
+      event.target.value = ''
+
+      if (!selectedFiles.length) {
+        return
+      }
+
+      // ใช้ค่าชั่วคราว เพื่อไม่แก้ข้อมูลเดิมถ้ามีไฟล์ใดไม่ผ่าน
+      let nextVideo = this.videoFile
+      let nextPdf = this.pdfFile
+      const nextImages = [...this.imageFiles]
+
+      const videoExtensions = ['mp4', 'mov', 'avi', 'webm']
+      const imageExtensions = ['jpg', 'jpeg', 'png', 'webp']
+
+      for (const file of selectedFiles) {
+        const extension = this.getFileExtension(file)
+
+        if (file.size > this.maxFileSize) {
+          this.showUploadError(
+            `ไฟล์ ${file.name} มีขนาดเกิน 10 MB`
+          )
+          return
+        }
+
+        if (videoExtensions.includes(extension)) {
+          if (nextVideo) {
+            this.showUploadError('สามารถเลือกวิดีโอได้ไม่เกิน 1 ไฟล์')
+            return
+          }
+
+          nextVideo = file
+          continue
+        }
+
+        if (extension === 'pdf') {
+          if (nextPdf) {
+            this.showUploadError('สามารถเลือกไฟล์ PDF ได้ไม่เกิน 1 ไฟล์')
+            return
+          }
+
+          nextPdf = file
+          continue
+        }
+
+        if (imageExtensions.includes(extension)) {
+          const duplicate = nextImages.some(
+            (image) => this.fileKey(image) === this.fileKey(file)
+          )
+
+          if (!duplicate) {
+            nextImages.push(file)
+          }
+
+          continue
+        }
+
+        this.showUploadError(
+          `ไม่รองรับไฟล์ ${file.name} กรุณาเลือกวิดีโอ, PDF หรือรูปภาพ`
+        )
+        return
+      }
+
+      if (nextImages.length > 10) {
+        this.showUploadError('สามารถเลือกรูปภาพได้ไม่เกิน 10 รูป')
+        return
+      }
+
+      this.videoFile = nextVideo
+      this.pdfFile = nextPdf
+      this.imageFiles = nextImages
+
+      this.createAttachmentPreviews()
+    },
+
+    removeVideo() {
+      this.videoFile = null
+      this.createAttachmentPreviews()
+    },
+
+    removePdf() {
+      this.pdfFile = null
+        this.createAttachmentPreviews()
+    },
+
+    removeImage(index) {
+      this.imageFiles.splice(index, 1)
+      this.createAttachmentPreviews()
+    },
+    createAttachmentPreviews() {
+      this.clearAttachmentPreviews()
+
+      if (this.videoFile) {
+        this.videoPreviewUrl = URL.createObjectURL(this.videoFile)
+      }
+
+      if (this.pdfFile) {
+        this.pdfPreviewUrl = URL.createObjectURL(this.pdfFile)
+      }
+
+      this.imagePreviews = this.imageFiles.map((file) => ({
+        file,
+        url: URL.createObjectURL(file),
+        key: `${file.name}-${file.size}-${file.lastModified}`,
+      }))
+    },
+
+    clearAttachmentPreviews() {
+      if (this.videoPreviewUrl) {
+        URL.revokeObjectURL(this.videoPreviewUrl)
+      }
+
+      if (this.pdfPreviewUrl) {
+        URL.revokeObjectURL(this.pdfPreviewUrl)
+      }
+
+      this.imagePreviews.forEach((preview) => {
+        URL.revokeObjectURL(preview.url)
+      })
+
+      this.videoPreviewUrl = ''
+      this.pdfPreviewUrl = ''
+      this.imagePreviews = []
+    },
+    async goToEvaluationStep() {
+      this.isLoading = true
+      try {
+        if (!this.item_question.length) {
+          const { data } = await axios.get('/load/question')
+          if (data.status !== 200) throw new Error()
+          this.item_question = data.item
+        }
+        this.confirmationStep = 2
+      } catch { Swal.fire('ผิดพลาด', 'ไม่สามารถโหลดแบบประเมินได้', 'error') }
+      finally { this.isLoading = false }
     },
     sendData(){
       this.isLoading = true;
 
       const formData = new FormData();
-      formData.append('file', this.$refs.file?.files[0]);
+      // formData.append('file', this.$refs.file?.files[0]);
+      if (this.videoFile) {
+        formData.append('video', this.videoFile)
+      }
+
+      if (this.pdfFile) {
+        formData.append('pdf', this.pdfFile)
+      }
+
+      this.imageFiles.forEach((image) => {
+        formData.append('images[]', image)
+      })
       formData.append('concealed', (this.form.concealed)? 1: 0);
       formData.append('fname', this.form.firstName);
       formData.append('lname', this.form.lastName);
@@ -809,10 +1312,122 @@ export default {
             confirmButtonText: 'ตกลง',
           }).then((result) => {
             if (result.isConfirmed) {
-              this.getQuestion();
               this.step++
             }else{
-              this.getQuestion();
+              this.step++
+            }
+          });
+        }else{
+          this.isLoading = false;
+          Swal.fire({title: 'ผิดพลาด !',text: 'ไม่สามารถทำรายการได้ !',icon: 'error',confirmButtonText: 'ตกลง'});
+        }
+      })
+      .catch(err => {
+        console.error(err)
+        this.isLoading = false;
+        Swal.fire({title: 'ผิดพลาด !',text: 'ไม่สามารถทำรายการได้ !',icon: 'error',confirmButtonText: 'ตกลง'});
+      })
+    },
+    async submitComplaintWithEvaluation(values) {
+      // const unanswered = this.itemQuestion.find(item => !item.sel)
+      // if (unanswered) return Swal.fire('กรุณาตอบแบบประเมินให้ครบ', unanswered.name, 'warning')
+      //this.isLoading = true
+      const formData = new FormData()
+
+      formData.append('concealed', (this.form.concealed)? 1: 0);
+      formData.append('fname', this.form.firstName);
+      formData.append('lname', this.form.lastName);
+      // formData.append('idcard', this.form.idcard);
+      formData.append('gender', this.form.sex);
+      formData.append('work', this.form.work);
+      formData.append('address', this.form.address);
+      formData.append('phone', this.form.phone);
+      formData.append('tel', this.form.tel);
+      formData.append('province_id', this.form.province_id);
+      formData.append('district_id', this.form.district_id);
+      formData.append('subdistrict_id', this.form.subdistrict_id);
+      formData.append('zipcode', this.form.zipcode);
+      // formData.append('unit_id', this.form.unit_id);
+      formData.append('type_id', this.form.type_id);
+      // formData.append('sub_id', this.form.sub_id);
+      // formData.append('person_id', this.form.person_id);
+      formData.append('name', this.form.name);
+      formData.append('description', this.form.description);
+      formData.append('improvement', this.form.improvement);
+      formData.append('key_title', this.key_title);
+
+      if (this.videoFile) formData.append('video', this.videoFile)
+      if (this.pdfFile) formData.append('pdf', this.pdfFile)
+      this.imageFiles.forEach(file => formData.append('images[]', file))
+
+      formData.append(
+        'questions',
+        JSON.stringify(this.item_question)
+      )
+      formData.append('eva_gender', this.formEvaluation.gender);
+      formData.append('eva_age', this.formEvaluation.age);
+      formData.append('eva_qualification', this.formEvaluation.qualification);
+      formData.append('eva_work', this.formEvaluation.work);
+      formData.append('eva_workDis', this.formEvaluation.workDis);
+
+
+      for (const [key, value] of formData.entries()) {
+        if (value instanceof File) {
+          console.log(key, {
+            name: value.name,
+            type: value.type,
+            size: value.size,
+          })
+        } else {
+          console.log(key, value)
+        }
+      }
+      /*const map = {
+        concealed: this.form.concealed ? 1 : 0, fname: this.form.firstName, lname: this.form.lastName,
+        gender: this.form.sex, work: this.form.work, address: this.form.address, phone: this.form.phone,
+        tel: this.form.tel, email: this.form.email, province_id: this.form.province_id,
+        district_id: this.form.district_id, subdistrict_id: this.form.subdistrict_id,
+        zipcode: this.form.zipcode, type_id: this.form.type_id, name: this.form.name,
+        description: this.form.description, improvement: this.form.improvement, key_title: this.key_title
+      }
+      Object.entries(map).forEach(([key, value]) => data.append(key, value ?? ''))
+      if (this.videoFile) data.append('video', this.videoFile)
+      if (this.pdfFile) data.append('pdf', this.pdfFile)
+      this.imageFiles.forEach(file => data.append('images[]', file))
+      data.append('evaluation', JSON.stringify(values))
+      data.append('evaluation_answers', JSON.stringify(this.itemQuestion.map(item => ({ question_id: item.id, score: Number(item.sel) }))))
+      try {
+        const response = await axios.post('/complaint', data)
+        if (response.data.status !== 200) throw new Error(response.data.message)
+        this.code = response.data.code; this.showModal = false; this.step = 3
+        Swal.fire('สำเร็จ', 'ส่งเรื่องร้องเรียนและแบบประเมินเรียบร้อยแล้ว', 'success')
+      } catch (error) {
+        const errors = error.response?.data?.errors
+        Swal.fire('ผิดพลาด', errors ? Object.values(errors).flat()[0] : (error.response?.data?.message || 'ไม่สามารถบันทึกข้อมูลได้'), 'error')
+      } finally { this.isLoading = false }
+       */
+
+       axios.post('/complaint', formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      }) 
+      .then(res => {
+        if(res.data.status == 200){
+          this.isLoading = false;
+          this.showModal = false;
+          this.code = res.data.code;
+          Swal.fire({
+            title: 'สำเร็จ !',
+            html: 'ท่านได้ส่งคำร้องเรียน/ร้องทุกข์เรียบร้อยแล้ว',
+            icon: 'success',
+            showCancelButton: false,
+            confirmButtonColor: '#3085d6',
+            confirmButtonText: 'ตกลง',
+          }).then((result) => {
+            if (result.isConfirmed) {
+              this.step++
+            }else{
               this.step++
             }
           });
@@ -889,6 +1504,9 @@ export default {
       }
     },
   },
+  beforeUnmount() {
+    this.clearAttachmentPreviews()
+  },
     
 }
 </script>
@@ -916,5 +1534,22 @@ export default {
   position: absolute;
   top: 0px;
   left: 5px;
+}
+
+.error-border {
+  border-color: #ef4444 !important;
+  box-shadow: 0 0 0 1px #ef4444;
+}
+
+.error-border:focus {
+  border-color: #ef4444 !important;
+  box-shadow: 0 0 0 1px #ef4444;
+  outline: none;
+}
+
+.error-radio {
+  accent-color: #ef4444;
+  outline: 1px solid #ef4444;
+  outline-offset: 1px;
 }
 </style>

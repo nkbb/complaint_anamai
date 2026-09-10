@@ -11,7 +11,9 @@ use App\Models\QuestionDetail;
 use App\Models\CommentType;
 use App\Models\CommentSub;
 use App\Models\Comments;
+use App\Models\Company;
 use App\Models\Banner;
+use Illuminate\Support\Facades\Cache;
 
 class HomeController extends Controller
 {
@@ -19,12 +21,19 @@ class HomeController extends Controller
     public function index(): View
     {
 
-        $banner = Banner::where('type',2)->first();
-        if($banner){
-          $banner->image_url = asset('storage/banner/' . $banner->image);
+        $banner = Cache::remember('banner.type.2', now()->addMinutes(10), function () {
+            return Banner::where('type', 2)->first();
+        });
+
+        if ($banner) {
+            $banner->image_url = asset('storage/banner/' . $banner->image);
         }
 
-        return view('home',compact('banner'));
+        $company = Cache::remember('company', now()->addMinutes(10), function () {
+            return Company::find(1);
+        });
+
+        return view('home',compact('banner','company'));
     }
 
     public function template1(): View{

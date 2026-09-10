@@ -5,7 +5,7 @@
         </div>
         <ul class="flex items-center space-x-1 text-sm">
             <li v-for="(item, i) in items" :key="i">
-                <button v-if="item.class == 'active'" class="px-3 py-1 rounded border bg-[#FB8C00] text-white">{{ item.name }}</button>
+                <button v-if="item.class == 'active'" class="px-3 py-1 rounded border bg-brand-600 text-white">{{ item.name }}</button>
                 <template v-else>
                     <button v-if="item.name == 'back'" @click="gotoPage(item.page)" class="px-3 py-1 rounded border text-gray-600 hover:bg-gray-100" aria-label="Previous">
                         &laquo;

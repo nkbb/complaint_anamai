@@ -35,7 +35,7 @@
         </div>
       </div>
     </div>
-    <div class="mt-4 text-center text-lg text-white bg-[#1d684a] -mx-7 md:mx-0 py-2">ข้อมูลเกี่ยวกับผู้ร้องเรียน</div>
+    <div class="mt-4 text-center text-lg text-white blue-panel -mx-7 md:mx-0 py-2 rounded-md">ข้อมูลเกี่ยวกับผู้ร้องเรียน</div>
     <div class="flex flex-col md:flex-row mt-4 items-center gap-3">
       <div class="w-full md:w-2/12">การเปิดเผยข้อมูล :</div>
       <div v-if="item?.concealed" class="w-full md:w-10/12 text-[#dc3545] text-xl">ปกปิด ข้อมูลผู้ร้องเรียน</div>
@@ -71,11 +71,7 @@
       <div class="w-full md:w-2/12">Email :</div>
       <div class="w-full md:w-10/12 text-sm">{{ item?.email }}</div>
     </div>
-    <div class="my-4 text-center text-lg text-white bg-[#1d684a] -mx-7 md:mx-0 py-2">ข้อมูลเกี่ยวกับเรื่องร้องเรียน</div>
-    <div class="flex flex-col md:flex-row mt-4 gap-3">
-      <div class="w-full md:w-2/12">ร้องเรียนถึง :</div>
-      <div class="w-full md:w-10/12 text-sm">{{ item?.unit_name }}</div>
-    </div>
+    <div class="my-4 text-center text-lg text-white blue-panel rounded-md -mx-7 md:mx-0 py-2">ข้อมูลเกี่ยวกับเรื่องร้องเรียน</div>
     <div class="flex flex-col md:flex-row mt-4 gap-3">
       <div class="w-full md:w-2/12">ช่องทางที่ร้องเรียน :</div>
       <div class="w-full md:w-10/12 text-sm">{{ item?.method_name }}</div>
@@ -83,10 +79,6 @@
     <div class="flex flex-col md:flex-row mt-4 gap-3">
       <div class="w-full md:w-2/12">ประเด็นเรื่องร้องเรียน :</div>
       <div class="w-full md:w-10/12 text-sm">{{ item?.type_name }} <span v-if="item?.sub_name">({{ item?.sub_name }})</span></div>
-    </div>
-    <div class="flex flex-col md:flex-row mt-4 gap-3">
-      <div class="w-full md:w-2/12">บุคคลที่ร้องเรียน :</div>
-      <div class="w-full md:w-10/12 text-sm">{{ item?.person_name }}</div>
     </div>
     <div class="flex flex-col md:flex-row mt-4 gap-3">
       <div class="w-full md:w-2/12">หัวข้อเรื่องร้องเรียน :</div>
@@ -111,7 +103,7 @@
       </div>
     </div>
     <template v-if="item?.type  >= 3 && (item?.is_add == 1 || item?.is_add ==3)">
-    <div class="my-4 text-center text-lg text-white bg-[#1d684a] -mx-7 md:mx-0 py-2 mt-11">คำสั่งการจากศูนย์รับเรื่อง (สำนักเลขานุการกรม)</div>
+    <div class="my-4 text-center text-lg text-white blue-panel rounded-md -mx-7 md:mx-0 py-2 mt-11">คำสั่งการจากศูนย์รับเรื่อง (สำนักเลขานุการกรม)</div>
 
     <div class="flex flex-col md:flex-row mt-4 gap-3">
       <div class="w-full md:w-2/12">ระดับเรื่อง :</div>
@@ -148,7 +140,7 @@
     </template>
 
     <template v-if="item?.type  >= 3">
-      <div class="my-4  text-lg text-white text-center bg-[#1d684a] py-2 mt-11">ข้อความการตอบ-แก้ไข ข้อร้องเรียน (หน่วยกำกับดูแล)</div>
+      <div class="my-4  text-lg text-white text-center blue-panel rounded-md py-2 mt-11">ข้อความการตอบ-แก้ไข ข้อร้องเรียน (หน่วยกำกับดูแล)</div>
       <div class="flex flex-col w-full py-6" v-if="user_level == 'root'">
         <h2 v-if="item?.type == 3" class="text-red-400 text-center">อยู่ระหว่างดำเนินการ</h2>
         <h2 v-if="item?.type == 4 || item?.type == 6" class="text-red-400 text-center">รอหน่วยดำเนินการ ตอบ-แก้ไขข้อร้องเรียน</h2>
@@ -218,7 +210,7 @@
 
 
     <template v-if="user_level == 'root'">
-      <div class="my-4 text-center text-lg text-white bg-[#1d684a] -mx-7 md:mx-0 py-2 mt-11">แสดงกระบวนการ สำหรับผู้ร้อง</div>
+      <div class="my-4 text-center text-lg text-white blue-panel rounded-md -mx-7 md:mx-0 py-2 mt-11">แสดงกระบวนการ สำหรับผู้ร้อง</div>
       <Form :initial-values="formTrace"  @submit="traceData">
         <div class="flex flex-col md:flex-row mt-4 gap-3">
           <div class="w-full md:w-2/12">สถานะ :</div>
@@ -244,7 +236,7 @@
         </div>
         <div class="flex flex-col w-full text-center mt-6">
           <div class="text-center">
-           <button type="submit" class="px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600">
+           <button type="submit" class="px-4 py-2 bg-brand-600 text-white rounded hover:bg-brand-700">
              บันทึก
           </button>
           </div>

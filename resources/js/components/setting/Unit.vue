@@ -6,7 +6,7 @@
         type="button"
         @click="addData()"
         class="group flex items-center gap-2 px-4 py-2 rounded-xl shadow-lg bg-green/90 backdrop-blur-sm border border-gray-200 hover:scale-105 transform transition
-              text-sm font-medium text-red-500 "
+              text-sm font-medium text-brand-600 "
       >
         <i class="fas fa-plus"></i>
         <span>เพิ่มหน่วยงาน</span>
@@ -28,7 +28,7 @@
     </div>
 
     <loading :active="isLoading" :can-cancel="false" :is-full-page="true" :color="'#3fbbc0'" :loader="'spinner'" :width="64" :height="64" />
-    <div @click="addData()" class="ml-[60px] border border-red-500 text-red-500  px-4 py-2 rounded-md inline-block hover:cursor-pointer"><i class="fas fa-plus"></i> เพิ่มหน่วยงาน</div>
+    <div @click="addData()" class="ml-[60px] border border-brand-600 text-brand-600  px-4 py-2 rounded-md inline-block hover:cursor-pointer"><i class="fas fa-plus"></i> เพิ่มหน่วยงาน</div>
 
     <div class="flex mt-11">
       <table class=" w-full border border-[#dee2e6] text-left text-sm">
@@ -68,8 +68,8 @@
     >
       <!-- กล่องเนื้อหา -->
       <div class="bg-white rounded-lg shadow-lg w-full max-w-md p-6 relative animate-fade-in-down">
-        <h2 class="text-xl font-semibold mb-4 text-[#EE7530]" v-if="form.id">+ แก้ไขหน่วยงาน</h2>
-        <h2 class="text-xl font-semibold mb-4 text-[#EE7530]" v-else>+ เพิ่มหน่วยงาน</h2>
+        <h2 class="text-xl font-semibold mb-4 text-brand-600" v-if="form.id">+ แก้ไขหน่วยงาน</h2>
+        <h2 class="text-xl font-semibold mb-4 text-brand-600" v-else>+ เพิ่มหน่วยงาน</h2>
         <Form :initial-values="form" :validation-schema="schema" @submit="saveData">
           <div class="flex flex-col mt-3">
             <div class="text-sm">ชื่อหน่วยงาน : </div>
@@ -98,7 +98,7 @@
             </div>
           </div>
           <div class="gap-2 flex justify-end mt-5">
-            <button type="submit" class="px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600">
+            <button type="submit" class="px-4 py-2 bg-brand-600 text-white rounded hover:bg-brand-800">
               บันทึก
             </button>
             <button type="button" @click="showModal = false" class="px-4 py-2 bg-white rounded border">
