@@ -1,18 +1,16 @@
 @extends('layouts.app')
 
-@section('pageTitle', 'ระบบบริหารจัดการข้อคิดเห็นข้อร้องเรียน กรมสุขภาพจิต')
+@section('pageTitle', 'ศูนย์รับข้อร้องเรียนและข้อชมเชย กรมอนามัย')
 
 @section('content')
     <div class="-mt-11 ">
 
 
-        <image-carouse-component id="home" isload="true"></image-carouse-component>
+        <image-carouse-component id="home" isload="true" :initial-banners="{{ Illuminate\Support\Js::from($banners) }}"></image-carouse-component>
 
-                                    <!-- <home-popup-component image="{{ $banner }}"></home-popup-component> -->
 
         <!-- <home-type-component></home-type-component> -->
 
-        <!-- <home-follow-component></home-follow-component> -->
 
 
         <!-- <image-carouse-component isload="true"></image-carouse-component> -->
@@ -148,7 +146,7 @@
 
         <section id="topics" class="topics section-blue">
             <div class="container">
-                <div class="heading mt-11">
+                <div class="heading md:mt-16 mt-14">
                     <h2 class="text-2xl font-extrabold text-slate-900 md:text-3xl">ขั้นตอนง่าย ๆ เพียง 3 ขั้นตอน</h2>
                     <div class="mx-auto mt-3 h-1 w-20 rounded-full bg-gradient-to-r from-brand-500 to-violetplus"></div>
                 </div>
@@ -301,60 +299,193 @@
         </section>
 
         <section class="tracking section-blue">
-            <div class="mx-auto max-w-7xl px-4 pb-14 md:px-8">
-                <div
-                    class="relative overflow-hidden rounded-[2rem] border border-brand-100 bg-white p-6 shadow-soft md:p-10">
-                    <div class="absolute -left-10 top-0 h-40 w-40 rounded-full bg-brand-100/80 blur-2xl"></div>
-                    <div class="absolute bottom-0 right-0 h-44 w-44 rounded-full bg-cyan-100/90 blur-2xl"></div>
-                    <div
-                        class="absolute right-10 top-8 hidden h-20 w-20 rounded-3xl bg-gradient-to-br from-violet-200 to-cyan-100 opacity-70 md:block">
+            <home-follow-component></home-follow-component>
+            <!-- Satisfaction Evaluation -->
+            <section class="evaluation-section">
+                <div class="evaluation-card">
+                    <!-- Illustration -->
+                    <div class="evaluation-illustration" aria-hidden="true">
+                        <svg
+                            viewBox="0 0 120 120"
+                            fill="none"
+                            xmlns="http://www.w3.org/2000/svg"
+                        >
+                            <circle cx="60" cy="60" r="54" fill="#EEF2FF" />
+
+                            <rect
+                                x="31"
+                                y="27"
+                                width="54"
+                                height="69"
+                                rx="10"
+                                fill="white"
+                                stroke="#6366F1"
+                                stroke-width="4"
+                            />
+
+                            <rect
+                                x="47"
+                                y="20"
+                                width="23"
+                                height="14"
+                                rx="6"
+                                fill="#6366F1"
+                            />
+
+                            <rect
+                                x="42"
+                                y="45"
+                                width="9"
+                                height="9"
+                                rx="2"
+                                fill="#DBEAFE"
+                                stroke="#3B82F6"
+                                stroke-width="2"
+                            />
+
+                            <path
+                                d="M44 49L47 52L52 46"
+                                stroke="#2563EB"
+                                stroke-width="2.5"
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                            />
+
+                            <path
+                                d="M59 49H75"
+                                stroke="#94A3B8"
+                                stroke-width="3"
+                                stroke-linecap="round"
+                            />
+
+                            <rect
+                                x="42"
+                                y="62"
+                                width="9"
+                                height="9"
+                                rx="2"
+                                fill="#DBEAFE"
+                                stroke="#3B82F6"
+                                stroke-width="2"
+                            />
+
+                            <path
+                                d="M44 66L47 69L52 63"
+                                stroke="#2563EB"
+                                stroke-width="2.5"
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                            />
+
+                            <path
+                                d="M59 66H75"
+                                stroke="#94A3B8"
+                                stroke-width="3"
+                                stroke-linecap="round"
+                            />
+
+                            <rect
+                                x="42"
+                                y="79"
+                                width="9"
+                                height="9"
+                                rx="2"
+                                fill="#DBEAFE"
+                                stroke="#3B82F6"
+                                stroke-width="2"
+                            />
+
+                            <path
+                                d="M44 83L47 86L52 80"
+                                stroke="#2563EB"
+                                stroke-width="2.5"
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                            />
+
+                            <path
+                                d="M59 83H75"
+                                stroke="#94A3B8"
+                                stroke-width="3"
+                                stroke-linecap="round"
+                            />
+
+                            <circle
+                                cx="87"
+                                cy="83"
+                                r="20"
+                                fill="url(#evaluationGradient)"
+                            />
+
+                            <circle cx="80" cy="79" r="2" fill="white" />
+                            <circle cx="94" cy="79" r="2" fill="white" />
+
+                            <path
+                                d="M79 87C83 92 91 92 95 87"
+                                stroke="white"
+                                stroke-width="3"
+                                stroke-linecap="round"
+                            />
+
+                            <defs>
+                                <linearGradient
+                                    id="evaluationGradient"
+                                    x1="67"
+                                    y1="63"
+                                    x2="107"
+                                    y2="103"
+                                    gradientUnits="userSpaceOnUse"
+                                >
+                                    <stop stop-color="#38BDF8" />
+                                    <stop offset="1" stop-color="#6366F1" />
+                                </linearGradient>
+                            </defs>
+                        </svg>
                     </div>
-                    <div class="relative mx-auto max-w-3xl text-center">
-                        <h2 class="text-2xl font-extrabold text-slate-900 md:text-3xl">ติดตามเรื่องร้องเรียน</h2>
-                        <div class="mx-auto mt-3 h-1 w-20 rounded-full bg-gradient-to-r from-brand-500 to-violetplus">
-                        </div>
-                        <p class="mt-5 text-sm text-slate-600">กรุณากรอกข้อมูลเพื่อค้นหาสถานะเรื่องร้องเรียนของท่าน</p>
-                    </div>
 
-                    <form class="relative mx-auto mt-8 grid max-w-4xl gap-6 md:grid-cols-2">
-                        <label class="block">
-                            <span class="text-sm font-bold text-slate-800">กรุณากรอก เลขที่ร้องเรียน</span>
-                            <input type="text" placeholder="เช่น <?php echo $company->key_title; ?>000000"
-                                class="mt-2 w-full rounded-2xl border border-slate-200 bg-white/95 px-4 py-3 text-sm outline-none transition focus:border-brand-500 focus:ring-4 focus:ring-brand-100" />
-                            <span
-                                class="mt-2 block text-xs text-slate-500">รหัสอ้างอิงที่ได้รับเมื่อท่านยื่นเรื่องร้องเรียน</span>
-                        </label>
-                        <label class="block">
-                            <span class="text-sm font-bold text-slate-800">กรุณากรอก เบอร์มือถือ ผู้ร้อง 4 ตัวท้าย</span>
-                            <input type="text" maxlength="4" placeholder="เช่น 1234"
-                                class="mt-2 w-full rounded-2xl border border-slate-200 bg-white/95 px-4 py-3 text-sm outline-none transition focus:border-brand-500 focus:ring-4 focus:ring-brand-100" />
-                            <span class="mt-2 block text-xs text-slate-500">ตัวอย่าง 090-xxx-xxxx ให้กรอก 4 ตัวท้าย</span>
-                        </label>
-
-                        <div class="md:col-span-2 flex justify-center pt-2">
-                            <button type="button"
-                                class="inline-flex items-center gap-2 rounded-2xl bg-gradient-to-r from-brand-500 via-brand-600 to-violetplus px-9 py-3.5 font-bold text-white shadow-neon transition hover:-translate-y-0.5">
-                                <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                    <path stroke-linecap="round" stroke-width="2"
-                                        d="m21 21-4.35-4.35M10.5 18a7.5 7.5 0 1 1 0-15 7.5 7.5 0 0 1 0 15Z" />
-                                </svg>
-                                ค้นหาเรื่องร้องเรียน
-                            </button>
+                    <!-- Content -->
+                    <div class="evaluation-content">
+                        <div class="evaluation-label">
+                            <span class="evaluation-label-dot"></span>
+                            เสียงของคุณมีความหมาย
                         </div>
 
-                        <p class="md:col-span-2 flex items-center justify-center gap-2 text-xs text-slate-500">
-                            <svg class="h-5 w-5 text-brand-500" fill="none" viewBox="0 0 24 24"
-                                stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M16.5 10.5V6.75a4.5 4.5 0 0 0-9 0v3.75m-.75 11.25h10.5A2.25 2.25 0 0 0 19.5 19.5v-6.75a2.25 2.25 0 0 0-2.25-2.25H6.75a2.25 2.25 0 0 0-2.25 2.25v6.75a2.25 2.25 0 0 0 2.25 2.25Z" />
-                            </svg>
-                            ข้อมูลของท่านจะถูกเก็บเป็นความลับและปลอดภัย
+                        <h2>ช่วยเราพัฒนาบริการให้ดียิ่งขึ้น</h2>
+
+                        <p>
+                            ร่วมประเมินความพึงพอใจในการใช้บริการ
+                            ใช้เวลาเพียง 1–2 นาที
                         </p>
-                    </form>
-                </div>
+                    </div>
 
-                <div id="contact"> </div>
-            </div>
+                    <!-- Button -->
+                    <div class="evaluation-action">
+                        <a
+                            href="/evaluation"
+                            class="evaluation-button"
+                            aria-label="ทำแบบประเมินความพึงพอใจ"
+                        >
+                            <span>ทำแบบประเมินความพึงพอใจ</span>
+
+                            <svg
+                                width="20"
+                                height="20"
+                                viewBox="0 0 24 24"
+                                fill="none"
+                                stroke="currentColor"
+                                aria-hidden="true"
+                            >
+                                <path
+                                    d="M5 12H19M19 12L13 6M19 12L13 18"
+                                    stroke-width="2"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                />
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+            </section>
             {{-- <div class="border-b border-[#a9d9ff] my-[72px]"></div>
             <div class="mx-auto max-w-7xl px-4 pb-14 md:px-8">
                 <div class="survey-box">
@@ -422,7 +553,7 @@
                         <p class="mt-4 text-sm font-bold text-violet-600">ดูคำถามที่พบบ่อย →</p>
                     </a>
 
-                    <a href="#"
+                    <a href="/#contact"
                         class="group rounded-3xl border border-emerald-100 bg-gradient-to-b from-emerald-50 to-white p-7 text-center shadow-card transition hover:-translate-y-1 hover:shadow-soft">
                         <div
                             class="mx-auto grid h-16 w-16 place-items-center rounded-2xl bg-white text-emerald-600 shadow-sm">
@@ -438,7 +569,7 @@
                     </a>
                 </div>
             </div>
-            <div class="border-b border-[#a9d9ff] my-[72px]"></div>
+            <div class="md:border-b border-none border-[#a9d9ff] my-11 md:my-[72px]"></div>
             <div class="mx-auto  max-w-7xl px-4 pb-8 md:px-8">
                 <div class="blue-panel overflow-hidden rounded-[2rem] px-6 py-8 text-white shadow-soft md:px-10">
                     <div class="absolute"></div>
@@ -492,6 +623,8 @@
                     </div>
                 </div>
             </div>
+            <div id="contact"> </div>
+
         </section>
 
         <div  class="contact -mb-11">

@@ -52,6 +52,8 @@
                     radial-gradient(circle at 100% 0%, rgba(167, 160, 255, .18), transparent 26%),
                     linear-gradient(135deg, #18a4ff 0%, #0a78d3 38%, #0b63c9 68%, #124d96 100%);
                 }
+                .action-button { display: flex; align-items: center; gap: .5rem; padding: .5rem 1rem; border: 1px solid #e5e7eb; border-radius: .75rem; background: rgba(255,255,255,.92); box-shadow: 0 10px 20px rgba(15,23,42,.1); font-size: .875rem; font-weight: 600; backdrop-filter: blur(8px); transition: transform .2s ease; }
+                .action-button:hover { transform: scale(1.05); }
         </style>
         @vite('resources/js/app.js')
     </head>

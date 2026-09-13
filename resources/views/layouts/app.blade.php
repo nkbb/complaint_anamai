@@ -20,7 +20,8 @@
 
     <link href="{{ asset('fonts/fontawesome/css/all.css') }}" rel="stylesheet">
     <link href="{{ asset('css/main.css') }}" rel="stylesheet">
-    @vite('resources/js/app.js')
+
+    @stack('styles')    
 </head>
 <div class="topbar">
     <div class="container topbar-row"><span>📢
@@ -39,154 +40,149 @@
             </div>
         </header> -->
     @php
-        $isHome = request()->is('/');
-        $isComplaint = request()->is('complaint') || request()->is('complaint/*');
+    $isHome = request()->is('/');
+    $isComplaint = request()->is('complaint', 'complaint/*');
+    $isDocuments = request()->is('documents');
+    $isTracking = request()->is('tracking/result');
+@endphp
 
-        $defaultNavClass = 'nav-link transition hover:bg-brand-50 hover:text-brand-600';
-        $activeNavClass = 'is-active bg-brand-50 text-brand-700';
-    @endphp
+<header id="siteHeader" class="site-header">
+    <div class="header-color-line"></div>
 
-    <header class="sticky top-0 z-50 border-b border-white/70 bg-white/80 backdrop-blur-xl">
-        <div class="h-1 w-full bg-gradient-to-r from-health via-brand-500 to-violetplus"></div>
+    <div class="header-container">
+        {{-- Logo --}}
+        <a href="/" class="header-logo">
+            <img
+                src="{{ asset('images/logo/anamai.png') }}"
+                alt="กรมอนามัย"
+            />
 
-        <div class="mx-auto flex max-w-7xl items-center justify-between px-4 py-4 md:px-8">
-            {{-- Logo --}}
-            <a href="/" class="flex items-center gap-3">
-                <div class="grid place-items-center">
-                    <img
-                        src="/images/logo/anamai.png"
-                        class="size-[68px]"
-                        alt="กรมอนามัย"
-                    />
+            <div class="header-logo-text">
+                <div class="header-title">
+                    ศูนย์รับข้อร้องเรียนและข้อชมเชย
                 </div>
 
-                <div class="leading-tight">
-                    <p class="text-lg font-extrabold text-slate-900">
-                        ศูนย์รับข้อร้องเรียนและข้อชมเชย
-                    </p>
-                    <p class="text-sm font-semibold text-brand-700">
-                        กรมอนามัย
-                    </p>
+                <div class="header-subtitle">
+                    กรมอนามัย
                 </div>
-            </a>
+            </div>
+        </a>
 
-            {{-- Mobile button --}}
-            <button
-                id="menuBtn"
-                type="button"
-                class="rounded-xl border border-slate-200 bg-white p-2 text-slate-600 shadow-sm md:hidden"
-                aria-label="เปิดเมนู"
-                aria-expanded="false"
-                aria-controls="mobileMenu"
-            >
-                <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path
-                        stroke-linecap="round"
-                        stroke-width="2"
-                        d="M4 6h16M4 12h16M4 18h16"
-                    />
-                </svg>
-            </button>
-
-            {{-- Desktop menu --}}
-            <nav
-                id="navMenu"
-                class="hidden items-center gap-2 text-sm font-semibold text-slate-700 md:flex"
-            >
-                <a
-                    href="/#home"
-                    data-section="home"
-                    class="{{ $defaultNavClass }} {{ $isHome ? $activeNavClass : '' }} rounded-full px-4 py-2"
-                >
-                    หน้าหลัก
-                </a>
-
-                <a
-                    href="/complaint"
-                    class="{{ $defaultNavClass }} {{ $isComplaint ? $activeNavClass : '' }} rounded-full px-4 py-2"
-                >
-                    ร้องเรียน-ร้องทุกข์
-                </a>
-
-                <a
-                    href="/#tracking"
-                    data-section="tracking"
-                    class="{{ $defaultNavClass }} rounded-full px-4 py-2"
-                >
-                    ติดตามเรื่องร้องเรียน
-                </a>
-
-                <a
-                    href="/#download"
-                    data-section="download"
-                    class="{{ $defaultNavClass }} rounded-full px-4 py-2"
-                >
-                    คู่มือ
-                </a>
-
-                <a
-                    href="/#contact"
-                    data-section="contact"
-                    class="{{ $defaultNavClass }} rounded-full px-4 py-2"
-                >
-                    ติดต่อเรา
-                </a>
-            </nav>
-        </div>
-
-        {{-- Mobile menu --}}
-        <nav
-            id="mobileMenu"
-            class="hidden border-t border-slate-100 bg-white px-5 pb-4 text-sm font-semibold md:hidden"
-        >
+        {{-- Desktop menu --}}
+        <nav class="desktop-menu" aria-label="เมนูหลัก">
             <a
                 href="/#home"
                 data-section="home"
-                class="mobile-nav-link {{ $isHome ? $activeNavClass : '' }} block rounded-xl px-3 py-3"
+                class="{{ $isHome ? 'active' : '' }}"
             >
                 หน้าหลัก
             </a>
 
             <a
                 href="/complaint"
-                class="mobile-nav-link {{ $isComplaint ? $activeNavClass : '' }} block rounded-xl px-3 py-3"
+                class="{{ $isComplaint ? 'active' : '' }}"
             >
                 ร้องเรียน-ร้องทุกข์
             </a>
 
-            <a
-                href="/#tracking"
-                data-section="tracking"
-                class="mobile-nav-link block rounded-xl px-3 py-3"
-            >
+            <a href="/#tracking" data-section="tracking" class="{{ $isTracking ? 'active' : '' }}">
                 ติดตามเรื่องร้องเรียน
             </a>
 
-            <a
-                href="/#download"
-                data-section="download"
-                class="mobile-nav-link block rounded-xl px-3 py-3"
-            >
-                คู่มือ
+            <a href="/documents" class="{{ $isDocuments ? 'active' : '' }}">
+                ดาวน์โหลด/คู่มือ
             </a>
 
-            <a
-                href="/#contact"
-                data-section="contact"
-                class="mobile-nav-link block rounded-xl px-3 py-3"
-            >
+            <a href="/#contact" data-section="contact">
                 ติดต่อเรา
             </a>
         </nav>
-    </header>
 
+        {{-- Mobile button --}}
+        <button
+            id="mobileMenuButton"
+            class="mobile-menu-button"
+            type="button"
+            aria-label="เปิดเมนู"
+            aria-controls="mobileMenuPanel"
+            aria-expanded="false"
+        >
+            {{-- Hamburger icon --}}
+            <svg
+                id="hamburgerIcon"
+                width="26"
+                height="26"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+                aria-hidden="true"
+            >
+                <path
+                    stroke-linecap="round"
+                    stroke-width="2"
+                    d="M4 6h16M4 12h16M4 18h16"
+                />
+            </svg>
 
+            {{-- Close icon --}}
+            <svg
+                id="closeIcon"
+                class="icon-hidden"
+                width="26"
+                height="26"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+                aria-hidden="true"
+            >
+                <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M6 18L18 6M6 6l12 12"
+                />
+            </svg>
+        </button>
+    </div>
 
+    {{-- Mobile menu --}}
+    <nav
+        id="mobileMenuPanel"
+        class="mobile-menu-panel"
+        aria-label="เมนูสำหรับมือถือ"
+    >
+        <a
+            href="/#home"
+            data-section="home"
+            class="{{ $isHome ? 'active' : '' }}"
+        >
+            หน้าหลัก
+        </a>
+
+        <a
+            href="/complaint"
+            class="{{ $isComplaint ? 'active' : '' }}"
+        >
+            ร้องเรียน-ร้องทุกข์
+        </a>
+
+        <a href="/#tracking" data-section="tracking" class="{{ $isTracking ? 'active' : '' }}">
+            ติดตามเรื่องร้องเรียน
+        </a>
+
+        <a href="/documents" data-section="download" class="{{ $isDocuments ? 'active' : '' }}">
+            ดาวน์โหลด/คู่มือ
+        </a>
+
+        <a href="/#contact" data-section="contact">
+            ติดต่อเรา
+        </a>
+    </nav>
+</header>
 
     <main id="app" class="relative z-10 py-10">
         @yield('content')
     </main>
-
 
 
     <!-- Footer -->
@@ -222,9 +218,9 @@
                     <h4>ลิงก์ที่เกี่ยวข้อง</h4>
                     <div class="footer-links">
                         <a href="#">› หน้าหลัก</a>
-                        <a href="/compliment">› ร้องเรียน-ร้องทุกข์</a>
+                        <a href="/complaint">› ร้องเรียน-ร้องทุกข์</a>
                         <a href="#tracking">› ติดตามเรื่องร้องเรียน</a>
-                        <a href="/manual">› คู่มือการใช้งาน</a>
+                        <a href="/documents">› ดาวน์โหลด/คู่มือการใช้งาน</a>
                         <a href="/evaluation">› แบบประเมินความพึงพอใจ</a>
                     </div>
                 </div>
@@ -248,74 +244,174 @@
         </div>
     </footer>
 
-    <script>
-        const menuBtn = document.getElementById('menuBtn');
-        const mobileMenu = document.getElementById('mobileMenu');
-        menuBtn?.addEventListener('click', () => mobileMenu.classList.toggle('hidden'));
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const header = document.getElementById('siteHeader');
+        const menuButton = document.getElementById('mobileMenuButton');
+        const mobileMenu = document.getElementById('mobileMenuPanel');
+        const hamburgerIcon = document.getElementById('hamburgerIcon');
+        const closeIcon = document.getElementById('closeIcon');
 
-        document.addEventListener('DOMContentLoaded', () => {
-            const menuButton = document.getElementById('menuBtn');
-            const mobileMenu = document.getElementById('mobileMenu');
-            const sectionLinks = document.querySelectorAll('[data-section]');
-            const mobileLinks = document.querySelectorAll('#mobileMenu a');
-
-            // เปิดและปิดเมนู Mobile
-            menuButton?.addEventListener('click', () => {
-                const isHidden = mobileMenu.classList.toggle('hidden');
-                menuButton.setAttribute('aria-expanded', String(!isHidden));
-            });
-
-            // ปิดเมนูเมื่อกดรายการ
-            mobileLinks.forEach((link) => {
-                link.addEventListener('click', () => {
-                    mobileMenu.classList.add('hidden');
-                    menuButton?.setAttribute('aria-expanded', 'false');
-                });
-            });
-
-            // ทำงานเฉพาะหน้าแรก
-            if (window.location.pathname !== '/') {
+        function closeMobileMenu() {
+            if (!menuButton || !mobileMenu) {
                 return;
             }
 
-            const sections = ['home', 'tracking', 'download', 'contact']
-                .map((id) => document.getElementById(id))
-                .filter(Boolean);
+            mobileMenu.classList.remove('is-open');
+            menuButton.setAttribute('aria-expanded', 'false');
+            menuButton.setAttribute('aria-label', 'เปิดเมนู');
 
-            const setActiveSection = (sectionId) => {
-                sectionLinks.forEach((link) => {
-                    const isActive = link.dataset.section === sectionId;
+            hamburgerIcon?.classList.remove('icon-hidden');
+            closeIcon?.classList.add('icon-hidden');
+        }
 
-                    link.classList.toggle('is-active', isActive);
-                    link.classList.toggle('bg-brand-50', isActive);
-                    link.classList.toggle('text-brand-700', isActive);
-                });
-            };
+        if (menuButton && mobileMenu) {
+            menuButton.addEventListener('click', function (event) {
+                event.preventDefault();
+                event.stopPropagation();
 
-            // Active ตาม hash ตอนเปิดหน้า
-            const initialSection = window.location.hash.replace('#', '') || 'home';
-            setActiveSection(initialSection);
+                const willOpen =
+                    !mobileMenu.classList.contains('is-open');
 
-            // Active ตาม section ที่กำลังเลื่อนดู
-            const observer = new IntersectionObserver(
-                (entries) => {
-                    const visibleEntry = entries
-                        .filter((entry) => entry.isIntersecting)
-                        .sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
+                mobileMenu.classList.toggle('is-open', willOpen);
+                menuButton.setAttribute(
+                    'aria-expanded',
+                    String(willOpen)
+                );
+                menuButton.setAttribute(
+                    'aria-label',
+                    willOpen ? 'ปิดเมนู' : 'เปิดเมนู'
+                );
 
-                    if (visibleEntry) {
-                        setActiveSection(visibleEntry.target.id);
-                    }
-                },
-                {
-                    rootMargin: '-25% 0px -60% 0px',
-                    threshold: [0.1, 0.3, 0.5],
+                hamburgerIcon?.classList.toggle(
+                    'icon-hidden',
+                    willOpen
+                );
+
+                closeIcon?.classList.toggle(
+                    'icon-hidden',
+                    !willOpen
+                );
+            });
+
+            mobileMenu.querySelectorAll('a').forEach(function (link) {
+                link.addEventListener('click', closeMobileMenu);
+            });
+
+            document.addEventListener('click', function (event) {
+                if (
+                    mobileMenu.classList.contains('is-open') &&
+                    !mobileMenu.contains(event.target) &&
+                    !menuButton.contains(event.target)
+                ) {
+                    closeMobileMenu();
                 }
-            );
+            });
 
-            sections.forEach((section) => observer.observe(section));
+            window.addEventListener('resize', function () {
+                if (window.innerWidth >= 768) {
+                    closeMobileMenu();
+                }
+            });
+        }
+
+        /*
+         * Active ตาม section ใช้เฉพาะหน้าแรก
+         * หน้าอื่นจะใช้ active ที่กำหนดจาก Laravel Blade
+         */
+        if (window.location.pathname !== '/') {
+            return;
+        }
+
+        const sectionIds = [
+            'home',
+            'tracking',
+            'contact'
+        ];
+
+        const sections = sectionIds
+            .map(function (id) {
+                return document.getElementById(id);
+            })
+            .filter(Boolean);
+
+        const sectionLinks = document.querySelectorAll(
+            '[data-section]'
+        );
+
+        if (sections.length === 0) {
+            return;
+        }
+
+        let currentSectionId = null;
+        let ticking = false;
+
+        function setActiveSection(sectionId) {
+            if (currentSectionId === sectionId) {
+                return;
+            }
+
+            currentSectionId = sectionId;
+
+            sectionLinks.forEach(function (link) {
+                const isActive =
+                    link.dataset.section === sectionId;
+
+                link.classList.toggle('active', isActive);
+
+                if (isActive) {
+                    link.setAttribute('aria-current', 'page');
+                } else {
+                    link.removeAttribute('aria-current');
+                }
+            });
+        }
+
+        function updateActiveSection() {
+            const headerHeight = header?.offsetHeight || 0;
+            const checkPosition =
+                window.scrollY + headerHeight + 120;
+
+            let activeSectionId = sections[0].id;
+
+            sections.forEach(function (section) {
+                if (section.offsetTop <= checkPosition) {
+                    activeSectionId = section.id;
+                }
+            });
+
+            const isPageBottom =
+                window.innerHeight + window.scrollY >=
+                document.documentElement.scrollHeight - 10;
+
+            if (isPageBottom) {
+                activeSectionId =
+                    sections[sections.length - 1].id;
+            }
+
+            setActiveSection(activeSectionId);
+            ticking = false;
+        }
+
+        function handleScroll() {
+            if (ticking) {
+                return;
+            }
+
+            ticking = true;
+            window.requestAnimationFrame(updateActiveSection);
+        }
+
+        window.addEventListener('scroll', handleScroll, {
+            passive: true
         });
-    </script>
+
+        window.addEventListener('resize', handleScroll);
+        window.addEventListener('load', updateActiveSection);
+
+        updateActiveSection();
+    });
+</script>
 </body>
 
 </html>

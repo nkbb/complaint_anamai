@@ -101,10 +101,10 @@
           <th class="border px-4 py-3 text-center">รหัสเรื่อง</th>
           <th class="border px-4 py-3 text-center">วันที่บันทึก</th>
           <th class="border px-4 py-3 text-center">ประเภทช่องทาง</th>
-          <th class="border px-4 py-3 text-center">ผู้ถูกร้องเรียน</th>
+          <!-- <th class="border px-4 py-3 text-center">ผู้ถูกร้องเรียน</th> -->
           <th class="border px-4 py-3 text-center">ประเด็นข้อร้องเรียน</th>
           <th class="border px-4 py-3 text-center">หน่วยที่เกี่ยวข้อง</th>
-          <th class="border px-4 py-3 text-center" v-if="user_level == 'root'">หน่วยงานที่รับผิดชอบ</th>
+          <!-- <th class="border px-4 py-3 text-center" v-if="user_level == 'root'">หน่วยงานที่รับผิดชอบ</th> -->
           <th class="border px-4 py-3 text-center">สถานะ</th>
           </tr>
         </thead>
@@ -115,10 +115,10 @@
               <td class="border px-4 py-2 text-center">{{item.code }}</td>
               <td class="border px-4 py-2 text-center">{{formatThaiDate(item.created_at) }}</td>
               <td class="border px-4 py-2">{{item?.method_name}}</td>
-              <td class="border px-4 py-2">{{item?.person_name}}</td>
+              <!-- <td class="border px-4 py-2">{{item?.person_name}}</td> -->
               <td class="border px-4 py-2">{{item?.type_name}} <span v-if="item?.sub_name">({{item?.sub_name}})</span></td>
               <td class="border px-4 py-2">{{item?.unit_name}}</td>
-              <td class="border px-4 py-2" v-if="user_level == 'root'">{{item?.unit_send}}</td>
+              <!-- <td class="border px-4 py-2" v-if="user_level == 'root'">{{item?.unit_send}}</td> -->
 
               <td class="border px-4 py-2 text-center">
                 <span v-if="item?.type == 0" class="results-status type-1 bg-red-600">ยุติเรื่อง-ไม่ใช่</span>

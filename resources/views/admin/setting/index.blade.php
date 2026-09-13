@@ -1,6 +1,6 @@
 @extends('layouts.app-admin')
 
-@section('pageTitle', 'ตั้งค่า | ระบบบริหารจัดการข้อคิดเห็นข้อร้องเรียน กรมสุขภาพจิต')
+@section('pageTitle', 'ตั้งค่า | ศูนย์รับข้อร้องเรียนและข้อชมเชย กรมอนามัย')
 
 @section('content')
   <div class="pt-6 pb-11 px-3 md:px-7 bg-white mb-[80px] mx-4 md:mx-8 lg:mx-16 2xl:mx-[326px] border shadow-md">
@@ -65,11 +65,11 @@
         <i class="fas fa-images text-3xl"></i>
         <div>ภาพสไลด์หน้าแรก</div>
       </a>
-      <a href="/admin/setting/popup" class="border border-b-[8px] border-brand-600 hover:text-brand-600 flex flex-col gap-5 text-center py-4 hover:cursor-pointer">
+      {{-- <a href="/admin/setting/popup" class="border border-b-[8px] border-brand-600 hover:text-brand-600 flex flex-col gap-5 text-center py-4 hover:cursor-pointer">
         <i class="fas fa-image text-3xl"></i>
         <div>ภาพกิจกรรมหน้าแรก (popup)</div>
-      </a>
-      <a href="/admin/setting/download" class="border border-b-[8px] border-brand-600 hover:text-brand-600 flex flex-col gap-5 text-center py-4 hover:cursor-pointer">
+      </a> --}}
+      <a href="/admin/setting/document" class="border border-b-[8px] border-brand-600 hover:text-brand-600 flex flex-col gap-5 text-center py-4 hover:cursor-pointer">
         <i class="fas fa-file-export text-3xl"></i>
         <div>ดาวน์โหลด</div>
       </a>

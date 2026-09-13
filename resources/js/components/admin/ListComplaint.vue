@@ -8,7 +8,7 @@
       <input
         type="text"
         v-model="s_code"
-        placeholder="ไม่ต้องใส่ SEC"
+        placeholder="ไม่ต้องใส่ Prefix"
         class="border lg:w-[233px] w-full border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-1 focus:ring-cyan-400"
       />
       <div class="lg:w-[233px] w-full">

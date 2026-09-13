@@ -40,11 +40,14 @@ Route::get('/get/banner', [HomeController::class, 'bannerGet']);
 
 Route::get('/complaint', [ComplaintController::class, 'index']);
 Route::post('/complaint', [ComplaintController::class, 'store']);
-Route::get('/follow', [ComplaintController::class, 'follow']);
+Route::get('/tracking/result', [ComplaintController::class, 'trackingResult']);
 Route::post('/follow', [ComplaintController::class, 'followCheck']);
 Route::get('/get/district/{province_id}', [ComplaintController::class, 'getDistrict']);
 Route::get('/get/subdistrict/{district_id}', [ComplaintController::class, 'getSubDistrict']);
 Route::get('/get/zipcode/{subdistrict_id}', [ComplaintController::class, 'getZipcode']);
+
+
+Route::get('/evaluation', [HomeController::class, 'evaluation']);
 
 
 Route::get('/cookies-policy', [HomeController::class, 'cookiesPolicy']);
@@ -52,7 +55,16 @@ Route::get('/privacy-policy', [HomeController::class, 'privacyPolicy']);
 Route::get('/security-policy', [HomeController::class, 'securityPolicy']);
 Route::get('/web-policy', [HomeController::class, 'webPolicy']);
 
- Route::get('/test', [ComplaintController::class, 'test']);
+//  Route::get('/test', [ComplaintController::class, 'test']);
+
+Route::get('/documents', [HomeController::class, 'documents']);
+Route::get('/api/documents', [HomeController::class, 'documentsLoad']);
+Route::get('/documents/{document}/download', [SettingController::class, 'download'])
+    ->name('documents.download');
+Route::get(
+    '/complaint/file/{complaintFile}',
+    [ComplaintController::class, 'showComplaintFile']
+)->name('complaint.file.show');
 
 
 Route::middleware('auth')->group(function () {
@@ -140,9 +152,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/admin/setting/popup', [SettingController::class, 'popup']);
     Route::post('/admin/setting/popup', [SettingController::class, 'popupStore']);
 
-    Route::get('/admin/setting/download', [SettingController::class, 'download']);
-    Route::get('/admin/setting/download/load', [SettingController::class, 'downloadLoad']);
-    Route::post('/admin/setting/download', [SettingController::class, 'downloadStore']);
+  
 
 
 
@@ -192,7 +202,14 @@ Route::middleware('auth')->group(function () {
 
 
      
+    // Route::get('/doc/load', [PublicDocumentController::class, 'adminIndex']);
+    // Route::post('/doc', [PublicDocumentController::class, 'store']);
+    // Route::delete('/doc', [PublicDocumentController::class, 'destroy']);
 
+    Route::get('/admin/setting/document', [SettingController::class, 'document']);
+    Route::get('/admin/setting/document/load', [SettingController::class, 'documentLoad']);
+    Route::post('/admin/setting/document', [SettingController::class, 'documentStore']);
+    Route::delete('/admin/setting/document', [SettingController::class, 'documentDestroy']);
 
 
 

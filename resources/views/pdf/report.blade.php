@@ -145,10 +145,6 @@
         @endif
 			</div>
 			<div class="">
-				<span class="title">ร้องเรียนบุคคล : </span>
-				<span style="margin-left:20pt;">{{ $data->person_name }}</span>
-			</div>
-			<div class="">
 				<span class="title">เรื่องที่ร้องเรียน : </span>
 				<span style="margin-left:20pt;">{{ $data->name }}</span>
 			</div>
