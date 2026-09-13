@@ -16,7 +16,7 @@
         type="button"
         @click="backPage()"
         aria-label="ย้อนกลับ"
-        class="group flex items-center gap-2 px-4 py-2 rounded-xl shadow-lg bg-white/90 backdrop-blur-sm border border-gray-200 hover:scale-105 transform transition
+        class="action-button group flex items-center gap-2 px-4 py-2 rounded-xl shadow-lg bg-white/90 backdrop-blur-sm border border-gray-200 hover:scale-105 transform transition
               text-sm font-medium text-gray-800"
       >
         <!-- ไอคอนย้อนกลับ (SVG) -->

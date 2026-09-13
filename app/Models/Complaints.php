@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Complaints extends Model
 {
@@ -86,6 +87,17 @@ class Complaints extends Model
     public function hasSub(){
         return $this->belongsTo('App\Models\ComplaintSub','sub_id');
     }
+
+    public function files(): HasMany
+    {
+        return $this->hasMany(
+            ComplaintFile::class,
+            'complaint_id',
+            'id'
+        )->orderBy('sort_order');
+    }
+
+    
 
 }
 

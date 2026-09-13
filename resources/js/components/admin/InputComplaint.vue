@@ -1,708 +1,518 @@
 <template>
-  <div>
-    <loading :active="isLoading" :can-cancel="false" :is-full-page="true" :color="'#3fbbc0'" :loader="'spinner'" :width="64" :height="64" />
+  <div class="admin-complaint">
+    <loading :active="isLoading" :can-cancel="false" :is-full-page="true" color="#3fbbc0" />
 
-    <div class="fixed top-[25%] right-4 z-50 flex flex-col gap-3" v-if="id && type=='edit'">
-      <!-- ปุ่มพิมพ์ -->
-      <button
-        type="button"
-        @click="saveData()"
-        aria-label="บันทึก"
-        class="group flex items-center gap-2 px-4 py-2 rounded-xl shadow-lg bg-white/90 backdrop-blur-sm border border-gray-200 hover:scale-105 transform transition
-              text-sm font-medium text-[#1d684a]"
-      >
-        <i class="far fa-save text-[20px]"></i>
-        <span>บันทึก</span>
-      </button>
+    <Form :initial-values="form" :validation-schema="schema" @submit="confirmSave" @invalid-submit="invalidSubmit">
+      <h2 class="section-title">ข้อมูลผู้ร้องเรียน</h2>
+      <label class="concealed"><input v-model="form.concealed" type="checkbox"> ปกปิดชื่อและข้อมูลส่วนตัว</label>
 
-      <button
-        type="button"
-        @click="removeData()"
-        v-if="(user_level == 'root' && is_add == 3) || (user_level == 'unit' && is_add == 2)"
-        aria-label="ลบ"
-        class="group flex items-center gap-2 px-4 py-2 rounded-xl shadow-lg bg-white/90 backdrop-blur-sm border border-gray-200 hover:scale-105 transform transition
-              text-sm font-medium text-red-500"
-      >
-        <i class="fas fa-trash-alt text-[18px]"></i>
-        <span>ลบ</span>
-      </button>
-
-      <!-- ปุ่มย้อนกลับ -->
-      <button
-        type="button"
-        @click="backPage()"
-        aria-label="ย้อนกลับ"
-        class="group flex items-center gap-2 px-4 py-2 rounded-xl shadow-lg bg-white/90 backdrop-blur-sm border border-gray-200 hover:scale-105 transform transition
-              text-sm font-medium text-gray-800"
-      >
-        <!-- ไอคอนย้อนกลับ (SVG) -->
-        <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
-          <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" />
-        </svg>
-        <span>ย้อนกลับ</span>
-      </button>
-    </div>
-
-
-    <div v-if="code" class="ml-11 ">
-      <span class="text-brand-600">รหัสเรื่อง</span> : {{ code }} 
-    </div>
-    <Form :initial-values="form" :validation-schema="schema" @submit="onSubmit" @invalid-submit="onInvalidSubmit">
-      <div v-if="!code" class="text-[#FF7043] my-2 pl-11">*** กรณีไม่มีข้อมูล ผู้ร้องเรียนไม่ต้องกรอกข้อมูล</div>
-      <div class="mt-5 mb-2 text-center text-white text-base blue-panel rounded-md py-3">ข้อมูลผู้ร้องเรียน</div>
-      <div class="flex gap-2 flex-col">
-          <div class="mt-5 pl-0 md:pl-8 lg:pl-[10%]">
-            <input type="checkbox" v-model="form.concealed" class="custom-checkbox" />
-              <span class="pl-3 -mt-2 text-[#FF7043]">ถ้าต้องการปกปิด ชื่อและข้อมูลส่วนตัว ให้คลิกที่นี่</span>
-          </div>
-          <div class="flex md:flex-row flex-col gap-3">
-            <div class="flex flex-col w-full md:flex-row md:w-1/2 gap-2 items-center mt-4 md:mt-2">
-              <div class="w-full md:w-4/12 text-left md:text-right">ชื่อ ผู้ร้องเรียน :</div>
-              <div class="w-full md:w-8/12">
-                <Field name="firstName" type="text" class="input" v-model="form.firstName" />
-              </div>
-            </div>
-            <div class="flex flex-col w-full md:flex-row md:w-1/2 gap-2 items-center mt-4 md:mt-2">
-              <div class="w-full md:w-4/12 text-left md:text-right">นามสกุล ผู้ร้องเรียน :</div>
-              <div class="w-full md:w-8/12">
-                <Field name="lastName" type="text" class="input" v-model="form.lastName" />
-              </div>
-            </div>
-          </div>
-          <div class="flex md:flex-row flex-col gap-3">
-            <!-- <div class="flex flex-col w-full md:flex-row md:w-1/2 gap-2 items-center mt-4 md:mt-2">
-              <div class="w-full md:w-4/12 text-left md:text-right">เลขบัตรประชาชน :</div>
-              <div class="w-full md:w-8/12">
-                <input
-                  type="text"
-                  v-model="form.idcard"
-                  @input="formatThaiIdCard"
-                  class="input"
-                  placeholder="_-____-______-__-_"
-                />
-                <Field name="idcard" v-model="form.idcard" type="hidden" />
-              </div>
-            </div> -->
-            <div class="flex flex-col w-full md:flex-row md:w-1/2 gap-2 items-center mt-4 md:mt-2">
-              <div class="w-full md:w-4/12 text-left md:text-right">เพศ :</div>
-              <div class="w-full md:w-6/12 lg:w-4/12">
-                <Field as="select" name="sex" class="input" v-model="form.sex">
-                  <option value="">-- กรุณาเลือก --</option>
-                  <option value="1">ชาย</option>
-                  <option value="2">หญิง</option>
-                  <option value="3">LGBTQ+</option>
-                </Field>
-              </div>
-            </div>
-          </div>
-          <div class="flex flex-col gap-3">
-            <div class="flex flex-col w-full md:flex-row md:w-1/2 gap-2 items-center mt-4 md:mt-2">
-              <div class="w-full md:w-4/12 text-left md:text-right">อาชีพ :</div>
-              <div class="w-full md:w-8/12">
-                <Field name="work" type="text" class="input" v-model="form.work" />
-              </div>
-            </div>
-          </div>
-          <div class="flex flex-col gap-3">
-            <div class="flex flex-col md:flex-row w-full gap-2 items-center mt-4 md:mt-2">
-              <div class="w-full md:w-2/12 text-left md:text-right">ที่อยู่ :</div>
-              <div class="w-full md:w-10/12">
-                <Field name="address" type="text" class="input" v-model="form.address" />
-              </div>
-            </div>
-          </div>
-          <div class="flex md:flex-row flex-col gap-3">
-            <div class="flex flex-col w-full md:flex-row md:w-1/2 gap-2 items-center mt-4 md:mt-2">
-              <div class="w-full md:w-4/12 text-left md:text-right">จังหวัด :</div>
-              <div class="w-full md:w-8/12">
-                <Field as="select" name="province_id" class="input" v-model="form.province_id" @change="getDistrict()">
-                  <option value="">-- กรุณาเลือก --</option>
-                  <option v-for="(item) in item_province" :value="item.id">{{ item.name }}</option>
-                </Field>
-              </div>
-            </div>
-            <div class="flex flex-col w-full md:flex-row md:w-1/2 gap-2 items-center mt-4 md:mt-2">
-              <div class="w-full md:w-4/12 text-left md:text-right">เขต / อำเภอ :</div>
-              <div class="w-full md:w-8/12">
-                <Field as="select" name="district_id" class="input" v-model="form.district_id" @change="getSubDistrict()">
-                  <option value="">-- กรุณาเลือก --</option>
-                  <option v-for="(item) in item_district" :value="item.id">{{ item.name }}</option>
-                </Field>
-              </div>
-            </div>
-          </div>
-          <div class="flex md:flex-row flex-col gap-3">
-            <div class="flex flex-col w-full md:flex-row md:w-1/2 gap-2 items-center mt-4 md:mt-2">
-              <div class="w-full md:w-4/12 text-left md:text-right">แขวง / ตำบล :</div>
-              <div class="w-full md:w-8/12">
-                <Field as="select" name="subdistrict_id" class="input" v-model="form.subdistrict_id" @change="getZipcode()">
-                  <option value="">-- กรุณาเลือก --</option>
-                  <option v-for="(item) in item_subdistrict" :value="item.id">{{ item.name }}</option>
-                </Field>
-              </div>
-            </div>
-            <div class="flex flex-col w-full md:flex-row md:w-1/2 gap-2 items-center mt-4 md:mt-2">
-              <div class="w-full md:w-4/12 text-left md:text-right">รหัสไปรษณี :</div>
-              <div class="w-full md:w-8/12">
-                <Field name="zipcode" type="text" class="input" v-model="form.zipcode" />
-              </div>
-            </div>
-          </div>
-          <div class="flex md:flex-row flex-col gap-3">
-            <div class="flex flex-col w-full md:flex-row md:w-1/2 gap-2 items-center mt-4 md:mt-2">
-              <div class="w-full md:w-4/12 text-left md:text-right">มือถือ (ถ้ามี) :</div>
-              <div class="w-full md:w-8/12">
-                 <input
-                  type="text"
-                  v-model="form.phone"
-                  @input="formatPhone"
-                  class="input"
-                  placeholder="___-___-____"
-                />
-                <Field name="phone" type="hidden" v-model="form.phone" />
-              </div>
-            </div>
-            <div class="flex flex-col w-full md:flex-row md:w-1/2 gap-2 items-center mt-4 md:mt-2">
-              <div class="w-full md:w-4/12 text-left md:text-right">โทรศัพท์ (ถ้ามี) :</div>
-              <div class="w-full md:w-8/12">
-                <input
-                  type="text"
-                  v-model="form.tel"
-                  @input="formatTel"
-                  class="input"
-                  placeholder="__-____-____"
-                />
-                <Field name="tel" type="hidden" v-model="form.tel" />
-              </div>
-            </div>
-          </div>
-          <div class="flex md:flex-row flex-col gap-3">
-            <div class="flex flex-col w-full md:flex-row md:w-1/2 gap-2 items-center mt-4 md:mt-2">
-              <div class="w-full md:w-4/12 text-left md:text-right">อีเมล (ถ้ามี) :</div>
-              <div class="w-full md:w-8/12">
-                <Field name="email" type="text" class="input" v-model="form.email" />
-              </div>
-            </div>
-          </div>
+      <div class="form-grid">
+        <FormRow label="ชื่อผู้ร้องเรียน">
+          <Field v-model="form.firstName" name="firstName" class="input" />
+        </FormRow>
+        <FormRow label="นามสกุล">
+          <Field v-model="form.lastName" name="lastName" class="input" />
+        </FormRow>
+        <FormRow label="เพศ">
+          <Field v-model="form.sex" as="select" name="sex" class="input">
+            <option value="">-- กรุณาเลือก --</option>
+            <option value="1">ชาย</option>
+            <option value="2">หญิง</option>
+            <option value="3">LGBTQ+</option>
+          </Field>
+        </FormRow>
+        <FormRow label="อาชีพ">
+          <Field v-model="form.work" name="work" class="input" />
+        </FormRow>
+        <FormRow label="ที่อยู่" wide>
+          <Field v-model="form.address" name="address" class="input" />
+        </FormRow>
+        <FormRow label="จังหวัด">
+          <Field v-model="form.province_id" as="select" name="province_id" class="input" @change="getDistrict">
+            <option value="">-- กรุณาเลือก --</option>
+            <option v-for="row in provinces" :key="row.id" :value="row.id">{{ row.name }}</option>
+          </Field>
+        </FormRow>
+        <FormRow label="อำเภอ">
+          <Field v-model="form.district_id" as="select" name="district_id" class="input" @change="getSubDistrict">
+            <option value="">-- กรุณาเลือก --</option>
+            <option v-for="row in districts" :key="row.id" :value="row.id">{{ row.name }}</option>
+          </Field>
+        </FormRow>
+        <FormRow label="ตำบล">
+          <Field v-model="form.subdistrict_id" as="select" name="subdistrict_id" class="input" @change="getZipcode">
+            <option value="">-- กรุณาเลือก --</option>
+            <option v-for="row in subdistricts" :key="row.id" :value="row.id">{{ row.name }}</option>
+          </Field>
+        </FormRow>
+        <FormRow label="รหัสไปรษณีย์">
+          <Field v-model="form.zipcode" name="zipcode" class="input" />
+        </FormRow>
+        <FormRow label="มือถือ">
+          <Field v-model="form.phone" name="phone" class="input" />
+        </FormRow>
+        <FormRow label="โทรศัพท์">
+          <Field v-model="form.tel" name="tel" class="input" />
+        </FormRow>
+        <FormRow label="อีเมล">
+          <Field v-model="form.email" name="email" class="input" />
+        </FormRow>
       </div>
-      <div class="mt-[44px] mb-2 text-center text-white text-base blue-panel rounded-md py-3">ข้อมูลเกี่ยวกับเรื่องร้องเรียน</div>
-      <div class="flex gap-2 flex-col">
-        <div class="flex md:flex-row flex-col gap-3">
-          <div class="flex flex-col w-full md:flex-row md:w-full gap-2 items-center mt-4 md:mt-2">
-            <div class="w-full md:w-2/12 text-left md:text-right">ประเด็นการร้องเรียน <span class="text-[#ff0000]">*</span> :</div>
-            <div class="w-full md:w-8/12">
-              <Field as="select" name="type_id" class="input" @change="selectType()" v-model="form.type_id">
-                <option value="">-- กรุณาเลือก --</option>
-                <option v-for="(item) in item_type" :value="item.id">{{ item.num }}. {{ item.name }}</option>
-              </Field>
-              <ErrorMessage name="type_id" class="text-red-500 text-sm" />
-            </div>
-          </div>
-          <!-- <div v-if="form.type_id == 1 || form.type_id == 2" class="flex flex-col w-full md:flex-row md:w-1/2 gap-2 items-center mt-4 md:mt-2">
-            <div  class="w-full md:w-4/12 text-left md:text-right">ประเด็นย่อย : <span class="text-[#ff0000]">*</span></div>
-            <div class="w-full md:w-8/12">
-              <Field as="select" name="sub_id" class="input" v-model="form.sub_id">
-                <option value="">-- กรุณาเลือก --</option>
-                <option v-if="form.type_id == 1" value="1">1.1 ด้านความรวดเร็ว/ตรงต่อเวลา</option>
-                <option v-if="form.type_id == 1" value="2">1.2 ด้านพฤติกรรมบริการ</option>
-                <option v-if="form.type_id == 1" value="3">1.3 ด้านสิ่งอำนวยความสะดวก/ความเสมอภาค</option>
-                <option v-if="form.type_id == 1" value="4">1.4 ด้านการบำบัด รักษา</option>
-                <option v-if="form.type_id == 1" value="5">1.5 ด้านการให้ข้อมูล/คำแนะนำ</option>
-                <option v-if="form.type_id == 2" value="6">2.1 การบริหารพัสดุ</option>
-                <option v-if="form.type_id == 2" value="7">2.2 การบริหารงบประมาณ</option>
-                <option v-if="form.type_id == 2" value="8">2.3 การบริหารงานบุคคล</option>
-                <option v-if="form.type_id == 2" value="9">2.4 การบริหารงานทั่วไป</option>
-              </Field>
-              <ErrorMessage name="sub_id" class="text-red-500 text-sm" />
-            </div>
-          </div> -->
-        </div>
-        <div class="flex flex-col gap-3">
-          <div class="flex flex-col md:flex-row w-full gap-2 items-center mt-4 md:mt-2">
-            <div class="w-full md:w-2/12 text-left md:text-right">เรื่องที่ร้องเรียน <span class="text-[#ff0000]">*</span> :</div>
-            <div class="w-full md:w-8/12">
-              <Field name="name" type="text" class="input" v-model="form.name" />
-              <ErrorMessage name="name" class="text-red-500 text-sm" />
-            </div>
-          </div>
-        </div>
-        <div class="flex flex-col gap-3">
-          <div class="flex flex-col md:flex-row w-full gap-2 items-center mt-4 md:mt-2">
-            <div class="w-full md:w-2/12 text-left md:text-right">รายละเอียดเรื่องที่ร้องเรียน <span class="text-[#ff0000]">*</span> :</div>
-            <div class="w-full md:w-8/12">
-              <Field
-                as="textarea"
-                name="description"
-                rows="3"
-                class="form-control w-full border rounded p-2 border-[#ccc]"
-                v-model="form.description"
-              />
-              <ErrorMessage name="description" class="text-red-500 text-sm" />
-            </div>
-          </div>
-        </div>
-        <div class="flex flex-col gap-3">
-          <div class="flex flex-col md:flex-row w-full gap-2 items-center mt-4 md:mt-2">
-            <div class="w-full md:w-2/12 text-left md:text-right">สิ่งที่ต้องการให้แก้ไข ปรับปรุง <span class="text-[#ff0000]">*</span> :</div>
-            <div class="w-full md:w-8/12">
-              <Field
-                as="textarea"
-                name="improvement"
-                rows="3"
-                class="form-control w-full border rounded p-2 border-[#ccc]"
-                v-model="form.improvement"
-              />
-              <ErrorMessage name="improvement" class="text-red-500 text-sm" />
-            </div>
-          </div>
-        </div>
-        <div class="flex flex-col gap-3">
-          <div class="flex flex-col md:flex-row w-full gap-2 items-center mt-4 md:mt-2">
-            <div class="w-full md:w-2/12 text-left md:text-right">เอกสารประกอบ (ถ้ามี) : </div>
-            <div class="w-full md:w-8/12">
-              <div class="flex items-center gap-2">
-                <div @click="changeFile()" class="border-[#ccc] border rounded px-4 py-1 inline-block hover:cursor-pointer bg-[#e9ecef]">เลือกไฟล์</div>
-                <div v-if="file.name" class="text-[#007bff] underline">{{ file.name }}</div>
-              </div>
-              <div class="text-xs text-[#6c757d]">กรุณาเลือกไฟล์ pdf, หรือรูปภาพ</div>
-              <input id="fileSelect" @change="slectFile()" ref="file" type="file" accept=".pdf,image/png,image/jpeg" style="display:none;" />  
-            </div>
-          </div>
-        </div>
+
+      <h2 class="section-title">ข้อมูลเกี่ยวกับเรื่องร้องเรียน</h2>
+      <div class="form-grid">
+        <FormRow label="ช่องทางร้องเรียน">
+          <Field v-model="form.method_id" as="select" name="method_id" class="input">
+            <option value="">-- กรุณาเลือก --</option>
+            <option v-for="row in item_methods" :key="row.id" :value="row.id">{{ row.name }}</option>
+          </Field>
+          <ErrorMessage name="method_id" class="error" />
+        </FormRow>
+        <FormRow label="ประเด็นร้องเรียน">
+          <Field v-model="form.type_id" as="select" name="type_id" class="input">
+            <option value="">-- กรุณาเลือก --</option>
+            <option v-for="row in complaintTypes" :key="row.id" :value="row.id">{{ row.num }}. {{ row.name }}</option>
+          </Field>
+          <ErrorMessage name="type_id" class="error" />
+        </FormRow>
+        <FormRow label="เรื่องที่ร้องเรียน" wide>
+          <Field v-model="form.name" name="name" class="input" />
+          <ErrorMessage name="name" class="error" />
+        </FormRow>
+        <FormRow label="รายละเอียด" wide>
+          <Field v-model="form.description" as="textarea" rows="4" name="description" class="input" />
+          <ErrorMessage name="description" class="error" />
+        </FormRow>
+        <FormRow label="สิ่งที่ต้องการให้แก้ไข" wide>
+          <Field v-model="form.improvement" as="textarea" rows="4" name="improvement" class="input" />
+          <ErrorMessage name="improvement" class="error" />
+        </FormRow>
       </div>
-      <div class="flex justify-center gap-3 mt-8">
-        <button
-          type="submit"
-          ref="btnSubmit"
-          class="inline-block mt-2 px-6 py-2 text-white bg-brand-600 border border-brand-600 rounded"
-        >
-        บันทึก
-        </button>
-        <button @click="backPage()" v-if="type=='edit'" type="button" class="inline-block mt-2 px-6 py-2  border rounded"><i class="fas fa-long-arrow-alt-left"></i> ย้อนกลับ</button>
-      </div>
+
+      <section class="upload-box">
+        <div class="upload-heading">
+          <div><strong>เอกสารประกอบ</strong>
+            <p>รูปภาพไม่เกิน 10 รูป, PDF 1 ไฟล์, วิดีโอ 1 ไฟล์ และไม่เกิน 10 MB ต่อไฟล์</p>
+          </div>
+          <button type="button" @click="$refs.fileInput.click()">+ เลือกไฟล์</button>
+          <input ref="fileInput" hidden multiple type="file" accept=".jpg,.jpeg,.png,.webp,.pdf,.mp4,.mov"
+            @change="selectFiles">
+        </div>
+        <p v-if="fileError" class="error">{{ fileError }}</p>
+
+        <div v-if="allPreviewFiles.length" class="file-grid">
+          <article v-for="file in allPreviewFiles" :key="file.key" class="file-card">
+            <img v-if="file.type === 'image'" :src="file.url" :alt="file.name">
+            <video v-else-if="file.type === 'video'" :src="file.url" controls preload="metadata"></video>
+            <a v-else :href="file.url" target="_blank" class="pdf">PDF</a>
+            <div class="file-meta"><span><b>{{ file.name }}</b><small>{{ file.sizeText }}</small></span><button
+                type="button" @click="removeFile(file)">ลบ</button></div>
+          </article>
+        </div>
+        <div v-else class="empty">ยังไม่มีไฟล์แนบ</div>
+      </section>
+
+      <div class="actions"><button type="button" class="secondary" @click="onBackPage()">ย้อนกลับ</button><button
+          type="submit">{{ id ? 'บันทึกการแก้ไข' : 'เพิ่มเรื่องร้องเรียน' }}</button></div>
     </Form>
   </div>
 </template>
+
 <script>
 import Swal from 'sweetalert2'
+import axios from 'axios'
 import { Form, Field, ErrorMessage } from 'vee-validate'
 import * as yup from 'yup'
-import useClipboard from 'vue-clipboard3'
+
+const FormRow = { props: { label: String, wide: Boolean }, template: `<label :class="['form-row',{wide}]"><span>{{ label }}</span><div><slot /></div></label>` }
 
 export default {
-  name: 'InputComplaint',
-  data(){
+  name: 'AdminComplaintForm', components: { Form, Field, ErrorMessage, FormRow },
+  props: { type: String, user_level: String, key_title: { type: String, default: '' } },
+  emits: ['backPage', 'saved'],
+  data() {
     return {
-      id: '',
-      code: '',
-      is_add: '',
-      isLoading: false,
-      form: {
-        concealed: false,
-        firstName: '',
-        lastName: '',
-        idcard: '',
-        sex: '',
-        work: '',
-        address: '',
-        phone: '',
-        tel: '',
-        province_id: '',
-        district_id: '',
-        subdistrict_id: '',
-        zipcode: '',
-        unit_id: '',
-        type_id: '',
-        sub_id: '',
-        person_id: '',
-        name: '',
-        description: '',
-        improvement: '',
-        method_id: '',
-      },
-      schema: yup.object({
-        method_id: yup.string().required('กรุณาเลือกหน่วยที่จะร้องเรียนถึง'),
-        unit_id: yup.string().required('กรุณาเลือกหน่วยที่จะร้องเรียนถึง'),
-        type_id: yup.string().required('กรุณาเลือกประเด็นการร้องเรียน'),
-        person_id: yup.string().required('กรุณาเลือกร้องเรียนบุคคล'),
-        name: yup.string().required('กรุณากรอกเรื่องที่ร้องเรียน'),
-        improvement: yup.string().required('กรุณากรอกรายละเอีดยเพิ่มเติม'),
-        description: yup.string().required('กรุณากรอกสิ่งที่ต้องการให้แก้ไข ปรับปรุง'),
-        // sub_id: yup.string().when('type_id', (type_id, schema) => {
-        //   return type_id[0] == '1' || type_id[0] == '2'
-        //     ? schema.required('กรุณาเลือกประเด็นย่อย')
-        //     : schema.nullable();
-        // }), 
-      }),
-      item_province: [],
-      item_district: [],
-      item_subdistrict: [],
-      item_unit: [],
-      item_type: [],
-      item_sub: [],
-      item_person: [],
-      item_methods: [],
-      file:{
-        uri: '',
-        name: '',
-        type: '',
-      },
-      show:{
-        district_id: '',
-        subdistrict_id: '',
-      }
+      id: '', isLoading: false, provinces: [], districts: [], subdistricts: [], units: [], complaintTypes: [], item_methods: [],
+      existingFiles: [], newFiles: [], newPreviews: [], deletedFileIds: [], fileError: '', maxSize: 10 * 1024 * 1024,
+      form: { concealed: false, firstName: '', lastName: '', idcard: '', sex: '', work: '', address: '', phone: '', tel: '', email: '', province_id: '', district_id: '', subdistrict_id: '', zipcode: '', unit_id: '', type_id: '', sub_id: '', person_id: '', method_id: '', name: '', description: '', improvement: '', method_id: '' },
+      schema: yup.object({ method_id: yup.string().required('กรุณาเลือกช่องทางการร้องเรียน') , type_id: yup.string().required('กรุณาเลือกประเด็น'), name: yup.string().required('กรุณากรอกเรื่อง'), description: yup.string().required('กรุณากรอกรายละเอียด'), improvement: yup.string().required('กรุณากรอกสิ่งที่ต้องการให้แก้ไข') })
     }
   },
-  components: {
-    Form,
-    Field,
-    ErrorMessage,
-    Swal,
-    useClipboard,
+  computed: {
+    allPreviewFiles() {
+      const old = this.existingFiles.map(f => ({ key: `old-${f.id}`, id: f.id, isOld: true, type: f.file_type, name: f.original_name || f.file_name, url: f.file_url, sizeText: f.file_size_text || this.formatSize(f.file_size) }))
+      return [...old, ...this.newPreviews]
+    }
   },
-  props:['type','user_level'],
-  created(){
-    this.getMasterData();
-  },
-  mounted(){
-  },
-  methods:{
-    backPage(){
-      this.$emit('backPage')
+  created() { this.getMasterData() },
+  beforeUnmount() { this.clearPreviews() },
+  methods: {
+    async getMasterData() { this.isLoading = true; try { const { data } = await axios.get('/get/master/data'); this.provinces = data.province || []; this.units = data.unit || []; this.complaintTypes = data.type || []; this.item_methods = data.methods || []; } finally { this.isLoading = false } },
+    async loadComplaint(id) {
+      this.isLoading = true; this.id = id
+      try {
+        const { data } = await axios.get(`/get/complaint/by/${id}`); const i = data.item
+        Object.assign(this.form, { concealed: !!i.concealed, firstName: i.fname || '', lastName: i.lname || '', idcard: i.idcard || '', sex: i.gender || '', work: i.work || '', address: i.address || '', phone: i.phone || '', tel: i.tel || '', email: i.email || '', province_id: i.province_id || '', district_id: i.district_id || '', subdistrict_id: i.subdistrict_id || '', zipcode: i.zipcode || '', unit_id: i.unit_id || '', type_id: i.type_id || '', sub_id: i.sub_id || '', person_id: i.person_id || '', method_id: i.method_id || '', name: i.name || '', description: i.description || '', improvement: i.improvement || '' })
+        this.existingFiles = Array.isArray(i.files) ? i.files : []; this.deletedFileIds = []; this.newFiles = []; this.clearPreviews()
+        if (i.province_id) await this.getDistrict(false); if (i.district_id) await this.getSubDistrict(false)
+      } finally { this.isLoading = false }
     },
-    saveData(){
-      this.$refs.btnSubmit.click();
+    extension(file) { return file.name.split('.').pop()?.toLowerCase() || '' },
+    fileType(file) { const e = this.extension(file); if (['jpg', 'jpeg', 'png', 'webp'].includes(e)) return 'image'; if (e === 'pdf') return 'pdf'; if (['mp4', 'mov'].includes(e)) return 'video'; return null },
+    key(file) { return `${file.name}-${file.size}-${file.lastModified}` },
+    formatSize(size) { return Number(size) >= 1048576 ? `${(size / 1048576).toFixed(2)} MB` : `${(size / 1024).toFixed(2)} KB` },
+    selectFiles(event) {
+      const selected = Array.from(event.target.files || []); event.target.value = ''; this.fileError = ''; const next = [...this.newFiles]
+      for (const file of selected) { if (!this.fileType(file)) return this.fileFail(`ไม่รองรับไฟล์ ${file.name}`); if (file.size > this.maxSize) return this.fileFail(`ไฟล์ ${file.name} มีขนาดเกิน 10 MB`); if (!next.some(f => this.key(f) === this.key(file))) next.push(file) }
+      const types = [...this.existingFiles.map(f => f.file_type), ...next.map(f => this.fileType(f))]
+      if (types.filter(t => t === 'image').length > 10) return this.fileFail('รูปภาพต้องไม่เกิน 10 รูป')
+      if (types.filter(t => t === 'pdf').length > 1) return this.fileFail('PDF ต้องไม่เกิน 1 ไฟล์')
+      if (types.filter(t => t === 'video').length > 1) return this.fileFail('วิดีโอต้องไม่เกิน 1 ไฟล์')
+      this.newFiles = next; this.makePreviews()
     },
-    async loadComplaint(id){
-      this.isLoading = true;
-      this.id = id
-      await axios.get('/get/complaint/by/'+id) 
-      .then(res => {
-        if(res.data.status == 200){
-          const item = res.data.item;
-          this.form.concealed = (item.concealed) ? true : false;
-          this.form.sex = (item.gender) ? item.gender : '';
-          this.form.province_id = item.province_id
-          if(item.province_id) this.getDistrict()
-          this.show.district_id = item.district_id
-          this.show.subdistrict_id = item.subdistrict_id
-          this.form.zipcode = item.zipcode
-          this.form.type_id = item.type_id
-          this.form.sub_id = item.sub_id
-          this.form.person_id = item.person_id
-          this.form.unit_id = item.unit_id
-          this.form.method_id = item.method_id
-          this.form.firstName = item.fname;
-          this.form.lastName = item.lname;
-          this.form.address = item.address;
-          this.form.work = item.work;
-          this.form.phone = item.phone;
-          this.form.tel = item.tel;
-          this.form.email = item.email;
-          this.form.name = item.name
-          this.form.improvement = item.improvement
-          this.form.description = item.description
-          this.form.idcard = item.idcard
-          this.code = item.code
-          this.file.name = item.file
-          this.file.type = 'old'
-          this.isLoading = false
-          this.is_add = item.is_add
-        }else{
-          this.isLoading = false
+    fileFail(message) { this.fileError = message; Swal.fire('ไฟล์ไม่ถูกต้อง', message, 'warning') },
+    makePreviews() { this.clearPreviews(); this.newPreviews = this.newFiles.map((f, i) => ({ key: `new-${this.key(f)}`, index: i, isOld: false, type: this.fileType(f), name: f.name, url: URL.createObjectURL(f), sizeText: this.formatSize(f.size) })) },
+    clearPreviews() { this.newPreviews.forEach(f => URL.revokeObjectURL(f.url)); this.newPreviews = [] },
+    removeFile(file) { if (file.isOld) { this.deletedFileIds.push(file.id); this.existingFiles = this.existingFiles.filter(f => f.id !== file.id) } else { this.newFiles.splice(file.index, 1); this.makePreviews() } this.fileError = '' },
+    invalidSubmit() { Swal.fire('แจ้งเตือน', 'กรุณากรอกข้อมูลให้ครบ', 'warning') },
+    async confirmSave(values) { const result = await Swal.fire({ title: 'ยืนยันการบันทึก', text: this.id ? 'ยืนยันการแก้ไขข้อมูลหรือไม่' : 'ยืนยันการเพิ่มข้อมูลหรือไม่', icon: 'question', showCancelButton: true, confirmButtonText: 'บันทึก', cancelButtonText: 'ยกเลิก' }); if (result.isConfirmed) await this.save(values) },
+    onBackPage(){
+      
+        if(!this.id){
+          window.location.assign('/admin')
         }
-      })
-      .catch(err => {
-        console.error(err)
-        this.isLoading = false;
-      })
+
+        this.$emit('backPage')
     },
-    onInvalidSubmit(){
-      Swal.fire({title: 'แจ้งเตือน !',text: 'กรุณากรอกข้อมูลให้ครบทุกช่อง !',icon: 'warning',confirmButtonText: 'ตกลง'});
-    },
-    onSubmit(values){
-      let uri = 'กรุณายืนยัน การเพิ่ม ข้อร้องเรียน อีกครั้ง';
-      if(this.id) uri = 'กรุณายืนยัน การแก้ไข ข้อร้องเรียน อีกครั้ง';
-      Swal.fire({
-        title: 'ยืนยันการบันทีก !',
-        html: uri,
-        icon: 'warning',
-        showCancelButton: true,
-        confirmButtonColor: '#3085d6',
-        cancelButtonColor: '#6c757d',
-        confirmButtonText: 'ตกลง',
-        cancelButtonText: 'ยกเลิก',
-      }).then((result) => {
-        if (result.isConfirmed) {
-          const formData = new FormData();
-          formData.append('file', this.$refs.file?.files[0]);
-          formData.append('concealed', (values.concealed)? 1: 0);
-          formData.append('fname', values.firstName);
-          formData.append('lname', values.lastName);
-          formData.append('idcard', values.idcard);
-          formData.append('gender', values.sex);
-          formData.append('work', values.work);
-          formData.append('address', values.address);
-          formData.append('phone', values.phone);
-          formData.append('tel', values.tel);
-          formData.append('province_id', values.province_id);
-          formData.append('district_id', values.district_id);
-          formData.append('subdistrict_id', values.subdistrict_id);
-          formData.append('zipcode', values.zipcode);
-          formData.append('unit_id', values.unit_id);
-          formData.append('type_id', values.type_id);
-          formData.append('sub_id', values.sub_id);
-          formData.append('person_id', values.person_id);
-          formData.append('name', values.name);
-          formData.append('description', values.description);
-          formData.append('improvement', values.improvement);
-          formData.append('method_id', values.method_id);
-          formData.append('id', this.id);
-          this.isLoading = true;
-          axios.post('/complaint/store', formData, {
+    async save(values) {
+      this.isLoading = true
+
+      try {
+        const formData = new FormData()
+
+        const formValues = {
+          id: this.id,
+          key_title: this.key_title,
+          concealed: values.concealed ? 1 : 0,
+          fname: values.firstName,
+          lname: values.lastName,
+          idcard: values.idcard,
+          gender: values.sex,
+          work: values.work,
+          address: values.address,
+          phone: values.phone,
+          tel: values.tel,
+          email: values.email,
+          province_id: values.province_id,
+          district_id: values.district_id,
+          subdistrict_id: values.subdistrict_id,
+          zipcode: values.zipcode,
+          unit_id: values.unit_id,
+          type_id: values.type_id,
+          sub_id: values.sub_id,
+          person_id: values.person_id,
+          method_id: values.method_id,
+          name: values.name,
+          description: values.description,
+          improvement: values.improvement,
+        }
+
+        /*
+         * เพิ่มข้อมูลทั่วไปลง FormData
+         */
+        Object.entries(formValues).forEach(([key, value]) => {
+          formData.append(key, value ?? '')
+        })
+
+        /*
+         * เพิ่มเฉพาะไฟล์ใหม่
+         */
+        this.newFiles.forEach((file) => {
+          if (file instanceof File && file.size > 0) {
+            formData.append('attachments[]', file)
+          }
+        })
+
+        /*
+         * ID ของไฟล์เดิมที่ต้องการลบ
+         */
+        this.deletedFileIds.forEach((fileId) => {
+          formData.append('deleted_file_ids[]', fileId)
+        })
+
+        const response = await axios.post(
+          '/complaint/store',
+          formData,
+          {
             headers: {
-              'Content-Type': 'multipart/form-data',
+              Accept: 'application/json',
             },
-          }) 
-          .then(res => {
-            if(res.data.status == 200){
-              this.isLoading = false;
-              Swal.fire({
-                title: 'สำเร็จ !',
-                html: 'บันทึก ข้อร้องเรียน เรียบร้อยแล้ว',
-                icon: 'success',
-                showCancelButton: false,
-                confirmButtonColor: '#3085d6',
-                confirmButtonText: 'ตกลง',
-              }).then((result) => {
-                if (result.isConfirmed) {
-                  if(this.id){
-                    this.backPage();
-                  }else{
-                    window.location = '/dashboard'
-                  }
-                }
-              });
-            }else{
-              this.isLoading = false;
-              Swal.fire({title: 'ผิดพลาด !',text: 'ไม่สามารถทำรายการได้ !',icon: 'error',confirmButtonText: 'ตกลง'});
-            }
-          })
-          .catch(err => {
-            console.error(err)
-            this.isLoading = false;
-            Swal.fire({title: 'ผิดพลาด !',text: 'ไม่สามารถทำรายการได้ !',icon: 'error',confirmButtonText: 'ตกลง'});
-          })
-        }
-      });
+          }
+        )
 
-    },
-    removeData(){
-      if(this.id){
-        Swal.fire({
-          title: 'ยืนยันการลบ !',
-          html: "กรุณายืนยันการลบ ข้อร้องเรียน อีกครั้ง",
-          icon: 'warning',
-          showCancelButton: true,
-          confirmButtonColor: '#3085d6',
-          cancelButtonColor: '#6c757d',
+        const data = response.data
+
+        if (data.status !== 200) {
+          throw new Error(
+            data.message || 'ไม่สามารถบันทึกข้อมูลได้'
+          )
+        }
+
+        /*
+         * ปิด Loading ก่อนเปิด SweetAlert
+         */
+        this.isLoading = false
+
+        await Swal.fire({
+          title: 'สำเร็จ',
+          text: 'บันทึกข้อมูลเรียบร้อยแล้ว',
+          icon: 'success',
           confirmButtonText: 'ตกลง',
-          cancelButtonText: 'ยกเลิก',
-        }).then((result) => {
-          if (result.isConfirmed) {
+          confirmButtonColor: '#3085d6',
+        })
 
-            this.isLoading = true;
-            axios.delete('/admin/complaint',
-              {
-                params:{
-                  id: this.id,
-                }
-              }
-            )
-            .then(res => {
-              if(res.data.status == 200){
-                this.isLoading = false;
-                Swal.fire({
-                  title: 'สำเร็จ !',
-                  html: "ลบ ข้อร้องเรียน สำเร็จ",
-                  icon: 'success',
-                  showCancelButton: false,
-                  confirmButtonColor: '#3085d6',
-                  confirmButtonText: 'ตกลง',
-                }).then((result) => {
-                  if (result.isConfirmed) {
-                    this.backPage();
-                  }
-                });
-              }else{
-                this.isLoading = false;
-                Swal.fire({title: 'ผิดพลาด !',text: 'ไม่สามารถลบข้อมูลได้ !',icon: 'error',confirmButtonText: 'ตกลง'});
-              }
-            })
-            .catch(err => {
-              console.error(err)
-              this.isLoading = false;
-              Swal.fire({title: 'ผิดพลาด !',text: 'ไม่สามารถลบข้อมูลได้ !',icon: 'error',confirmButtonText: 'ตกลง'});
-            })
-          }
-        });
-      }
-    },
-    getMasterData(){
-      this.isLoading = true;
-      axios.get('/get/master/data') 
-      .then(res => {
-        if(res.data.status == 200){
-          this.item_province = res.data.province;
-          this.item_unit = res.data.unit;
-          this.item_person = res.data.person;
-          this.item_sub = res.data.sub;
-          this.item_type = res.data.type;
-          this.item_methods = res.data.methods;
-          this.isLoading = false
-        }else{
-          this.isLoading = false
+        this.$emit('saved', data)
+        this.$emit('backPage')
+        if(!this.id){
+          window.location.assign('/admin')
         }
-      })
-      .catch(err => {
-        console.error(err)
-        this.isLoading = false;
-      })
-    },
-    formatThaiIdCard(event) {
-      let raw = event.target.value.replace(/\D/g, '')
-      if (raw.length > 13) raw = raw.slice(0, 13)
+        
+      } catch (error) {
+        console.error(error)
 
-      const part1 = raw.slice(0, 1)
-      const part2 = raw.slice(1, 5)
-      const part3 = raw.slice(5, 10)
-      const part4 = raw.slice(10, 12)
-      const part5 = raw.slice(12, 13)
+        /*
+         * ปิด Loading ก่อนแสดง Error
+         */
+        this.isLoading = false
 
-      const formatted = [part1, part2, part3, part4, part5].filter(Boolean).join('-')
-      this.form.idcard = formatted
-    },
-    formatTel(event) {
-      let raw = event.target.value.replace(/\D/g, '')
-      if (raw.length > 10) raw = raw.slice(0, 10)
+        const validationErrors =
+          error.response?.data?.errors
 
-      const part1 = raw.slice(0, 2)
-      const part2 = raw.slice(2, 6)
-      const part3 = raw.slice(6, 10)
+        const message = validationErrors
+          ? Object.values(validationErrors).flat()[0]
+          : error.response?.data?.message ||
+          error.message ||
+          'บันทึกข้อมูลไม่สำเร็จ'
 
-      const formatted = [part1, part2, part3].filter(Boolean).join('-')
-      this.form.tel = formatted
-    },
-    formatPhone(event) {
-      let raw = event.target.value.replace(/\D/g, '')
-      if (raw.length > 10) raw = raw.slice(0, 10)
-
-      const part1 = raw.slice(0, 3)
-      const part2 = raw.slice(3, 6)
-      const part3 = raw.slice(6, 10)
-
-      const formatted = [part1, part2, part3].filter(Boolean).join('-')
-      this.form.phone = formatted
-    },
-    selectType(){
-      this.form.sub_id = '';
-    },
-    getDistrict(){
-      if(!this.form.province_id){
-        this.form.district_id = ''
-        this.form.subdistrict_id = ''
-        this.form.zipcode = ''
-        return false;
-      }
-      this.isLoading = true;
-      axios.get('/get/district/'+this.form.province_id) 
-      .then(res => {
-        if(res.data.status == 200){
-          this.item_district = res.data.item
-          this.isLoading = false;
-          if(this.show.district_id){
-            this.form.district_id = this.show.district_id
-            this.getSubDistrict();
-          }
-        }else{
-          this.item_district = [];
-          this.isLoading = false;
-        }
-      })
-      .catch(err => {
-        this.item_district = [];
-        console.error(err)
-        this.isLoading = false;
-      })
-    },
-    getSubDistrict(){
-      if(!this.form.district_id){
-        this.form.subdistrict_id = ''
-        this.form.zipcode = ''
-        return false;
-      }
-      this.isLoading = true;
-      axios.get('/get/subdistrict/'+this.form.district_id) 
-      .then(res => {
-        if(res.data.status == 200){
-          this.item_subdistrict = res.data.item
-          this.isLoading = false;
-          if(this.show.subdistrict_id) this.form.subdistrict_id = this.show.subdistrict_id
-        }else{
-          this.item_subdistrict = [];
-          this.isLoading = false;
-        }
-      })
-      .catch(err => {
-        this.item_subdistrict = [];
-        console.error(err)
-        this.isLoading = false;
-      })
-    },
-    getZipcode(){
-      if(!this.form.subdistrict_id){
-        this.form.zipcode = ''
-        return false;
-      }
-      const zipcode = this.item_subdistrict.find(i => i.id === this.form.subdistrict_id);
-      if(zipcode.zip_code != undefined){
-        this.form.zipcode = zipcode.zip_code
+        await Swal.fire({
+          title: 'ผิดพลาด',
+          text: message,
+          icon: 'error',
+          confirmButtonText: 'ตกลง',
+        })
+      } finally {
+        /*
+         * ปิด Loading เสมอ ไม่ว่าจะสำเร็จหรือเกิด Error
+         */
+        this.isLoading = false
       }
     },
-    changeFile(){
-      this.$refs.file.click();
-    },
-    slectFile(){
-      const file = this.$refs.file?.files[0];
-      this.file.name = file.name
-      this.file.type = 'new'
-    },
+    async getDistrict(clear = true) { if (!this.form.province_id) return; const { data } = await axios.get(`/get/district/${this.form.province_id}`); this.districts = data.item || []; if (clear) { this.form.district_id = ''; this.form.subdistrict_id = '' } },
+    async getSubDistrict(clear = true) { if (!this.form.district_id) return; const { data } = await axios.get(`/get/subdistrict/${this.form.district_id}`); this.subdistricts = data.item || []; if (clear) this.form.subdistrict_id = '' },
+    getZipcode() { const row = this.subdistricts.find(i => String(i.id) === String(this.form.subdistrict_id)); this.form.zipcode = row?.zip_code || '' }
   }
 }
 </script>
+
 <style scoped>
-.custom-checkbox {
-  width: 24px;
-  height: 24px;
-  appearance: none;
-  border: 2px solid #ccc;
-  border-radius: 4px;
-  position: relative;
-  cursor: pointer;
-  transition: all 0.2s ease;
+.admin-complaint {
+  padding: 24px;
+  background: #fff
 }
 
-.custom-checkbox:checked {
-  background-color: #de864f;
-  border-color: #de864f;
+.section-title {
+  margin: 28px 0 18px;
+  padding: 12px;
+  border-radius: 10px;
+  background:
+                    radial-gradient(circle at 0% 100%, rgba(129, 227, 255, .22), transparent 28%),
+                    radial-gradient(circle at 100% 0%, rgba(167, 160, 255, .18), transparent 26%),
+                    linear-gradient(135deg, #18a4ff 0%, #0a78d3 38%, #0b63c9 68%, #124d96 100%);
+                
+  color: #fff;
+  text-align: center;
+  font-size: 18px
 }
 
-.custom-checkbox:checked::after {
-  content: '✔';
-  color: white;
-  font-size: 16px;
-  position: absolute;
-  top: 0px;
-  left: 5px;
+.concealed {
+  display: block;
+  margin: 15px;
+  color: #f0643c
+}
+
+.form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px
+}
+
+.form-row {
+  display: grid;
+  grid-template-columns: 145px 1fr;
+  align-items: start;
+  gap: 10px
+}
+
+.form-row>span {
+  text-align: right;
+  padding-top: 10px
+}
+
+.form-row.wide {
+  grid-column: 1/-1
+}
+
+.input {
+  width: 100%;
+  border: 1px solid #cbd5e1;
+  border-radius: 8px;
+  padding: 9px 11px
+}
+
+.error {
+  display: block;
+  color: #ef4444;
+  font-size: 12px;
+  margin-top: 4px
+}
+
+.upload-box {
+  margin-top: 25px;
+  padding: 20px;
+  border: 1px dashed #93c5fd;
+  border-radius: 16px;
+  background: #f8fbff
+}
+
+.upload-heading {
+  display: flex;
+  justify-content: space-between;
+  gap: 15px;
+  align-items: center
+}
+
+.upload-heading p {
+  margin: 4px 0;
+  color: #64748b;
+  font-size: 12px
+}
+
+.upload-heading button,
+.actions button {
+  border: 0;
+  border-radius: 9px;
+  padding: 10px 18px;
+  background: #0879dc;
+  color: #fff;
+  cursor: pointer
+}
+
+.file-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+  margin-top: 16px
+}
+
+.file-card {
+  padding: 10px;
+  border: 1px solid #dbeafe;
+  border-radius: 12px;
+  background: #fff
+}
+
+.file-card img,
+.file-card video,
+.file-card .pdf {
+  width: 100%;
+  height: 135px;
+  object-fit: cover;
+  border-radius: 8px
+}
+
+.pdf {
+  display: grid;
+  place-items: center;
+  background: #fff1f2;
+  color: #dc2626;
+  font-size: 28px;
+  font-weight: 800;
+  text-decoration: none
+}
+
+.file-meta {
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+  margin-top: 8px
+}
+
+.file-meta span {
+  min-width: 0
+}
+
+.file-meta b,
+.file-meta small {
+  display: block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap
+}
+
+.file-meta small {
+  color: #64748b
+}
+
+.file-meta button {
+  border: 0;
+  background: none;
+  color: #ef4444
+}
+
+.empty {
+  text-align: center;
+  color: #94a3b8;
+  padding: 20px
+}
+
+.actions {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  margin-top: 26px
+}
+
+.actions .secondary {
+  background: #64748b
+}
+
+@media(max-width:768px) {
+  .form-grid {
+    grid-template-columns: 1fr
+  }
+
+  .form-row {
+    grid-template-columns: 1fr
+  }
+
+  .form-row>span {
+    text-align: left;
+    padding: 0
+  }
+
+  .upload-heading {
+    align-items: flex-start;
+    flex-direction: column
+  }
+
+  .file-grid {
+    grid-template-columns: 1fr 1fr
+  }
+}
+
+@media(max-width:480px) {
+  .file-grid {
+    grid-template-columns: 1fr
+  }
 }
 </style>

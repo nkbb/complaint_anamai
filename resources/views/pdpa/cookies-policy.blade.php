@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('pageTitle', 'ระบบบริหารจัดการข้อคิดเห็นข้อร้องเรียน กรมสุขภาพจิต')
+@section('pageTitle', 'ศูนย์รับข้อร้องเรียนและข้อชมเชย กรมอนามัย')
 
 @section('content')
 <div class="container mx-auto py-11">
