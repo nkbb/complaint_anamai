@@ -33,13 +33,13 @@
             <option v-for="row in provinces" :key="row.id" :value="row.id">{{ row.name }}</option>
           </Field>
         </FormRow>
-        <FormRow label="อำเภอ">
+        <FormRow label="อำเภอ / เขต">
           <Field v-model="form.district_id" as="select" name="district_id" class="input" @change="getSubDistrict">
             <option value="">-- กรุณาเลือก --</option>
             <option v-for="row in districts" :key="row.id" :value="row.id">{{ row.name }}</option>
           </Field>
         </FormRow>
-        <FormRow label="ตำบล">
+        <FormRow label="ตำบล / แขวง">
           <Field v-model="form.subdistrict_id" as="select" name="subdistrict_id" class="input" @change="getZipcode">
             <option value="">-- กรุณาเลือก --</option>
             <option v-for="row in subdistricts" :key="row.id" :value="row.id">{{ row.name }}</option>
@@ -135,7 +135,7 @@ export default {
       id: '', isLoading: false, provinces: [], districts: [], subdistricts: [], units: [], complaintTypes: [], item_methods: [],
       existingFiles: [], newFiles: [], newPreviews: [], deletedFileIds: [], fileError: '', maxSize: 10 * 1024 * 1024,
       form: { concealed: false, firstName: '', lastName: '', idcard: '', sex: '', work: '', address: '', phone: '', tel: '', email: '', province_id: '', district_id: '', subdistrict_id: '', zipcode: '', unit_id: '', type_id: '', sub_id: '', person_id: '', method_id: '', name: '', description: '', improvement: '', method_id: '' },
-      schema: yup.object({ method_id: yup.string().required('กรุณาเลือกช่องทางการร้องเรียน') , type_id: yup.string().required('กรุณาเลือกประเด็น'), name: yup.string().required('กรุณากรอกเรื่อง'), description: yup.string().required('กรุณากรอกรายละเอียด'), improvement: yup.string().required('กรุณากรอกสิ่งที่ต้องการให้แก้ไข') })
+      schema: yup.object({ method_id: yup.string().required('กรุณาเลือกช่องทางการร้องเรียน') , type_id: yup.string().required('กรุณาเลือกประเด็น'), name: yup.string().required('กรุณากรอกเรื่อง'), description: yup.string().required('กรุณากรอกรายละเอียด') })
     }
   },
   computed: {

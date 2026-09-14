@@ -26,6 +26,20 @@
       </div>
     </div>
 
+    <div class=" group-11 hidden">
+    <span  class="results-status type-1 bg-red-600">ยุติเรื่อง-ไม่ใช่</span>
+            <span  class="results-status type-1 bg-orange-600">รอศูนย์รับเรื่อง</span>
+            <span   class="results-status type-2 bg-yellow-600">ศูนย์รับเรื่อง - รอหน่วยรับเรื่อง</span>
+            <!-- <span v-if="item.type == 3 && user_level == 'unit'" class="results-status type-2 bg-yellow-600">รอรับเรื่อง</span> -->
+            <span  class="results-status type-3 bg-blue-400">หน่วย รับเรื่อง - กำลังดำเนินการ</span>
+            <!-- <span v-if="item.type == 4 && user_level == 'unit'" class="results-status type-3 bg-blue-800">รับเรื่องแล้ว - กำลังดำเนินการ</span> -->
+            <span  class="results-status type-4 bg-green-600">หน่วย ยุติเรื่อง</span>
+            <span class="results-status type-4 bg-red-400">ส่งกลับให้หน่วย ดำเนินการแก้ไข</span>
+            <!-- <span v-if="item.type == 6 && user_level == 'unit'" class="results-status type-4 bg-red-400">ศูนย์ส่งกับ - ให้แก้ไข</span> -->
+            <span  class="results-status type-5 bg-green-600">ศูนย์ยุติเรื่อง</span>
+            <span  class="results-status type-6 bg-green-800">เสร็จสิ้น</span>
+            </div>
+
     <div v-if="!isEdit && !isShow && items.length > 0" class="grid grid-cols-1 md:grid-cols-2 mt-6 gap-5">
       <div v-for="(item, i) in items" class="border rounded-md shadow-sm">
         <div class="border-b px-4 py-2 bg-[#00000008]">
