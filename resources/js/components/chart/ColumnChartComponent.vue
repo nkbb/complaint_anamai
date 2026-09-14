@@ -40,7 +40,6 @@ export default {
         xaxis: {
           categories: [
             'ไม่พึงพอใจ',
-            'พึงพอใจ',
             'พึงพอใจมาก'
           ],
           labels: {

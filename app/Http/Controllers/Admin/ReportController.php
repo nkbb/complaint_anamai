@@ -576,30 +576,30 @@ class ReportController extends Controller
             ->where('score', 1)
             ->whereBetween('created_at', [$date_from, $date_end])
             ->count();
-          $chk_2 = QuestionDetail::where('question_id', $v->id)
-            ->where('score', 2)
-            ->whereBetween('created_at', [$date_from, $date_end])
-            ->count();
+          // $chk_2 = QuestionDetail::where('question_id', $v->id)
+          //   ->where('score', 2)
+          //   ->whereBetween('created_at', [$date_from, $date_end])
+          //   ->count();
           $chk_3 = QuestionDetail::where('question_id', $v->id)
             ->where('score', 3)
             ->whereBetween('created_at', [$date_from, $date_end])
             ->count();
           // นับรวมทั้งหมด
-          $total = $chk_1 + $chk_2 + $chk_3;
+          $total = $chk_1 + $chk_3;
 
           // ป้องกันหารศูนย์
           if ($total > 0) {
               $percent_1 = ($chk_1 / $total) * 100;
-              $percent_2 = ($chk_2 / $total) * 100;
+              // $percent_2 = ($chk_2 / $total) * 100;
               $percent_3 = ($chk_3 / $total) * 100;
           } else {
-              $percent_1 = $percent_2 = $percent_3 = 0;
+              $percent_1 = $percent_3 = 0;
           }
 
           // ส่งเป็น array %
           $question[$k]->vote = [
               round($percent_1, 2),
-              round($percent_2, 2),
+              // round($percent_2, 2),
               round($percent_3, 2),
           ];
         }

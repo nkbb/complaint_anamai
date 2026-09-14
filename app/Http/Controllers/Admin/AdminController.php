@@ -111,7 +111,7 @@ class AdminController extends Controller
             } else if ($request->type == 77) {
                 $type = [7, 0];
             } else if ($request->type == 99) {
-                $type = [4, 5, 6, 7, 8, 0];
+                $type = [3, 4, 5, 6, 7, 8, 0];
             } else if ($request->type == 88) {
                 $type = [3, 4, 5, 6, 7, 8];
             } else {
@@ -302,11 +302,6 @@ class AdminController extends Controller
                 'string',
             ],
 
-            'improvement' => [
-                'required',
-                'string',
-            ],
-
             'attachments' => [
                 'nullable',
                 'array',
@@ -334,8 +329,6 @@ class AdminController extends Controller
             'type_id.required' => 'กรุณาเลือกประเด็นร้องเรียน',
             'name.required' => 'กรุณากรอกเรื่องที่ร้องเรียน',
             'description.required' => 'กรุณากรอกรายละเอียดเรื่องร้องเรียน',
-            'improvement.required' => 'กรุณากรอกสิ่งที่ต้องการให้แก้ไข',
-
             'attachments.array' => 'รูปแบบไฟล์แนบไม่ถูกต้อง',
             'attachments.max' => 'แนบไฟล์รวมได้ไม่เกิน 12 ไฟล์',
             'attachments.*.uploaded' => 'อัปโหลดไฟล์ไม่สำเร็จ กรุณาตรวจสอบขนาดไฟล์',
